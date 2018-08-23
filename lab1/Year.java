@@ -7,16 +7,13 @@ public class Year {
     static boolean isLeapYear(int year) {
         if (year % 400 == 0) {
             return true;
-        } else {
-            if (year % 4 == 0) {
-                if (year % 100 != 0) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        return false;
         }
+        if (year % 4 == 0) {
+            if (year % 10 != 0) {
+                return true;
+            }
+        }
+        return true;
     }
 
     /** Print whether YEAR is a a leap year on System.out. */
