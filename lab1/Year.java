@@ -6,15 +6,17 @@ public class Year {
     /** Return true iff YEAR is a leap year.  */
     static boolean isLeapYear(int year) {
         if (year % 400 == 0) {
-             System.out.println (year + " is a leap year.");
-        }
-        if (year % 4 == 0) {
-            if (year % 100 != 0) {
-                 System.out.println (year + " is a leap year.");
+            return true;
+        } else {
+            if (year % 4 == 0) {
+                if (year % 100 != 0) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
-            System.out.println (year + " is not a leap year.");
+        return false;
         }
-        return true;    // TODO: YOUR CODE HERE
     }
 
     /** Print whether YEAR is a a leap year on System.out. */
