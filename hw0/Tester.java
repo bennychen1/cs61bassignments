@@ -22,10 +22,15 @@ public class Tester {
      * get them to work, but it's all good practice! */
 
     @Test
-    public void maxTest() {
+    public void forMaxTest() {
         // Change call to max to make this call yours.
-        assertEquals(14, max(new int[] { 0, -5, 2, 14, 10 }));
+        assertEquals(14, forMax(new int[] { 0, -5, 2, 14, 10 }));
         // REPLACE THIS WITH MORE TESTS.
+    }
+
+    @Test
+    public void whileMaxTest() {
+        assertEquals(50, whileMax(new int[] {1, -50, 50, 22, 9}))
     }
 
     @Test

@@ -11,11 +11,12 @@ public class forMax {
 	/** returns the largest number of an array */
 	private static int arrayMax(int[] nums) {
 		int max;
-		max = nums[0]
+		max = nums[0];
 		for (int i = 1; i < nums.length; i += 1) {
 			if (nums[i] > max) {
 				max = nums[i];
 			}
-		return max;
 		}
+		return max;
+	}
 }
