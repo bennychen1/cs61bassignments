@@ -1,12 +1,5 @@
 public class threeSum {
-	public static boolean main(String[] args) {
-		int[] nums = new int[args.length];
-		int count;
-		count = 0;
-		while (count <= args.length) {
-			nums[count] = Integer.parseInt(args[count]);
-		}
-
+	public static boolean threeSum(int[] nums) {
 		if (isInArray(nums, 0)) {
 			return true;
 		} else {

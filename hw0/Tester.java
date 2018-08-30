@@ -24,26 +24,26 @@ public class Tester {
     @Test
     public void forMaxTest() {
         // Change call to max to make this call yours.
-        assertEquals(14, forMax(new int[] { 0, -5, 2, 14, 10 }));
+        assertEquals(14, forMax.arrayMax(new int[] { 0, -5, 2, 14, 10 }));
         // REPLACE THIS WITH MORE TESTS.
     }
 
     @Test
     public void whileMaxTest() {
-        assertEquals(50, whileMax(new int[] {1, -50, 50, 22, 9}))
+        assertEquals(50, whileMax.arrayMax(new int[] {1, -50, 50, 22, 9}));
     }
 
     @Test
     public void threeSumTest() {
         // Change call to threeSum to make this call yours.
-        assertTrue(threeSum(new int[] { -6, 3, 10, 200 }));
+        assertTrue(threeSum.threeSum(new int[] { -6, 3, 10, 200 }));
         // REPLACE THIS WITH MORE TESTS.
     }
 
     @Test
     public void threeSumDistinctTest() {
         // Change call to threeSumDistinct to make this call yours.
-        assertFalse(threeSumDistinct(new int[] { -6, 3, 10, 200 }));
+        assertFalse(threeSumDistinct.threeSumDistinct(new int[] { -6, 3, 10, 200 }));
         // REPLACE THIS WITH MORE TESTS.
     }
 
