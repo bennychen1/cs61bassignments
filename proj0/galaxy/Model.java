@@ -85,12 +85,12 @@ class Model {
 
     /** Returns the number of vertical edges and cells in a row. */
     int xlim() {
-        return 0; // FIXME
+        return 2 * this.cols + 1; // FIXME
     }
 
     /** Returns the number of horizontal edges and cells in a column. */
     int ylim() {
-        return 0; // FIXME
+        return 2 * this.rows + 1; // FIXME
     }
 
     /** Returns true iff (X, Y) is a valid cell. */
