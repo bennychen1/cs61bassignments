@@ -29,6 +29,8 @@ class Model {
 
     /** The default number of squares on a side of the board. */
     static final int DEFAULT_SIZE = 7;
+    public int cols;
+    public int rows;
 
     /** Initializes an empty puzzle board of size DEFAULT_SIZE x DEFAULT_SIZE,
      *  with a boundary around the periphery. */
@@ -51,12 +53,17 @@ class Model {
     void copy(Model model) {
         if (model == this) {
             return;
+        } else {
+        	 this.cols = model.cols;
+        	 this.rows = model.rows;
         }
         // FIXME
     }
 
     /** Sets the puzzle board size to COLS x ROWS, and clears it. */
     void init(int cols, int rows) {
+    	
+    	clear();
         // FIXME
     }
 
@@ -78,12 +85,12 @@ class Model {
 
     /** Returns the number of vertical edges and cells in a row. */
     int xlim() {
-        return 0; // FIXME
+        return this.cols; // FIXME
     }
 
     /** Returns the number of horizontal edges and cells in a column. */
     int ylim() {
-        return 0; // FIXME
+        return this.rows; // FIXME
     }
 
     /** Returns true iff (X, Y) is a valid cell. */
