@@ -147,12 +147,21 @@ class Model {
 
     /** Returns true iff (X, Y) is a center. */
     boolean isCenter(int x, int y) {
-        return false; // FIXME
+        if (x != 0 && x != this.rows && y != 0 && y < this.cols && isIntersection(x, y)) { // intersect and not on boundary
+        	return true;
+        } else if () { // middle of a cell (x.5, y.5)
+        	return true;
+        } else if (isVert(x, y) && /* (x.5, y.5)*/) { // center of edge 
+        	return true;
+        } else {
+        	return false;
+        }
+
     }
 
     /** Returns true iff P is a center. */
     boolean isCenter(Place p) {
-        return false; // FIXME
+        return isCenter(p.x, p.y); // FIXME
     }
 
     /** Returns true iff (X, Y) is a boundary. */
