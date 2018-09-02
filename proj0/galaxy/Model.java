@@ -30,8 +30,8 @@ class Model {
     /** The default number of squares on a side of the board. */
     static final int DEFAULT_SIZE = 7;
     int cols;
-    int rows; 
-
+    int rows;
+   
     /** Initializes an empty puzzle board of size DEFAULT_SIZE x DEFAULT_SIZE,
      *  with a boundary around the periphery. */
     Model() {
@@ -147,16 +147,8 @@ class Model {
 
     /** Returns true iff (X, Y) is a center. */
     boolean isCenter(int x, int y) {
-        if (x != 0 && x != this.rows && y != 0 && y < this.cols && isIntersection(x, y)) { // intersect and not on boundary
-        	return true;
-        } else if () { // middle of a cell (x.5, y.5)
-        	return true;
-        } else if (isVert(x, y) && /* (x.5, y.5)*/) { // center of edge 
-        	return true;
-        } else {
-        	return false;
-        }
-
+        return isCell(x, y) || (isIntersection(x, y) && !isBoundary(x, y)) || (isEdge(x, y) && !isBoundary(x,y))
+        
     }
 
     /** Returns true iff P is a center. */
@@ -166,7 +158,7 @@ class Model {
 
     /** Returns true iff (X, Y) is a boundary. */
     boolean isBoundary(int x, int y) {
-        return false; // FIXME
+        return x == 0 || x == xlim() || y == 0 && || y == ylim(); // FIXME
     }
 
     /** Returns true iff P is a boundary. */
