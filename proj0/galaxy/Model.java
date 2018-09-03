@@ -303,6 +303,7 @@ class Model {
 
     /** Places center at P. */
     void placeCenter(Place p) {
+    	placeCenter(p.x, p.y);
         // FIXME
     }
 
