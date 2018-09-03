@@ -138,19 +138,14 @@ public class IntList {
      *  elements of B.  May modify items of A. Don't use 'new'. */
 
     static IntList dcatenate(IntList A, IntList B) {
-        if(A == null) {
+        if (A == null) {
             return B;
-        } else if(B == null) {
+        } else if (B == null) {
             return A;
         } else {
-            IntList p = A;
-            while (p != null && p.tail != null) {
-                p = p.tail;
-            }
-            p.tail = B;
+            A.tail = dcatenate(A.tail, B);
+            return A;
         }
-        return A; // REPLACE WITH YOUR CODE */
-
     }
 
     /* 2b. */

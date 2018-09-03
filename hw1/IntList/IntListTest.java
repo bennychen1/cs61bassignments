@@ -57,9 +57,12 @@ public class IntListTest {
         IntList A = IntList.list(1, 2, 3, 4, 5, 6);
         IntList B = IntList.list(10, 11, 12);
         IntList empty = IntList.list();
+        IntList C = IntList.list(10, 11, 12);
+        IntList.subTail(C, 2);
         assertEquals(IntList.list(2, 3, 4, 5, 6), IntList.subTail(A, 1));
         assertEquals(IntList.list(12), IntList.subTail(B, 2));
         assertEquals(empty, IntList.subTail(empty, 10));
+        assertEquals(C, IntList.list(10, 11, 12));
 
     }
 
