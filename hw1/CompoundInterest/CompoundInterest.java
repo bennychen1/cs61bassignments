@@ -58,10 +58,17 @@ public class CompoundInterest {
      *  then the result will be 5000*1.1*1.1 + 5000*1.1 + 5000 =
      *  16550. */
     static double totalSavings(double perYear, int targetYear, double rate) {
-        for (int i = 1; i <= targetYear; i += 1) {
-
+        double curValue;
+        curValue = perYear;
+        for (int i = 1; i <= numYears(targetYear); i += 1) {
+            double addTo;
+            addTo = perYear;
+            for (int j = 1; j <= i; j += 1) {
+                addTo = addTo * (1 + 0.01 * rate);
+            }
+            curValue = curValue + addTo;
         }
-        return 0;
+        return curValue;
     }
 
     /** Returns totalSavings(PERYEAR, TARGETYEAR, RATE) converted to
@@ -69,7 +76,17 @@ public class CompoundInterest {
      *  INFLATIONRATE. */
     static double totalSavingsReal(double perYear, int targetYear, double rate,
                                double inflationRate) {
-        return 0;
+        double curValue;
+        curValue = perYear;
+        for (int i = 1; i <= numYears(targetYear); i += 1) {
+            double addTo;
+            addTo = perYear;
+            for (int j = 1; j <= i; j += 1) {
+                addTo = addTo * (1 + rate * 0.01) * (1 - inflationRate * 0.01);
+            }
+            curValue = curValue + addTo;
+        }
+        return curValue;
 
     }
 
@@ -99,8 +116,8 @@ public class CompoundInterest {
     static void printSavingsFV(int targetYear, double returnRate,
                                double inflationRate, double perYear) {
 
-        double nominalSavings = 0; // replace 0 with your code
-        double realSavings = 0;    // replace 0 with your code
+        double nominalSavings = totalSavings(perYear, targetYear, returnRate); // replace 0 with your code
+        double realSavings = totalSavingsReal(perYear, targetYear, returnRate, inflationRate);    // replace 0 with your code
         // Do not change anything in this method below this line
 
         String savingsSummary =
