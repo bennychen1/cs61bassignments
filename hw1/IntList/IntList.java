@@ -156,19 +156,13 @@ public class IntList {
       * This method should NOT modify the items in L. */
 
     static IntList subTail(IntList L, int start) {
-        if (L == null) {
+        if (start == 0){
+            return L;
+        } else if (L == null) {
             return null;
         } else {
-            IntList p = L;
-            for (int i = 1; i <= start; i += 1) {
-                if (p == null) {
-                    return null;
-                }
-                p = p.tail;
-            }
-            return p;
+            return subTail(L.tail, start - 1);
         }
-
     }
 
 
