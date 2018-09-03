@@ -76,17 +76,8 @@ public class CompoundInterest {
      *  INFLATIONRATE. */
     static double totalSavingsReal(double perYear, int targetYear, double rate,
                                double inflationRate) {
-        double curValue;
-        curValue = perYear;
-        for (int i = 1; i <= numYears(targetYear); i += 1) {
-            double addTo;
-            addTo = perYear;
-            for (int j = 1; j <= i; j += 1) {
-                addTo = addTo * (1 + rate * 0.01) * (1 - inflationRate * 0.01);
-            }
-            curValue = curValue + addTo;
-        }
-        return curValue;
+       double tSavings = totalSavings(perYear, targetYear, rate);
+       return futureValueReal(tSavings, 0, targetYear, inflationRate);
 
     }
 

@@ -138,7 +138,18 @@ public class IntList {
      *  elements of B.  May modify items of A. Don't use 'new'. */
 
     static IntList dcatenate(IntList A, IntList B) {
-        return null; // REPLACE WITH YOUR CODE */
+        if(A == null) {
+            return B;
+        } else if(B == null) {
+            return A;
+        } else {
+            IntList p = A;
+            while (p != null && p.tail != null) {
+                p = p.tail;
+            }
+            p.tail = B;
+        }
+        return A; // REPLACE WITH YOUR CODE */
 
     }
 
@@ -150,7 +161,19 @@ public class IntList {
       * This method should NOT modify the items in L. */
 
     static IntList subTail(IntList L, int start) {
-        return null; // REPLACE WITH YOUR CODE
+        if (L == null) {
+            return null;
+        } else {
+            IntList p = L;
+            for (int i = 1; i <= start; i += 1) {
+                if (p == null) {
+                    return null;
+                }
+                p = p.tail;
+            }
+            return p;
+        }
+
     }
 
 

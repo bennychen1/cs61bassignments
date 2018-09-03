@@ -32,6 +32,18 @@ public class IntListTest {
 
     @Test
     public void testDcatenate() {
+        IntList A = IntList.list(1, 2, 3);
+        IntList B = IntList.list(4, 5, 6);
+        IntList C = IntList.list();
+        IntList D = IntList.list(1);
+        IntList E = IntList.list(10);
+        IntList A2 = IntList.list(1, 2, 3);
+        IntList empty = IntList.list();
+        assertEquals(IntList.list(1, 2, 3, 4, 5, 6), IntList.dcatenate(A, B));
+        assertEquals(IntList.list(4, 5, 6), IntList.dcatenate(C, B));
+        assertEquals(IntList.list(), IntList.dcatenate(empty, empty));
+        assertEquals(IntList.list(10, 4, 5, 6), IntList.dcatenate(E, B));
+        assertEquals(IntList.list(1, 2, 3, 1), IntList.dcatenate(A2, D));
 
     }
 
@@ -42,6 +54,12 @@ public class IntListTest {
 
     @Test
     public void testSubtail() {
+        IntList A = IntList.list(1, 2, 3, 4, 5, 6);
+        IntList B = IntList.list(10, 11, 12);
+        IntList empty = IntList.list();
+        assertEquals(IntList.list(2, 3, 4, 5, 6), IntList.subTail(A, 1));
+        assertEquals(IntList.list(12), IntList.subTail(B, 2));
+        assertEquals(empty, IntList.subTail(empty, 10));
 
     }
 
