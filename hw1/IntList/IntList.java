@@ -199,7 +199,13 @@ public class IntList {
      *  As with sublist, you can assume the items requested
      *  exist, and that START and LEN are >= 0. */
     static IntList dsublist(IntList L, int start, int len) {
-        return null; // REPLACE WITH YOUR SOLUTION
+        if (len == 0 || L == null) {
+            return null;
+        } else {
+            IntList p = subTail(L, start);
+            p.tail = dsublist(p.tail, 0, len - 1);
+            return p;
+        }
 
     }
 

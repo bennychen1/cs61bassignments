@@ -91,6 +91,11 @@ public class IntListTest {
 
     @Test
     public void testDsublist() {
+        IntList A = IntList.list(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        IntList B = IntList.list(20, 30, 40, 50, 60);
+        assertEquals(IntList.list(2, 3, 4, 5, 6), IntList.dsublist(A, 1, 5));
+        assertEquals(false, IntList.list(1, 2, 3, 4, 5, 6, 7, 8, 9) == A);
+        assertEquals(IntList.list(50, 60), IntList.dsublist(B, 3, 10));
     }
 
 
