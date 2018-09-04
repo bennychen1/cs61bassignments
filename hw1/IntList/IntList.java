@@ -156,7 +156,7 @@ public class IntList {
       * This method should NOT modify the items in L. */
 
     static IntList subTail(IntList L, int start) {
-        if (start == 0){
+        if (start <= 0){
             return L;
         } else if (L == null) {
             return null;
@@ -178,9 +178,18 @@ public class IntList {
      *  that start and len are always >= 0.
      */
     static IntList sublist(IntList L, int start, int len) {
-        return null;  // REPLACE WITH YOUR SOLUTION
-
+        if (len == 0) {
+            return null;
+        } else if (L == null) {
+            return null;
+        } else {
+            IntList s = subTail(L, start);
+            IntList p = IntList.list(s.head);
+            p.tail = sublist(s.tail, 0, len - 1);
+            return p;
+        }
     }
+
 
     /* 2d. */
     /** Returns the sublist consisting of LEN items from list L,
