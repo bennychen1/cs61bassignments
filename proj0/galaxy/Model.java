@@ -158,7 +158,7 @@ class Model {
 
     /** Returns true iff (X, Y) is a boundary. */
     boolean isBoundary(int x, int y) {
-        return x == 0 || x == xlim() || y == 0 && || y == ylim(); // FIXME
+        return x == 0 || x == xlim() || y == 0 && || y == ylim() || ; // is in some list of set boundaries (set by the player)
     }
 
     /** Returns true iff P is a boundary. */
@@ -196,7 +196,7 @@ class Model {
         for (int i = 0; i < 4; i += 1) {
             int dx = (i % 2) * (2 * (i / 2) - 1),
                 dy = ((i + 1) % 2) * (2 * (i / 2) - 1);
-            if (false) { // FIXME
+            if (!isBoundary(cell.x + dx, cell.y + dy)) { // FIXME
                 accreteRegion(cell.move(2 * dx, 2 * dy), region);
             }
         }
