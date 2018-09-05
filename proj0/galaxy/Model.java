@@ -210,7 +210,7 @@ class Model {
      * Assumes that REGION is connected. */
     private boolean isGalaxy(Place center, HashSet<Place> region) {
         for (Place cell : region) {
-            if (!region.contains()) { // FIXME
+            if (!region.contains(opposing(center, cell))) { // FIXME
                 return false;
             }
             for (int i = 0; i < 4; i += 1) {
