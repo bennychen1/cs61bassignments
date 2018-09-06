@@ -227,7 +227,7 @@ class Model {
                 int dx = 2 * (i / 2) - 1,
                     dy = 2 * (i % 2) - 1;
                 Place intersection = cell.move(dx, dy);
-                if (true) { // FIXME
+                if (cell != center && (isCenter(intersection) || isCenter(cell))) { // FIXME
                     return false;
                 }
             }
@@ -247,8 +247,14 @@ class Model {
      *  periphery. */
     HashSet<Place> findGalaxy(Place center) {
         HashSet<Place> galaxy = new HashSet<>();
-
-        // FIXME
+        if (!isCell(center)) {
+        	if (isVert(center)) {
+        		center.move(dx + 1, dy);
+        	} else {
+        		center.move(dx, dy + 1);
+        	}
+        }
+        accreteRegion(center, galaxy);
 
         if (isGalaxy(center, galaxy)) {
             return galaxy;
@@ -269,6 +275,17 @@ class Model {
         HashSet<Place> region = new HashSet<>();
         region.addAll(unmarkedContaining(center));
         markAll(region, 1);
+        for (Place cell : region) {
+        	for (int i = 0; i < 4; i += 1) {
+        		int dx = (i % 2) * (2 * (i / 2) - 1),
+                	dy = ((i + 1) % 2) * (2 * (i / 2) - 1);
+            	if (opposing(cell, center) &&
+            		 !isBoundary(cell.x + dx, cell.y + dy) && mark(cell.move(2 * dx, 2 * dy)) == 0) {
+            		maxUnmarkedRegion(cell.move(2 * dx, 2 * dy));
+            	}
+        	}
+        }
+        
         // FIXME
         markAll(region, 0);
         return region;
