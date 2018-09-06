@@ -13,6 +13,7 @@ public class BuggyIntDListSolution extends IntDList {
      * @param d value to be inserted in the back
      */
     public void insertBack(int d) {
+        _back = this._back;
         _back = new DNode(_back, d, null);
         _back._prev._next = _back;
     }

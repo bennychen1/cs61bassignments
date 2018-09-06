@@ -281,7 +281,7 @@ class Model {
                 	dy = ((i + 1) % 2) * (2 * (i / 2) - 1);
             	if (opposing(cell, center) &&
             		 !isBoundary(cell.x + dx, cell.y + dy) && mark(cell.move(2 * dx, 2 * dy)) == 0) {
-            		maxUnmarkedRegion(cell.move(2 * dx, 2 * dy));
+            		region.addAll(maxUnmarkedRegion(cell.move(2 * dx, 2 * dy)));
             	}
         	}
         }
@@ -309,6 +309,9 @@ class Model {
      *  the value of isBoundary(X, Y) (from true to false or vice-versa).
      *  Requires that (X, Y) is an edge. */
     void toggleBoundary(int x, int y) {
+    	if (isEdge(x, y)) {
+    		;// if is boundary, remove from boundary list (instance variable)
+    	}
         // FIXME
     }
 

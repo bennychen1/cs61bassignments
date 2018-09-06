@@ -14,6 +14,7 @@ public class BuggyIntDList extends IntDList {
      */
     public void insertBack(int d) {
         _back = new DNode(_back, d, null);
+
         _back._prev._next = _back;
     }
 }
