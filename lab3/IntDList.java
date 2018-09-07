@@ -37,7 +37,17 @@ public class IntDList {
      * @return The number of elements in this list.
      */
     public int size() {
-        return 0;   // Your code here
+        if (_front == null && _back == null) {
+            return 0;
+        } else {
+            DNode start = _front;
+            int result = 0;
+            while (start != null) {
+                result += 1;
+                start = start._next;
+            }
+            return result;
+        }
     }
 
     /**
@@ -50,7 +60,25 @@ public class IntDList {
      * @return The integer value at index i
      */
     public int get(int i) {
-        return 0;   // Your code here
+        if (this.size() == 1) {
+            return _front._val;
+        }
+        if(i < 0) {
+            DNode start = _back;
+            i = i + 1;
+            while (i < 0) {
+                start = start._prev;
+                i = i + 1;
+            }
+            return start._val;
+        } else {
+            DNode start = _front;
+            while (i > 0) {
+                start = start._next;
+                i = i - 1;// Your code here
+            }
+            return start._val;
+        }
     }
 
     /**
@@ -58,6 +86,15 @@ public class IntDList {
      * @param d value to be inserted in the front
      */
     public void insertFront(int d) {
+        DNode curFront = _front;
+        if (curFront == null) {
+            _front = new DNode(null, d, null);
+            _front._prev = _front;
+            _back = _front;
+        } else {
+            _front = new DNode(null, d, curFront);
+            curFront._prev = _front;
+        }
         // Your code here 
     }
 
@@ -66,6 +103,13 @@ public class IntDList {
       * @param d value to be inserted in the back
      */
     public void insertBack(int d) {
+        _back = new DNode(_back, d, null);
+        if (_front == null) {
+            _front = _back;
+            _back._prev = _front;
+        } else {
+            _back._prev._next = _back;
+        }
         // Your code here 
     }
 
@@ -74,7 +118,16 @@ public class IntDList {
      * @return the item that was deleted
      */
     public int deleteBack() {
-        return 0;   // Your code here
+        if (this.size() == 1) {
+            DNode curBack = _back;
+            _front = null;
+            _back = null;
+            return curBack._val;
+        }
+        DNode curBack = _back;
+        _back = _back._prev;
+        _back._next = null;
+        return curBack._val;   // Your code here
 
     }
 
@@ -88,7 +141,17 @@ public class IntDList {
      *  System.out.println(a); //prints ab
      */
     public String toString() {
-        return null;   // Your code here
+        String result = "[";
+        for (int i = 0; i < this.size(); i += 1) {
+            if (i == this.size() - 1) {
+                result += this.get(i);
+            } else {
+                result += this.get(i) + ", ";
+            }
+        }
+        result += "]";
+        System.out.println(result);
+        return result;   // Your code here
     }
 
     /* DNode is a "static nested class", because we're only using it inside

@@ -17,8 +17,9 @@ public class BuggyIntDListSolution extends IntDList {
         if (_front == null) {
             _front = _back;
             _back._prev = _front;
+        } else {
+            _back._prev._next = _back;
         }
-        _back._prev._next = _back;
     }
 
     public String getException() {
