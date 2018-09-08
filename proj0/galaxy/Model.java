@@ -31,6 +31,7 @@ class Model {
     static final int DEFAULT_SIZE = 7;
     int cols;
     int rows;
+    Map<List<Integer>, int> marks = new HashMap<List<Integer>, int>();
    
     /** Initializes an empty puzzle board of size DEFAULT_SIZE x DEFAULT_SIZE,
      *  with a boundary around the periphery. */
@@ -333,7 +334,10 @@ class Model {
         if (!isCell(x, y)) {
             return -1;
         }
-        return 0; // FIXME
+        ArrayList<int> key = new ArrayList<int>();
+        key.add(X);
+        key.add(Y);
+        return marks.get(key); // FIXME
     }
 
     /** Returns the current mark on cell P, or -1 if P is not a valid cell
@@ -351,6 +355,10 @@ class Model {
         if (v < 0) {
             throw new IllegalArgumentException("bad mark value");
         }
+        ArrayList<int> key = new ArrayList<int>();
+        key.add(X);
+        key.add(Y);
+        marks.put(key, v);
         // FIXME
     }
 
