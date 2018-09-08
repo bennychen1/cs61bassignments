@@ -364,6 +364,9 @@ class Model {
      *  greater than or equal to 0. */
     void markAll(Collection<Place> cells, int v) {
         assert v >= 0;
+        for (Place c in cells) {
+        	mark(c, v);
+        }
         // FIXME
     }
 
@@ -371,6 +374,11 @@ class Model {
      *  or equal to 0. */
     void markAll(int v) {
         assert v >= 0;
+        for (int i = 1; i < xlim(); i += 2) {
+        	for (int j = 1; j < ylim(); j += 2) {
+        		mark(i, j, v);
+        	}
+        }
         // FIXME
     }
 
