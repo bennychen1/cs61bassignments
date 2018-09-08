@@ -388,24 +388,24 @@ class Model {
      *  Otherwise, returns an empty list. */
     List<Place> unmarkedContaining(Place place) {
         if (isCell(place)) {
-            if (false) { // FIXME
+            if (mark(place) == 0) { // FIXME
                 return asList(place);
             }
         } else if (isVert(place)) {
-            if (false) { // FIXME
+            if (mark(place.move(-1, 0) == 0 && mark(place.move(1, 0) == 0))) { // FIXME
                 return asList(place.move(-1, 0), place.move(1, 0));
             }
         } else if (isHoriz(place)) {
-            if (false) { // FIXME
+            if (mark(place.move(-1, 0) == 0 && mark(place.move(1, 0) == 0))) { // FIXME
                 return asList(place.move(0, -1), place.move(0, 1));
             }
         } else {
             for (int i = 0; i < 4; i += 1) {
-                if (mark(place.move(0, 0)) != 0) { // FIXME
+                if (mark(place.move(2 * (i / 2) - 1, 2 * (i % 2) - 1)) != 0) { // FIXME
                     return Collections.emptyList();
                 }
             }
-            return asList(null, null, null, null); // FIXME
+            return asList(place.move(-1, -1), place.move(-1, 1), place.move(1, -1), place.move(1, 1)); // FIXME
         }
         return Collections.emptyList();
     }
@@ -422,7 +422,7 @@ class Model {
         for (Place r : region) {
             assert isCell(r);
             for (int i = 0; i < 4; i += 1) {
-                Place p = r.move(0, 0); // FIXME
+                Place p = r.move(i , 0); // FIXME
                 Place opp = opposing(center, p);
                 if (false) { // FIXME
                     result.add(p);
