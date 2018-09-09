@@ -31,8 +31,9 @@ class Model {
     static final int DEFAULT_SIZE = 7;
     int cols;
     int rows;
-    Map<List<Integer>, int> marks = new HashMap<List<Integer>, int>();
-    Map<List<Integer>, int> boundaries = new HashMap<List<Integer>, int>();
+    int [][] marks = new int[cols][rows];
+    List <Place> boundaries = new ArrayList<Place>();
+    List<Place> centers = new ArrayList<Place>();
    
     /** Initializes an empty puzzle board of size DEFAULT_SIZE x DEFAULT_SIZE,
      *  with a boundary around the periphery. */
@@ -149,7 +150,7 @@ class Model {
 
     /** Returns true iff (X, Y) is a center. */
     boolean isCenter(int x, int y) {
-        return // some list of centers, check each centers x, y match then it is a center
+        return isCenter(pl(x, y));// some list of centers, check each centers x, y match then it is a center
         
     }
 
@@ -160,7 +161,7 @@ class Model {
 
     /** Returns true iff (X, Y) is a boundary. */
     boolean isBoundary(int x, int y) {
-        return x == 0 || x == xlim() || y == 0 && || y == ylim() || ; // is in some list of set boundaries (set by the player)
+        return isBoundary(pl(x, y));// x == 0 || x == xlim() || y == 0 && || y == ylim() || ; // is in some list of set boundaries (set by the player)
     }
 
     /** Returns true iff P is a boundary. */
@@ -373,7 +374,7 @@ class Model {
      *  greater than or equal to 0. */
     void markAll(Collection<Place> cells, int v) {
         assert v >= 0;
-        for (Place c in cells) {
+        for (Place c : cells) {
         	mark(c, v);
         }
         // FIXME
