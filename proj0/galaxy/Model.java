@@ -32,6 +32,7 @@ class Model {
     int cols;
     int rows;
     Map<List<Integer>, int> marks = new HashMap<List<Integer>, int>();
+    Map<List<Integer>, int> boundaries = new HashMap<List<Integer>, int>();
    
     /** Initializes an empty puzzle board of size DEFAULT_SIZE x DEFAULT_SIZE,
      *  with a boundary around the periphery. */
