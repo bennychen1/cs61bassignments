@@ -29,11 +29,11 @@ class Model {
 
     /** The default number of squares on a side of the board. */
     static final int DEFAULT_SIZE = 7;
-    int cols;
-    int rows;
-    int [][] marks = new int[cols][rows];
-    List <Place> boundaries = new ArrayList<Place>();
-    List<Place> centers = new ArrayList<Place>();
+    private int cols;
+    private int rows;
+    private int [][] marks;
+    private List <Place> boundaries;
+    private List<Place> centers;
    
     /** Initializes an empty puzzle board of size DEFAULT_SIZE x DEFAULT_SIZE,
      *  with a boundary around the periphery. */
@@ -67,13 +67,20 @@ class Model {
     void init(int cols, int rows) {
     	this.cols = cols;
     	this.rows = rows;
-        // FIXME
+    	this.marks = new int[xlim()][ylim()];
+    	this.boundaries = new ArrayList<Place>();
+        this.centers = new ArrayList<Place>();
     }
+
 
     /** Clears the board (removes centers, boundaries that are not on the
      *  periphery, and marked cells) without resizing. */
     void clear() {
         init(cols(), rows());
+    }
+
+    List boundaries() {
+        return this.boundaries;
     }
 
     /** Returns the number of columns of cells in the board. */
@@ -156,17 +163,25 @@ class Model {
 
     /** Returns true iff P is a center. */
     boolean isCenter(Place p) {
-        return isCenter(p.x, p.y); // FIXME
+        return this.centers.contains(p); // FIXME
     }
 
     /** Returns true iff (X, Y) is a boundary. */
     boolean isBoundary(int x, int y) {
+        if( x == 0 || x == xlim() - 1 || y == 0 || y == ylim() - 1) {
+            return true;
+        }
         return isBoundary(pl(x, y));// x == 0 || x == xlim() || y == 0 && || y == ylim() || ; // is in some list of set boundaries (set by the player)
     }
 
     /** Returns true iff P is a boundary. */
     boolean isBoundary(Place p) {
-        return isBoundary(p.x, p.y);
+        for(int i = 0; i < this.boundaries.size(); i += 1) {
+            if (this.boundaries.get(i) == p) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Returns true iff the puzzle board is solved, given the centers and
@@ -252,9 +267,9 @@ class Model {
         HashSet<Place> galaxy = new HashSet<>();
         if (!isCell(center)) {
         	if (isVert(center)) {
-        		center.move(dx + 1, dy);
+        		center.move(1, 0);
         	} else {
-        		center.move(dx, dy + 1);
+        		center.move(0, 1);
         	}
         }
         accreteRegion(center, galaxy);
@@ -278,18 +293,13 @@ class Model {
         HashSet<Place> region = new HashSet<>();
         region.addAll(unmarkedContaining(center));
         markAll(region, 1);
-        for (Place cell : region) {
-        	for (int i = 0; i < 4; i += 1) {
-        		int dx = (i % 2) * (2 * (i / 2) - 1),
-                	dy = ((i + 1) % 2) * (2 * (i / 2) - 1);
-            	if (opposing(cell, center) &&
-            		 !isBoundary(cell.x + dx, cell.y + dy) && mark(cell.move(2 * dx, 2 * dy)) == 0) {
-            		region.addAll(maxUnmarkedRegion(cell.move(2 * dx, 2 * dy)));
-            	}
-        	}
+        HashSet<Place> oldRegion = new HashSet<>();
+        while(region != oldRegion) {
+            oldRegion = region;
+            List <Place> regionArg = new ArrayList<Place>(region);
+            region.addAll(unmarkedSymAdjacent(center, regionArg));
+            markAll(region, 1);
         }
-        
-        // FIXME
         markAll(region, 0);
         return region;
     }
@@ -312,10 +322,20 @@ class Model {
      *  the value of isBoundary(X, Y) (from true to false or vice-versa).
      *  Requires that (X, Y) is an edge. */
     void toggleBoundary(int x, int y) {
-    	if (isEdge(x, y)) {
-    		;// if is boundary, remove from boundary list (instance variable)
-    	}
-        // FIXME
+        Place testBoundary = pl(x, y);
+        if (isEdge(x, y)) {
+            if (isBoundary(x, y)) {
+                for(int i = 0; i < this.boundaries.size(); i += 1) {
+                    if(this.boundaries.get(i) == testBoundary) {
+                        this.boundaries.remove(i);
+                        return;
+                    }
+                }
+            } else {
+                this.boundaries.add(testBoundary);
+            }
+            // FIXME
+        }
     }
 
     /** Places a center at (X, Y). Requires that X and Y are within bounds of
@@ -326,7 +346,7 @@ class Model {
 
     /** Places center at P. */
     void placeCenter(Place p) {
-    	placeCenter(p.x, p.y);
+    	centers.add(p);
         // FIXME
     }
 
@@ -336,10 +356,8 @@ class Model {
         if (!isCell(x, y)) {
             return -1;
         }
-        ArrayList<int> key = new ArrayList<int>();
-        key.add(X);
-        key.add(Y);
-        return marks.get(key); // FIXME
+        return this.marks[x][y];
+         // FIXME
     }
 
     /** Returns the current mark on cell P, or -1 if P is not a valid cell
@@ -357,10 +375,7 @@ class Model {
         if (v < 0) {
             throw new IllegalArgumentException("bad mark value");
         }
-        ArrayList<int> key = new ArrayList<int>();
-        key.add(X);
-        key.add(Y);
-        marks.put(key, v);
+        marks[x][y] = v;
         // FIXME
     }
 
@@ -410,11 +425,12 @@ class Model {
                 return asList(place);
             }
         } else if (isVert(place)) {
-            if (mark(place.move(-1, 0) == 0 && mark(place.move(1, 0) == 0))) { // FIXME
+            if (mark(place.move(-1, 0)) == 0 &&
+                    mark(place.move(1, 0)) == 0) { // FIXME
                 return asList(place.move(-1, 0), place.move(1, 0));
             }
         } else if (isHoriz(place)) {
-            if (mark(place.move(-1, 0) == 0 && mark(place.move(1, 0) == 0))) { // FIXME
+            if (mark(place.move(-1, 0)) == 0 && mark(place.move(1, 0)) == 0) { // FIXME
                 return asList(place.move(0, -1), place.move(0, 1));
             }
         } else {
@@ -442,7 +458,8 @@ class Model {
             for (int i = 0; i < 4; i += 1) {
                 Place p = r.move(i , 0); // FIXME
                 Place opp = opposing(center, p);
-                if (false) { // FIXME
+                if (result.contains(p) == false && result.contains(opp) == false &&
+                        mark(p) == 0 && mark(opp) == 0) { // FIXME
                     result.add(p);
                 }
             }
