@@ -356,7 +356,7 @@ class Model {
 
     /** Places center at P. */
     void placeCenter(Place p) {
-    	centers.add(p);
+    	this.centers.add(p);
         // FIXME
     }
 
@@ -490,7 +490,7 @@ class Model {
 
     /** Returns an unmodifiable view of the list of all centers. */
     List<Place> centers() {
-        return Collections.unmodifiableList(Collections.emptyList()); // FIXME
+        return Collections.unmodifiableList(this.centers); // FIXME
     }
 
     @Override
