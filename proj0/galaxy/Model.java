@@ -163,7 +163,12 @@ class Model {
 
     /** Returns true iff P is a center. */
     boolean isCenter(Place p) {
-        return this.centers.contains(p); // FIXME
+        for(int i = 0; i < centers.size(); i += 1) {
+            if(centers.get(i) == p) {
+                return true;
+            }
+        }
+        return false; // FIXME
     }
 
     /** Returns true iff (X, Y) is a boundary. */
@@ -264,15 +269,20 @@ class Model {
      *  Otherwise, returns null. Requires that CENTER is not on the
      *  periphery. */
     HashSet<Place> findGalaxy(Place center) {
+        Place origCenter = center;
         HashSet<Place> galaxy = new HashSet<>();
         if (!isCell(center)) {
         	if (isVert(center)) {
-        		center.move(1, 0);
+        		 center = center.move(1, 0);
+        	} else if (isHoriz(center)) {
+        		center = center.move(0, 1);
         	} else {
-        		center.move(0, 1);
-        	}
+        	    center = center.move(1, 1);
+            }
         }
         accreteRegion(center, galaxy);
+
+        center = origCenter;
 
         if (isGalaxy(center, galaxy)) {
             return galaxy;
@@ -410,7 +420,14 @@ class Model {
     /** Returns the position of the cell that is opposite P using P0 as the
      *  center, or null if that is not a valid cell address. */
     Place opposing(Place p0, Place p) {
-        return null; // FIXME
+        int xdist = p.x - p0.x;
+        int ydist = p.y - p0.y;
+        Place opp = p0.move(xdist * -1, ydist * -1);
+        if(isCell(opp)) {
+            return opp;
+        } else {
+            return null;
+        }// FIXME
     }
 
     /** Returns a list of all cells "containing" PLACE if all of the cells are
@@ -456,7 +473,10 @@ class Model {
         for (Place r : region) {
             assert isCell(r);
             for (int i = 0; i < 4; i += 1) {
-                Place p = r.move(i , 0); // FIXME
+                int dx = (i % 2) * (2 * (i / 2) - 1),
+                        dy = ((i + 1) % 2) * (2 * (i / 2) - 1);
+
+                Place p = r.move(2 * dx , 2 * dy); // FIXME
                 Place opp = opposing(center, p);
                 if (result.contains(p) == false && result.contains(opp) == false &&
                         mark(p) == 0 && mark(opp) == 0) { // FIXME
