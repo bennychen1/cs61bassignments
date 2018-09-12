@@ -57,8 +57,15 @@ class Model {
         if (model == this) {
             return;
         } else {
-        	this.cols = model.cols;
-        	this.rows = model.rows;
+            this.cols = model.cols;
+            this.rows = model.rows;
+            boundaries = new ArrayList<Place>(model.boundaries);
+            centers = new ArrayList<Place>(model.centers);
+            marks = new int[model.xlim()][model.ylim()];
+            for(int i = 0; i < model.marks.length; i+= 1) {
+                System.arraycopy(model.marks[i], 0, this.marks[i], 0, model.marks[i].length);
+            }
+
         }
         // FIXME
     }
@@ -163,8 +170,8 @@ class Model {
 
     /** Returns true iff P is a center. */
     boolean isCenter(Place p) {
-        for(int i = 0; i < centers.size(); i += 1) {
-            if(centers.get(i) == p) {
+        for(int i = 0; i < this.centers.size(); i += 1) {
+            if(this.centers.get(i) == p) {
                 return true;
             }
         }
