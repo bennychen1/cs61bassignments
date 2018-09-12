@@ -485,10 +485,14 @@ class Model {
 
                 Place p = r.move(2 * dx , 2 * dy); // FIXME
                 Place opp = opposing(center, p);
-                if (result.contains(p) == false && result.contains(opp) == false &&
-                        mark(p) == 0 && mark(opp) == 0) { // FIXME
-                    result.add(p);
+                if (isCell(p) && opp != null) {
+                    if(mark(p) == 0 && mark(opp) == 0 &&
+                            result.contains(p) == false && result.contains(opp) == false) {
+                        result.add(p);
+                        result.add(opp);
+                    }
                 }
+
             }
 
         }
