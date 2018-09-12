@@ -454,7 +454,7 @@ class Model {
                 return asList(place.move(-1, 0), place.move(1, 0));
             }
         } else if (isHoriz(place)) {
-            if (mark(place.move(-1, 0)) == 0 && mark(place.move(1, 0)) == 0) { // FIXME
+            if (mark(place.move(0, -1)) == 0 && mark(place.move(0, 1)) == 0) { // FIXME
                 return asList(place.move(0, -1), place.move(0, 1));
             }
         } else {
