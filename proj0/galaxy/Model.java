@@ -310,13 +310,14 @@ class Model {
         HashSet<Place> region = new HashSet<>();
         region.addAll(unmarkedContaining(center));
         markAll(region, 1);
-        HashSet<Place> oldRegion = new HashSet<>();
-        while(region != oldRegion) {
-            oldRegion = region;
-            List <Place> regionArg = new ArrayList<Place>(region);
+        List<Place>regionArg = new ArrayList<Place>(region);
+        while(unmarkedSymAdjacent(center, regionArg).size() != 0) {
             region.addAll(unmarkedSymAdjacent(center, regionArg));
             markAll(region, 1);
-        }
+            regionArg = new ArrayList<Place>(region);
+        };
+
+
         markAll(region, 0);
         return region;
     }
