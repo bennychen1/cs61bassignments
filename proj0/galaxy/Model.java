@@ -257,7 +257,7 @@ class Model {
                 int dx = 2 * (i / 2) - 1,
                     dy = 2 * (i % 2) - 1;
                 Place intersection = cell.move(dx, dy);
-                if (cell != center && (isCenter(intersection) || isCenter(cell))) { // FIXME
+                if ((cell != center && isCenter(cell) || (intersection != center && isCenter(intersection)))){ // FIXME
                     return false;
                 }
             }
