@@ -430,12 +430,16 @@ class Model {
     Place opposing(Place p0, Place p) {
         int xdist = p.x - p0.x;
         int ydist = p.y - p0.y;
-        Place opp = p0.move(xdist * -1, ydist * -1);
-        if(isCell(opp)) {
-            return opp;
+        if(p0.x + xdist * -1 >= 0 && p0.y + ydist * -1 >= 0) {
+            Place opp = p0.move(xdist * -1, ydist * -1);
+            if (isCell(opp)) {
+                return opp;
+            } else {
+                return null;
+            }// FIXME
         } else {
             return null;
-        }// FIXME
+        }
     }
 
     /** Returns a list of all cells "containing" PLACE if all of the cells are
