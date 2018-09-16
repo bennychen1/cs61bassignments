@@ -30,10 +30,10 @@ class Model {
     /** The default number of squares on a side of the board.*/
     static final int DEFAULT_SIZE = 7;
     /** Stores the number of columns on the board.*/
-    private int cols;
+    private int _cols;
 
     /** Stores the number of rows on the board. */
-    private int rows;
+    private int _rows;
 
     /**Stores the mark value of each cell.
      * marks[1][1] would be the mark of the cell (1, 1). */
@@ -66,8 +66,8 @@ class Model {
         if (model == this) {
             return;
         } else {
-            this.cols = model.cols;
-            this.rows = model.rows;
+            this._cols = model._cols;
+            this._rows = model._rows;
             boundaries = new ArrayList<Place>(model.boundaries);
             centers = new ArrayList<Place>(model.centers);
             marks = new int[model.xlim()][model.ylim()];
@@ -81,8 +81,8 @@ class Model {
 
     /** Sets the puzzle board size to COLS x ROWS, and clears it. */
     void init(int cols, int rows) {
-        this.cols = cols;
-        this.rows = rows;
+        this._cols = cols;
+        this._rows = rows;
         this.marks = new int[xlim()][ylim()];
         this.boundaries = new ArrayList<Place>();
         this.centers = new ArrayList<Place>();
@@ -112,12 +112,12 @@ class Model {
 
     /** Returns the number of vertical edges and cells in a row. */
     int xlim() {
-        return 2 * this.cols + 1;
+        return 2 * this._cols + 1;
     }
 
     /** Returns the number of horizontal edges and cells in a column. */
     int ylim() {
-        return 2 * this.rows + 1;
+        return 2 * this._rows + 1;
     }
 
     /** Returns true iff (X, Y) is a valid cell. */
@@ -192,7 +192,9 @@ class Model {
     boolean isBoundary(int x, int y) {
         if (x == 0 || x == xlim() - 1
                 || y == 0 || y == ylim() - 1) {
-            return true;
+            if (!isIntersection(x, y)) {
+                return true;
+            }
         }
         return isBoundary(pl(x, y));
     }
@@ -292,12 +294,12 @@ class Model {
         Place origCenter = center;
         HashSet<Place> galaxy = new HashSet<>();
         if (!isCell(center)) {
-        	if (isVert(center)) {
-        	    center = center.move(1, 0);
-        	} else if (isHoriz(center)) {
-        		center = center.move(0, 1);
-        	} else {
-        	    center = center.move(1, 1);
+            if (isVert(center)) {
+                center = center.move(1, 0);
+            } else if (isHoriz(center)) {
+                center = center.move(0, 1);
+            } else {
+                center = center.move(1, 1);
             }
         }
         accreteRegion(center, galaxy);
@@ -376,7 +378,7 @@ class Model {
 
     /** Places center at P. */
     void placeCenter(Place p) {
-    	this.centers.add(p);
+        this.centers.add(p);
     }
 
     /** Returns the current mark on cell (X, Y), or -1 if (X, Y) is not a valid
@@ -417,7 +419,7 @@ class Model {
     void markAll(Collection<Place> cells, int v) {
         assert v >= 0;
         for (Place c : cells) {
-        	mark(c, v);
+            mark(c, v);
         }
     }
 
@@ -426,9 +428,9 @@ class Model {
     void markAll(int v) {
         assert v >= 0;
         for (int i = 1; i < xlim(); i += 2) {
-        	for (int j = 1; j < ylim(); j += 2) {
-        		mark(i, j, v);
-        	}
+            for (int j = 1; j < ylim(); j += 2) {
+                mark(i, j, v);
+            }
         }
     }
 
