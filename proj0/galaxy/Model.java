@@ -499,7 +499,7 @@ class Model {
                 int dx = (i % 2) * (2 * (i / 2) - 1),
                         dy = ((i + 1) % 2) * (2 * (i / 2) - 1);
 
-                Place p = r.move(2 * dx , 2 * dy);
+                Place p = r.move(2 * dx, 2 * dy);
                 Place opp = opposing(center, p);
                 if (isCell(p) && opp != null) {
                     if (mark(p) == 0 && mark(opp) == 0
