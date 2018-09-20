@@ -22,7 +22,14 @@ public class EveryOtherWord {
       */
 
     public static Iterable<String> everyOtherWord(List<String> L) {
-        return null; // FIXME!
+        List<String>result = new ArrayList<String>();
+        for(int i = 0; i < L.size() - 1; i += 2) {
+            if (! result.contains(L.get(i))) {
+                result.add(L.get(i));
+            }
+        }
+
+        return result; // FIXME!
     }
 
     /** Tests whether or not your everyOtherWord method works correctly. */

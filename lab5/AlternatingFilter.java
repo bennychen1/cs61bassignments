@@ -7,6 +7,8 @@ import utils.Filter;
  */
 class AlternatingFilter<Value> extends Filter<Value> {
 
+    int _curIndex;
+
     /** A filter of values from INPUT that lets through every other
      *  value. */
     AlternatingFilter(Iterator<Value> input) {
@@ -16,7 +18,13 @@ class AlternatingFilter<Value> extends Filter<Value> {
 
     @Override
     protected boolean keep() {
-        return false;  // FIXME
+        if (_curIndex % 2 == 0) {
+            _curIndex += 1;
+            return true;
+        } else {
+            _curIndex += 1;
+            return false;  // FIXME
+        }
     }
 
     // FIXME
