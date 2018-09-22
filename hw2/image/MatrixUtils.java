@@ -109,7 +109,7 @@ public class MatrixUtils {
             return accumulateVertical(m);
         } else {
             double[][] mT = transpose(m);
-            return accumulateVertical(mT);
+            return transpose(accumulateVertical(mT));
         } //your code here
     }
 

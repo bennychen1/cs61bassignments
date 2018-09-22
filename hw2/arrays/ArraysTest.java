@@ -38,8 +38,10 @@ public class ArraysTest {
         int[] A = new int[] {1, 3, 7, 5, 4, 6, 9, 10};
         int[] same = new int[]{1, 1, 1, 1, 1};
         int[][] result = new int[][]{{1, 3, 7}, {5}, {4, 6, 9, 10}};
+        int[] zeroArray = new int[]{};
         assertArrayEquals(result, Arrays.naturalRuns(A));
         assertArrayEquals(new int[][]{{1}, {1}, {1}, {1}, {1}}, Arrays.naturalRuns(same));
+        assertArrayEquals(new int[][]{{}}, Arrays.naturalRuns(zeroArray));
     }
 
     public static void main(String[] args) {
