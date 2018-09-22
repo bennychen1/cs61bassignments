@@ -69,6 +69,9 @@ class Arrays {
      * {{1, 3, 7}, {5}, {4, 6, 9, 10}}.
      */
     static int[][] naturalRuns(int[] A) {
+        if (A.length == 0) {
+            return new int[][]{{}};
+        }
        int index = 0;
        int numRuns = 0;
        while (index < A.length - 1) {
