@@ -80,6 +80,9 @@ class Arrays {
            }
            index += 1;
        }
+       if (numRuns == 0) {
+           return new int[][]{};
+       }
        int[][]result = new int[numRuns + 1][];
        index = 0;
        int start = 0;
