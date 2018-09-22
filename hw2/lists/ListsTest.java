@@ -16,8 +16,7 @@ public class ListsTest {
         IntList L = IntList.list(1, 2, 3, 2, 7, 10, 11, 5);
         int[][] newL = new int[][]{
                 {1, 2, 3},
-                {2},
-                {7, 10, 11},
+                {2, 7, 10, 11},
                 {5}
         };
         IntList sameL = IntList.list(1, 2, 3, 2, 7, 10, 11, 5);

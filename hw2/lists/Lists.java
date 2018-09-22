@@ -18,6 +18,20 @@ class Lists {
      *  original list pointed to by L. */
     static IntListList naturalRuns(IntList L) {
         /* *Replace this body with the solution. */
-        return null;
+        if(L == null) {
+            return IntListList.list();
+        }
+        IntList p = L;
+        IntList temp = p.tail;
+        while(p.tail != null && p.head < p.tail.head) {
+            p = p.tail;
+            temp = temp.tail;
+        }
+        p.tail = null;
+        IntListList result = new IntListList();
+        result.head = L;
+        result.tail = naturalRuns(temp);
+        return result;
+
     }
 }
