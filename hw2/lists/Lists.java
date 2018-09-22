@@ -6,7 +6,7 @@ package lists;
 /** HW #2, Problem #1. */
 
 /** List problem.
- *  @author
+ *  @author Benny Chen
  */
 class Lists {
     /** Return the list of lists formed by breaking up L into "natural runs":

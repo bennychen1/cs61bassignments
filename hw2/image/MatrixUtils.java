@@ -55,7 +55,30 @@ public class MatrixUtils {
      */
 
     public static double[][] accumulateVertical(double[][] m) {
-        return null; //your code here
+        double[][]a = copy(m);
+        for (int r = 1; r < a.length; r += 1) {
+            for (int c = 0; c <a[r].length; c += 1) {
+                double fromTop = get(a, r -1, c) + a[r][c];
+                double fromRightDiag = get(a, r - 1, c + 1) + a[r][c];
+                double fromLeftDiag = get(a, r - 1, c -1 ) + a[r][c];
+                if (fromTop <= fromRightDiag && fromTop <= fromLeftDiag) {
+                    a[r][c] = fromTop;
+                } else if (fromRightDiag <= fromTop && fromRightDiag <= fromLeftDiag) {
+                    a[r][c] = fromRightDiag;
+                } else {
+                    a[r][c] = fromLeftDiag;
+                }
+            }
+        }
+        return a; //your code here
+    }
+
+    public static double get(double[][]m, int r, int c) {
+        if (r >= 0 && c >= 0 && r < m.length && c < m[r].length){
+            return m[r][c];
+        } else {
+            return Double.POSITIVE_INFINITY;
+        }
     }
 
     /** Non-destructively accumulates a matrix M along the specified
@@ -82,7 +105,22 @@ public class MatrixUtils {
      */
 
     public static double[][] accumulate(double[][] m, Orientation orientation) {
-        return null; //your code here
+        if (orientation == Orientation.VERTICAL) {
+            return accumulateVertical(m);
+        } else {
+            double[][] mT = transpose(m);
+            return accumulateVertical(mT);
+        } //your code here
+    }
+
+    public static double[][] transpose(double[][]m) {
+        double[][]a = new double[m[0].length][m.length];
+        for (int c = 0; c < m[0].length; c += 1) {
+            for (int r = 0; r < m.length; r += 1) {
+                a[c][r] = m[r][c];
+            }
+        }
+        return a;
     }
 
     /** Finds the vertical seam VERTSEAM of the given matrix M.

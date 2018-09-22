@@ -6,7 +6,7 @@ package arrays;
 /** HW #2 */
 
 /** Array utilities.
- *  @author
+ *  @author Benny Chen
  */
 class Arrays {
     /* C. */
