@@ -19,4 +19,5 @@ class WeirdListClient {
      * You are still forbidden to use any of the following:
      *       if, switch, while, for, do, try, or the ?: operator.
      */
+
 }
