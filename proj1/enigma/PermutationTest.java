@@ -46,6 +46,11 @@ public class PermutationTest {
     /* ***** TESTS ***** */
 
     @Test
+    public void testAddString() {
+        Permutation p = new Permutation("(ABCD)", UPPER);
+    }
+
+    @Test
     public void checkIdTransform() {
         perm = new Permutation("", UPPER);
         checkPerm("identity", UPPER_STRING, UPPER_STRING);

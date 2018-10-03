@@ -1,6 +1,7 @@
 package enigma;
 
 import static enigma.EnigmaException.*;
+import java.util.ArrayList;
 
 /** Represents a permutation of a range of integers starting at 0 corresponding
  *  to the characters of an alphabet.
@@ -15,12 +16,16 @@ class Permutation {
      *  Whitespace is ignored. */
     Permutation(String cycles, Alphabet alphabet) {
         _alphabet = alphabet;
+        addCycle(cycle)
         // FIXME
     }
 
     /** Add the cycle c0->c1->...->cm->c0 to the permutation, where CYCLE is
      *  c0c1...cm. */
-    private void addCycle(String cycle) {
+    private void addCycle(String cycle, ArrayList<Character> result) {
+        for (char c : cycle.toCharArray()) {
+            result.add(c);
+        }
         // FIXME
     }
 
@@ -35,7 +40,7 @@ class Permutation {
 
     /** Returns the size of the alphabet I permute. */
     int size() {
-        return 0; // FIXME
+        return _alphabet.size(); // FIXME
     }
 
     /** Return the result of applying this permutation to P modulo the
@@ -75,5 +80,10 @@ class Permutation {
     /** Alphabet of this permutation. */
     private Alphabet _alphabet;
 
+    /** The cycles of this permutation. */
+    private ArrayList _cycles;
+
     // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
+
+
 }
