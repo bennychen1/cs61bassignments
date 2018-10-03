@@ -20,6 +20,9 @@ public class PermutationTest {
 
     private Permutation perm;
     private String alpha = UPPER_STRING;
+    private Permutation p = makeAlphabetAndPerm("(BA)", 'a', 'c');
+    private Permutation p2 = makeAlphabetAndPerm("   (B)  (CA)   ", 'a', 'c');
+    private Permutation p3 = makeAlphabetAndPerm("(KN)(LPQ)", 'k', 'q');
 
     /** Check that perm has an alphabet whose size is that of
      *  FROMALPHA and TOALPHA and that maps each character of
@@ -53,14 +56,28 @@ public class PermutationTest {
 
     @Test
     public void testAddString() {
-        Permutation p = makeAlphabetAndPerm("(BA)", 'a', 'c');
-        Permutation p2 = makeAlphabetAndPerm("(B) (CA)", 'a', 'c');
         char[] expected = new char[]{'B', 'A', 'C'};
         assertArrayEquals(expected, p.get_cycles());
-        
+
         char[]expected2 = new char[]{'C', 'B', 'A'};
         assertArrayEquals(expected2, p2.get_cycles());
     }
+
+    @Test
+    public void testPermuteInt () {
+        assertEquals(6, p3.permute(5));
+        assertEquals(0, p3.permute(3));
+        assertEquals(2, p3.permute(2));
+    }
+
+    @Test
+    public void testPermuteChar() {
+        assertEquals('Q', p3.permute('P'));
+    }
+
+
+
+
 
 
 
