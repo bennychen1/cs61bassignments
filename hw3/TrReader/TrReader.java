@@ -1,6 +1,5 @@
 import java.io.Reader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /** Translating Reader: a stream that is a translation of an
  *  existing reader.
@@ -17,7 +16,6 @@ public class TrReader extends Reader {
     String to;
     int pos;
     int index;
-    ArrayList <Character> words = new ArrayList<Character>();
     public TrReader(Reader str, String from, String to) throws IOException {
         this.str = str;
         this.from = from;

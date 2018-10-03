@@ -3,12 +3,16 @@ class WeirdListClient {
 
     /** Return the result of adding N to each element of L. */
     static WeirdList add(WeirdList L, int n) {
-        return null; // REPLACE THIS LINE WITH THE RIGHT ANSWER.
+        return L.map(new Adder(n)); // REPLACE THIS LINE WITH THE RIGHT ANSWER.
     }
 
     /** Return the sum of the elements in L. */
     static int sum(WeirdList L) {
-        return 0; // REPLACE THIS LINE WITH THE RIGHT ANSWER.
+        addSum added = new addSum(0);
+        WeirdList res = L.map(added);
+        return added._result;
+
+       // REPLACE THIS LINE WITH THE RIGHT ANSWER.
     }
 
     /* As with WeirdList, you'll need to add an additional class or
@@ -19,5 +23,25 @@ class WeirdListClient {
      * You are still forbidden to use any of the following:
      *       if, switch, while, for, do, try, or the ?: operator.
      */
+    private static class Adder implements IntUnaryFunction {
+        private int _addTo;
+        public Adder(int addTo) {
+            _addTo = addTo;
+        }
+        public int apply(int x){
+            return this._addTo + x;
+        }
+    }
+
+    private static class addSum implements IntUnaryFunction {
+        private int _result;
+        public addSum(int result) {
+            _result = result;
+        }
+        public int apply(int x) {
+            _result += x;
+            return _result;
+        }
+    }
 
 }

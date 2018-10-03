@@ -13,4 +13,9 @@ public class emptyWeirdList extends WeirdList {
         return "";
     }
 
+    @Override
+    public WeirdList map(IntUnaryFunction func) {
+        return WeirdList.EMPTY;
+    }
+
 }
