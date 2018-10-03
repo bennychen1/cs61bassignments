@@ -16,16 +16,31 @@ class Permutation {
      *  Whitespace is ignored. */
     Permutation(String cycles, Alphabet alphabet) {
         _alphabet = alphabet;
-        addCycle(cycle)
+        _cycles = new char[_alphabet.size()];
+        for (int i = 0; i < _cycles.length; i += 1) {
+            _cycles[i] = alphabet.toChar(i);
+        }
+        cycles = cycles.replaceAll("[(]", "");
+        cycles = cycles.replaceAll("[)]", " ");
+        String[] splitCycles = cycles.split(" ");
+        for (String c : splitCycles) {
+            addCycle(c);
+        }
         // FIXME
     }
 
     /** Add the cycle c0->c1->...->cm->c0 to the permutation, where CYCLE is
      *  c0c1...cm. */
-    private void addCycle(String cycle, ArrayList<Character> result) {
-        for (char c : cycle.toCharArray()) {
-            result.add(c);
+    private void addCycle(String cycle) {
+        for (int i = 0; i < cycle.length(); i += 1) {
+            int index = _alphabet.toInt(cycle.charAt(i));
+            if (i == cycle.length() - 1) {
+                _cycles[index] = cycle.charAt(0);
+            } else {
+                _cycles[index] = cycle.charAt(i + 1);
+            }
         }
+
         // FIXME
     }
 
@@ -81,7 +96,14 @@ class Permutation {
     private Alphabet _alphabet;
 
     /** The cycles of this permutation. */
-    private ArrayList _cycles;
+    private char[] _cycles;
+
+    /** Returns the cycles of the permutation. */
+    char[] get_cycles() {
+        char[] result = new char[_cycles.length];
+        System.arraycopy(_cycles, 0, result, 0, _cycles.length);
+        return result;
+    }
 
     // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
 

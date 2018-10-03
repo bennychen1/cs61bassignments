@@ -47,7 +47,14 @@ public class PermutationTest {
 
     @Test
     public void testAddString() {
-        Permutation p = new Permutation("(ABCD)", UPPER);
+        CharacterRange pAlphabet = new CharacterRange('a', 'c');
+        Permutation p = new Permutation("(BA)", pAlphabet);
+        char[] expected = new char[]{'B', 'A', 'C'};
+        assertArrayEquals(expected, p.get_cycles());
+
+        Permutation p2 = new Permutation("(B) (CA)", pAlphabet);
+        char[]expected2 = new char[]{'C', 'B', 'A'};
+        assertArrayEquals(expected2, p2.get_cycles());
     }
 
     @Test
