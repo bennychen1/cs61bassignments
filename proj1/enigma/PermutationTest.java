@@ -43,19 +43,26 @@ public class PermutationTest {
         }
     }
 
+    private Permutation makeAlphabetAndPerm(String c, char from, char to) {
+        CharacterRange pAlphabet = new CharacterRange(from, to);
+        Permutation p = new Permutation(c, pAlphabet);
+        return p;
+    }
+
     /* ***** TESTS ***** */
 
     @Test
     public void testAddString() {
-        CharacterRange pAlphabet = new CharacterRange('a', 'c');
-        Permutation p = new Permutation("(BA)", pAlphabet);
+        Permutation p = makeAlphabetAndPerm("(BA)", 'a', 'c');
+        Permutation p2 = makeAlphabetAndPerm("(B) (CA)", 'a', 'c');
         char[] expected = new char[]{'B', 'A', 'C'};
         assertArrayEquals(expected, p.get_cycles());
-
-        Permutation p2 = new Permutation("(B) (CA)", pAlphabet);
+        
         char[]expected2 = new char[]{'C', 'B', 'A'};
         assertArrayEquals(expected2, p2.get_cycles());
     }
+
+
 
     @Test
     public void checkIdTransform() {
