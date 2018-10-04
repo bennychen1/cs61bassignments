@@ -23,7 +23,7 @@ class MovingRotor extends Rotor {
 
     @Override
     void advance() {
-        // FIXME
+        set(setting() + 1);
     }
 
     // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED

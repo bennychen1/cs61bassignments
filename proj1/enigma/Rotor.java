@@ -64,13 +64,13 @@ class Rotor {
     /** Return the conversion of P (an integer in the range 0..size()-1)
      *  according to my permutation. */
     int convertForward(int p) {
-        return permutation().permute(p + setting());  // FIXME
+        return _permutation.wrap(permutation().permute(p + setting()) - setting());  // FIXME
     }
 
     /** Return the conversion of E (an integer in the range 0..size()-1)
      *  according to the inverse of my permutation. */
     int convertBackward(int e) {
-        return permutation().invert(e + setting());  // FIXME
+        return _permutation.wrap(permutation().invert(e + setting()) - setting());  // FIXME
     }
 
     /** Returns true iff I am positioned to allow the rotor to my left
