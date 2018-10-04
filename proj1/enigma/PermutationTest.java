@@ -72,6 +72,10 @@ public class PermutationTest {
 
     @Test
     public void testPermuteInt() {
+        Permutation pm = new Permutation("(AE)", new CharacterRange('a', 'g'));
+
+        assertEquals(4, pm.permute(0));
+
         assertEquals(6, p3.permute(12));
         assertEquals(6, p3.permute(-9));
         assertEquals(2, p3.permute(2));
@@ -91,11 +95,6 @@ public class PermutationTest {
     public void testInvertChar() {
         assertEquals('L', p3.invert('P'));
     }
-
-
-
-
-
 
 
     @Test
