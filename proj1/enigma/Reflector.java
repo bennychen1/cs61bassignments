@@ -15,6 +15,15 @@ class Reflector extends FixedRotor {
     }
 
     // FIXME?
+    @Override
+    boolean reflecting() {
+        return true;
+    }
+
+    @Override
+    int convertForward(int p) {
+        return p;
+    }
 
     @Override
     void set(int posn) {

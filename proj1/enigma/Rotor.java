@@ -11,7 +11,6 @@ class Rotor {
     Rotor(String name, Permutation perm) {
         _name = name;
         _permutation = perm;
-        _setting = 0;
         // FIXME
     }
 
@@ -52,7 +51,7 @@ class Rotor {
 
     /** Set setting() to POSN.  */
     void set(int posn) {
-        _setting += 1;
+        _setting = posn;
         // FIXME
     }
 
@@ -65,13 +64,13 @@ class Rotor {
     /** Return the conversion of P (an integer in the range 0..size()-1)
      *  according to my permutation. */
     int convertForward(int p) {
-        return permutation().permute(p);  // FIXME
+        return permutation().permute(p + setting());  // FIXME
     }
 
     /** Return the conversion of E (an integer in the range 0..size()-1)
      *  according to the inverse of my permutation. */
     int convertBackward(int e) {
-        return permutation().invert(e);  // FIXME
+        return permutation().invert(e + setting());  // FIXME
     }
 
     /** Returns true iff I am positioned to allow the rotor to my left
