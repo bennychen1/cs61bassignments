@@ -54,6 +54,7 @@ public class PermutationTest {
 
     /* ***** TESTS ***** */
 
+
     @Test
     public void testAddCycles() {
         char[] expected = new char[]{'B', 'A', 'C'};
@@ -70,15 +71,25 @@ public class PermutationTest {
     }
 
     @Test
-    public void testPermuteInt () {
+    public void testPermuteInt() {
         assertEquals(6, p3.permute(12));
         assertEquals(6, p3.permute(-9));
         assertEquals(2, p3.permute(2));
     }
 
     @Test
+    public void testInvertInt() {
+        assertEquals(1,p3.invert(-9));
+    }
+
+    @Test
     public void testPermuteChar() {
         assertEquals('Q', p3.permute('P'));
+    }
+
+    @Test
+    public void testInvertChar() {
+        assertEquals('L', p3.invert('P'));
     }
 
 

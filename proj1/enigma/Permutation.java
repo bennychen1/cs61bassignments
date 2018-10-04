@@ -80,18 +80,22 @@ class Permutation {
     /** Return the result of applying the inverse of this permutation
      *  to  C modulo the alphabet size. */
     int invert(int c) {
-        return 0;  // FIXME
+        c = wrap(c);
+        char permuted = __reverseCycles[c];
+        return _alphabet.toInt(permuted);  // FIXME
     }
 
     /** Return the result of applying this permutation to the index of P
      *  in ALPHABET, and converting the result to a character of ALPHABET. */
     char permute(char p) {
-        return 0;  // FIXME
+        int index = _alphabet.toInt(p);
+        return _cycles[index];  // FIXME
     }
 
     /** Return the result of applying the inverse of this permutation to C. */
     int invert(char c) {
-        return 0;  // FIXME
+        int index = _alphabet.toInt(c);
+        return __reverseCycles[index];  // FIXME
     }
 
     /** Return the alphabet used to initialize this Permutation. */
