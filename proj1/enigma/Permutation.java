@@ -16,9 +16,11 @@ class Permutation {
      *  Whitespace is ignored. */
     Permutation(String cycles, Alphabet alphabet) {
         _alphabet = alphabet;
-        _cycles = new char[_alphabet.size()];
+        _cycles = new char[size()];
+        __reverseCycles = new char[size()];
         for (int i = 0; i < _cycles.length; i += 1) {
             _cycles[i] = alphabet.toChar(i);
+            __reverseCycles[i] = alphabet.toChar(i);
         }
         cycles = cycles.replaceAll("[(]", "");
         cycles = cycles.replaceAll("[)]", " ");
@@ -38,6 +40,15 @@ class Permutation {
                 _cycles[index] = cycle.charAt(0);
             } else {
                 _cycles[index] = cycle.charAt(i + 1);
+            }
+        }
+
+        for (int j = cycle.length() -1; j >= 0; j -= 1) {
+            int index = _alphabet.toInt(cycle.charAt(j));
+            if (j == 0) {
+                __reverseCycles[index] = cycle.charAt(cycle.length() - 1);
+            } else {
+                __reverseCycles[index] = cycle.charAt(j - 1);
             }
         }
 
@@ -61,7 +72,9 @@ class Permutation {
     /** Return the result of applying this permutation to P modulo the
      *  alphabet size. */
     int permute(int p) {
-        return 0;  // FIXME
+        p = wrap(p);
+        char permuted = _cycles[p];
+        return _alphabet.toInt(permuted);  // FIXME
     }
 
     /** Return the result of applying the inverse of this permutation
@@ -95,8 +108,11 @@ class Permutation {
     /** Alphabet of this permutation. */
     private Alphabet _alphabet;
 
-    /** The cycles of this permutation. */
+    /** The permutation. */
     private char[] _cycles;
+
+    /** The inverse permutations. */
+    private char[] __reverseCycles;
 
     /** Returns the cycles of the permutation. */
     char[] get_cycles() {
@@ -105,7 +121,15 @@ class Permutation {
         return result;
     }
 
+    char[] getRCycles() {
+        char[] result = new char[__reverseCycles.length];
+        System.arraycopy(__reverseCycles, 0, result, 0, __reverseCycles.length);
+        return result;
+    }
+
     // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
+
+
 
 
 }

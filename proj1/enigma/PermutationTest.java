@@ -55,18 +55,24 @@ public class PermutationTest {
     /* ***** TESTS ***** */
 
     @Test
-    public void testAddString() {
+    public void testAddCycles() {
         char[] expected = new char[]{'B', 'A', 'C'};
         assertArrayEquals(expected, p.get_cycles());
 
         char[]expected2 = new char[]{'C', 'B', 'A'};
         assertArrayEquals(expected2, p2.get_cycles());
+
+        char[]expected3 = new char[]{'N', 'P', 'M', 'K', 'O', 'Q', 'L'};
+        assertArrayEquals(expected3, p3.get_cycles());
+
+        char[] rexpected = new char[]{'N', 'Q', 'M', 'K', 'O', 'L', 'P'};
+        assertArrayEquals(rexpected, p3.getRCycles());
     }
 
     @Test
     public void testPermuteInt () {
-        assertEquals(6, p3.permute(5));
-        assertEquals(0, p3.permute(3));
+        assertEquals(6, p3.permute(12));
+        assertEquals(6, p3.permute(-9));
         assertEquals(2, p3.permute(2));
     }
 
