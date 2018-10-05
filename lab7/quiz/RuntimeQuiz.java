@@ -39,7 +39,7 @@ public class RuntimeQuiz {
     }
 
     public static Asymptotic f3_notation = Asymptotic.BIG_O;
-    public static Runtime f3_runtime = Runtime.Exponential;
+    public static Runtime f3_runtime = Runtime.EXPONENTIAL;
     /* When f3 is first called, start will be 0 and end will be the length of the array - 1 */
     public int f3(char[] array, int start, int end) {
         if (array.length <= 1 || end <= start) return 1;
@@ -71,7 +71,7 @@ public class RuntimeQuiz {
     }
 
     public static Asymptotic f6_notation = Asymptotic.BIG_THETA;
-    public static Runtime f6_runtime = Runtime.constant;
+    public static Runtime f6_runtime = Runtime.CONSTANT;
     public void f6(int[] array) {
         for (int i = 1; i < array.length; i++) {
             if (array[i] == array[i-1]) {
