@@ -47,7 +47,7 @@ public class RuntimeQuiz {
         return f3(array, start, mid) + f3(array, mid + 1, end);
     }
 
-    public static Asymptotic f4_notation = Asymptotic.BIG_OMEGA;
+    public static Asymptotic f4_notation = Asymptotic.BIG_THETA;
     public static Runtime f4_runtime = Runtime.LINEARITHMIC;
     /* When f4 is first called, start will be 0 and end will be the length of the array - 1 */
     public int f4(char[] array, int start, int end) {
