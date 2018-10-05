@@ -30,7 +30,7 @@ public class RuntimeQuiz {
         }
     }
 
-    public static Asymptotic f2_notation = Asymptotic.BIG_O;
+    public static Asymptotic f2_notation = Asymptotic.BIG_THETA;
     public static Runtime f2_runtime = Runtime.QUADRATIC;
     public int f2(int n) {
         if (n <= 1) return n;
@@ -39,7 +39,7 @@ public class RuntimeQuiz {
     }
 
     public static Asymptotic f3_notation = Asymptotic.BIG_THETA;
-    public static Runtime f3_runtime = Runtime.LOG_N;
+    public static Runtime f3_runtime = Runtime.LINEARITHMIC;
     /* When f3 is first called, start will be 0 and end will be the length of the array - 1 */
     public int f3(char[] array, int start, int end) {
         if (array.length <= 1 || end <= start) return 1;
@@ -48,7 +48,7 @@ public class RuntimeQuiz {
     }
 
     public static Asymptotic f4_notation = Asymptotic.BIG_O;
-    public static Runtime f4_runtime = Runtime.EXPONENTIAL;
+    public static Runtime f4_runtime = Runtime.LINEARITHMIC;
     /* When f4 is first called, start will be 0 and end will be the length of the array - 1 */
     public int f4(char[] array, int start, int end) {
         if (array.length <= 1 || end <= start) return 1;
@@ -60,8 +60,8 @@ public class RuntimeQuiz {
         return counter + f4(array, start, mid) + f4(array, mid + 1, end);
     }
 
-    public static Asymptotic f5_notation;
-    public static Runtime f5_runtime;
+    public static Asymptotic f5_notation = Asymptotic.BIG_O;
+    public static Runtime f5_runtime = Runtime.QUADRATIC;
     public void f5(int n) {
         int[] array = {1, 2, 3};
         while (n > 0) {
@@ -70,8 +70,8 @@ public class RuntimeQuiz {
         }
     }
 
-    public static Asymptotic f6_notation = Asymptotic.BIG_THETA;
-    public static Runtime f6_runtime = Runtime.CONSTANT;
+    public static Asymptotic f6_notation = Asymptotic.BIG_O;
+    public static Runtime f6_runtime = Runtime.LINEAR;
     public void f6(int[] array) {
         for (int i = 1; i < array.length; i++) {
             if (array[i] == array[i-1]) {
