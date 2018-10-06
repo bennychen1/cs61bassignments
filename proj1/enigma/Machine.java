@@ -16,23 +16,34 @@ class Machine {
     Machine(Alphabet alpha, int numRotors, int pawls,
             Collection<Rotor> allRotors) {
         _alphabet = alpha;
+        _numRotors = numRotors;
+        _numPawls = pawls;
+        _allRotors = allRotors;
+        _machineRotors = new Rotor[_numRotors];
+
         // FIXME
     }
 
     /** Return the number of rotor slots I have. */
     int numRotors() {
-        return 0; // FIXME
+        return _numRotors; // FIXME
     }
 
     /** Return the number pawls (and thus rotating rotors) I have. */
     int numPawls() {
-        return 0; // FIXME
+        return _numPawls; // FIXME
     }
 
     /** Set my rotor slots to the rotors named ROTORS from my set of
      *  available rotors (ROTORS[0] names the reflector).
      *  Initially, all rotors are set at their 0 setting. */
     void insertRotors(String[] rotors) {
+
+    	int index = 0;
+    	for (String name : rotors) {
+    		rotors[index] = _allRotors;
+    		index += 1;
+    	}
         // FIXME
     }
 
@@ -66,4 +77,14 @@ class Machine {
     private final Alphabet _alphabet;
 
     // FIXME: ADDITIONAL FIELDS HERE, IF NEEDED.
+
+    Rotor[] getMachineRotors() {
+        return _machineRotors;
+    }
+
+    private int _numRotors;
+    private int _numPawls;
+    private Collection<Rotor> _allRotors;
+    private Rotor[] _machineRotors;
+
 }
