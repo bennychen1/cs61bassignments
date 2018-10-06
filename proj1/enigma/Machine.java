@@ -2,6 +2,8 @@ package enigma;
 
 import java.util.HashMap;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 import static enigma.EnigmaException.*;
 
@@ -17,8 +19,15 @@ class Machine {
             Collection<Rotor> allRotors) {
         _alphabet = alpha;
         _numRotors = numRotors;
+        _machineRotors = new Rotor[numRotors];
+
+        for(Iterator<Rotor> e = allRotors.iterator(); e.hasNext();) {
+            Rotor cur = e.next();
+            _allRotorNames.add(cur.name());
+            _rotorsArr.add(cur);
+        }
+
         _numPawls = pawls;
-        _allRotors = allRotors;
         _machineRotors = new Rotor[_numRotors];
 
         // FIXME
@@ -38,12 +47,10 @@ class Machine {
      *  available rotors (ROTORS[0] names the reflector).
      *  Initially, all rotors are set at their 0 setting. */
     void insertRotors(String[] rotors) {
-
-    	int index = 0;
-    	for (String name : rotors) {
-    		rotors[index] = _allRotors;
-    		index += 1;
-    	}
+    for (int i = 0; i < numRotors(); i += 1) {
+        int rotorIndex = _allRotorNames.indexOf(rotors[i]);
+        _machineRotors[i] = _rotorsArr.get(rotorIndex);
+    }
         // FIXME
     }
 
@@ -84,7 +91,8 @@ class Machine {
 
     private int _numRotors;
     private int _numPawls;
-    private Collection<Rotor> _allRotors;
+    private ArrayList<String> _allRotorNames = new ArrayList<String>();
+    private ArrayList<Rotor> _rotorsArr = new ArrayList<Rotor>();
     private Rotor[] _machineRotors;
 
 }
