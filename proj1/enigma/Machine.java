@@ -50,6 +50,7 @@ class Machine {
     for (int i = 0; i < numRotors(); i += 1) {
         int rotorIndex = _allRotorNames.indexOf(rotors[i]);
         _machineRotors[i] = _rotorsArr.get(rotorIndex);
+        _machineRotors[i].set(0);
     }
         // FIXME
     }
@@ -58,6 +59,9 @@ class Machine {
      *  numRotors()-1 upper-case letters. The first letter refers to the
      *  leftmost rotor setting (not counting the reflector).  */
     void setRotors(String setting) {
+        for (int i = 1; i < _machineRotors.length; i += 1) {
+            _machineRotors[i].set(setting.charAt(i - 1));
+        }
         // FIXME
     }
 
