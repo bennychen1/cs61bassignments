@@ -67,6 +67,7 @@ class Machine {
 
     /** Set the plugboard to PLUGBOARD. */
     void setPlugboard(Permutation plugboard) {
+        _plugboard = plugboard;
         // FIXME
     }
 
@@ -75,7 +76,18 @@ class Machine {
 
      *  the machine. */
     int convert(int c) {
-        return 0; // FIXME
+        _machineRotors[_numRotors - 1].advance();
+
+        c = _plugboard.permute(c);
+
+        for(int i = _numRotors -1; i > 0; i -= 1) {
+            c = _machineRotors[i].convertForward(c);
+        }
+
+        for (int i = 0; i < _numRotors; i += 1) {
+            c = _machineRotors[i].convertBackward(c);
+        }
+        return _plugboard.invert(c); // FIXME
     }
 
     /** Returns the encoding/decoding of MSG, updating the state of
@@ -98,5 +110,6 @@ class Machine {
     private ArrayList<String> _allRotorNames = new ArrayList<String>();
     private ArrayList<Rotor> _rotorsArr = new ArrayList<Rotor>();
     private Rotor[] _machineRotors;
+    private Permutation _plugboard;
 
 }

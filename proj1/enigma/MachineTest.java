@@ -52,6 +52,15 @@ public class MachineTest {
         assertEquals('S', UPPER.toChar(M.getMachineRotors()[2].setting()));
     }
 
+    @Test
+    public void testConvertChar() {
+        M = createTestMachine();
+        M.insertRotors(new String[]{"B", "Beta", "I"});
+        M.setPlugboard(new Permutation("(AB) (HLZ)", UPPER));
+        M.setRotors("BB");
+        assertEquals(7, M.convert(1));
+    }
+
 
 
 
