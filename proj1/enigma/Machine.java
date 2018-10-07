@@ -93,7 +93,15 @@ class Machine {
     /** Returns the encoding/decoding of MSG, updating the state of
      *  the rotors accordingly. */
     String convert(String msg) {
-        return ""; // FIXME
+        char[] result = new char[msg.length()];
+
+        for (int i = 0; i < msg.length(); i += 1) {
+            char curChar = msg.toLowerCase().charAt(i);
+            
+            result[i] = _alphabet.toChar(convert(msg.toLowerCase().charAt(i)));
+        }
+
+        return new String(result); // FIXME
     }
 
     /** Common alphabet of my rotors. */
