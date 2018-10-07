@@ -22,7 +22,7 @@ class Reflector extends FixedRotor {
 
     @Override
     int convertForward(int p) {
-        return p;
+        throw error("reflector can only convertBackward");
     }
 
     @Override
