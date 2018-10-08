@@ -71,6 +71,23 @@ public class MachineTest {
     }
 
     @Test
+    public void testRSetting() {
+        M = createTestMachine(1);
+        String result = M.rotorSetting(I);
+        assertEquals("A", result);
+
+    }
+
+    @Test
+    public void testFindRotation() {
+        M = createTestMachine(2);
+        M.insertRotors(new String[] {"B", "Beta", "I", "V"});
+        M.setRotors("EAQ");
+
+        assertArrayEquals(new int[]{0, 0, 1, 1}, M.findRotation());
+    }
+
+    @Test
     public void testMachineAdvance() {
         M = createTestMachine(2);
         M.insertRotors(new String[]{"B", "Beta", "I", "V"});

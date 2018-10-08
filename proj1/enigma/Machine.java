@@ -104,27 +104,41 @@ class Machine {
     }
 
     /** Advances the rotors of the machine per each character. */
-    void machineAdvance() {
-        int[] toRotate = new int[_numPawls];
+    int[] findRotation() {
+        int[] toRotate = new int[_numRotors];
         int movingStart = _numRotors - _numPawls;
 
-        int toIndex = 0;
         for (int rIndex = movingStart; rIndex < _numRotors - 1; rIndex += 1) {
 
+            MovingRotor curRotor = (MovingRotor) _machineRotors[rIndex];
             MovingRotor rRotor = (MovingRotor) _machineRotors[rIndex + 1];
-            int rightSetting = rRotor.setting();
-            char rSettingChar = _alphabet.toChar(rightSetting);
 
-            String rSettingString = "" + rSettingChar;
-            if (rRotor.getNotch().contains(rSettingString)) {
-                toRotate[toIndex] = 1;
+            String curString = rotorSetting(curRotor);
+            String rightString = rotorSetting(rRotor);
+
+            if (rIndex == movingStart) {
+                if (rRotor.getNotch().contains(rightString)) {
+                    toRotate[rIndex] = 1;
+                }
+            } else if (curRotor.getNotch().contains(curString) ||
+                    rRotor.getNotch().contains(rightString)) {
+                toRotate[rIndex] = 1;
             }
-            toIndex += 1;
         }
 
-        toRotate[toIndex] = 1;
+        toRotate[_numRotors - 1] = 1;
+        return toRotate;
+    }
 
-        
+    void machineAdvance() {
+        int[] toRotate = findRotation();
+    }
+
+    String rotorSetting(Rotor r) {
+        char rSetting = _alphabet.toChar(r.setting());
+        String result = "";
+        result += rSetting;
+        return result;
     }
 
     /** Common alphabet of my rotors. */
