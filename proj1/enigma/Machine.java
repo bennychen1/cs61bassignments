@@ -105,7 +105,26 @@ class Machine {
 
     /** Advances the rotors of the machine per each character. */
     void machineAdvance() {
-        ;
+        int[] toRotate = new int[_numPawls];
+        int movingStart = _numRotors - _numPawls;
+
+        int toIndex = 0;
+        for (int rIndex = movingStart; rIndex < _numRotors - 1; rIndex += 1) {
+
+            MovingRotor rRotor = (MovingRotor) _machineRotors[rIndex + 1];
+            int rightSetting = rRotor.setting();
+            char rSettingChar = _alphabet.toChar(rightSetting);
+
+            String rSettingString = "" + rSettingChar;
+            if (rRotor.getNotch().contains(rSettingString)) {
+                toRotate[toIndex] = 1;
+            }
+            toIndex += 1;
+        }
+
+        toRotate[toIndex] = 1;
+
+        
     }
 
     /** Common alphabet of my rotors. */
