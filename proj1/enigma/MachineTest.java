@@ -13,7 +13,9 @@ public class MachineTest {
     private Permutation plugBoard = new Permutation("(AB) (HLZ) (IKP)", UPPER);
     Reflector B = (Reflector) getRotor("B", NAVALA, "", "reflector");
     FixedRotor Beta = (FixedRotor) getRotor("Beta", NAVALA, "", "fixed");
-    MovingRotor I = (MovingRotor) getRotor("I", NAVALA, "A", "moving");
+    MovingRotor I = (MovingRotor) getRotor("I", NAVALA, "B", "moving");
+    MovingRotor V = (MovingRotor) getRotor("V", NAVALA, "Q", "moving");
+    MovingRotor II = (MovingRotor) getRotor("II", NAVALA, "BC", "moving");
 
     private Rotor getRotor(String name, HashMap<String, String> rotors,
                           String notches, String rotorType) {
@@ -29,24 +31,30 @@ public class MachineTest {
         return r;
     }
 
-    private Machine createTestMachine() {
+    private Machine createTestMachine(int numPawls) {
         rotorList.add(B);
         rotorList.add(Beta);
         rotorList.add(I);
-        M = new Machine(UPPER, 3, 1, rotorList);
+        rotorList.add(V);
+        rotorList.add(II);
+        M = new Machine(UPPER, 3, numPawls, rotorList);
         return M;
+    }
+
+    private int getRotorSetting(Machine M, int i) {
+        return M.getMachineRotors()[i].setting();
     }
 
     @Test
     public void testInsertRotors() {
-        M = createTestMachine();
+        M = createTestMachine(1);
         M.insertRotors(new String[]{"B", "Beta", "I"});
         assertArrayEquals(new Rotor[]{B, Beta, I}, M.getMachineRotors());
     }
 
     @Test
     public void testSetRotors() {
-        M = createTestMachine();
+        M = createTestMachine(1);
         M.insertRotors(new String[]{"B", "Beta", "I"});
         M.setRotors("QS");
         assertEquals('Q', UPPER.toChar(M.getMachineRotors()[1].setting()));
@@ -55,7 +63,7 @@ public class MachineTest {
 
     @Test
     public void testConvertChar() {
-        M = createTestMachine();
+        M = createTestMachine(1);
         M.insertRotors(new String[]{"B", "Beta", "I"});
         M.setPlugboard(plugBoard);
         M.setRotors("BB");
@@ -63,14 +71,52 @@ public class MachineTest {
     }
 
     @Test
+    public void testMachineAdvance() {
+        M = createTestMachine(2);
+        M.insertRotors(new String[]{"B", "Beta", "I", "V"});
+        M.setRotors("EAP");
+        M.machineAdvance();
+        assertEquals(16, getRotorSetting(M, 3));
+        assertEquals(0, getRotorSetting(M, 2));
+        assertEquals(4, getRotorSetting(M, 1));
+
+        M.machineAdvance();
+        assertEquals(17, getRotorSetting(M, 3));
+        assertEquals(1, getRotorSetting(M, 2));
+
+        M.machineAdvance();
+        assertEquals(18, getRotorSetting(M, 3));
+        assertEquals(1, getRotorSetting(M, 2));
+    }
+
+    public void testMachineAdDouble() {
+        M = createTestMachine(3);
+        M.insertRotors(new String[]{"B", "Beta", "I", "II", "V"});
+        M.setRotors("ESAP");
+
+        M.machineAdvance();
+        M.machineAdvance();
+
+        assertEquals(17, getRotorSetting(M, 4));
+        assertEquals(1, getRotorSetting(M, 3));
+
+        M.machineAdvance();
+
+        assertEquals(19, getRotorSetting(M, 2));
+        assertEquals(2, getRotorSetting(M, 3));
+        assertEquals(18, getRotorSetting(M, 4));
+
+        M.machineAdvance();
+        assertEquals(20, getRotorSetting(M, 2));
+    }
+
+    @Test
     public void testConvertMsg() {
-        M = createTestMachine();
+        M = createTestMachine(1);
         M.insertRotors(new String[]{"B", "Beta", "I"});
         M.setPlugboard(plugBoard);
         M.setRotors("BB");
         assertEquals("H", M.convert("B"));
-
-
     }
 
 

@@ -96,12 +96,16 @@ class Machine {
         char[] result = new char[msg.length()];
 
         for (int i = 0; i < msg.length(); i += 1) {
-            char curChar = msg.toLowerCase().charAt(i);
-            
-            result[i] = _alphabet.toChar(convert(msg.toLowerCase().charAt(i)));
+            char curChar = msg.charAt(i);
+            int curInt = _alphabet.toInt(curChar);
+            result[i] = _alphabet.toChar(convert(curInt));
         }
-
         return new String(result); // FIXME
+    }
+
+    /** Advances the rotors of the machine per each character. */
+    void machineAdvance() {
+        ;
     }
 
     /** Common alphabet of my rotors. */
