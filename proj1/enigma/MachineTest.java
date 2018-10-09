@@ -31,13 +31,13 @@ public class MachineTest {
         return r;
     }
 
-    private Machine createTestMachine(int numPawls) {
+    private Machine createTestMachine(int numRotors, int numPawls) {
         rotorList.add(B);
         rotorList.add(Beta);
         rotorList.add(I);
         rotorList.add(V);
         rotorList.add(II);
-        M = new Machine(UPPER, 3, numPawls, rotorList);
+        M = new Machine(UPPER, numRotors, numPawls, rotorList);
         return M;
     }
 
@@ -47,14 +47,14 @@ public class MachineTest {
 
     @Test
     public void testInsertRotors() {
-        M = createTestMachine(1);
+        M = createTestMachine(3,1);
         M.insertRotors(new String[]{"B", "Beta", "I"});
         assertArrayEquals(new Rotor[]{B, Beta, I}, M.getMachineRotors());
     }
 
     @Test
     public void testSetRotors() {
-        M = createTestMachine(1);
+        M = createTestMachine(3,1);
         M.insertRotors(new String[]{"B", "Beta", "I"});
         M.setRotors("QS");
         assertEquals('Q', UPPER.toChar(M.getMachineRotors()[1].setting()));
@@ -63,7 +63,7 @@ public class MachineTest {
 
     @Test
     public void testConvertChar() {
-        M = createTestMachine(1);
+        M = createTestMachine(3,1);
         M.insertRotors(new String[]{"B", "Beta", "I"});
         M.setPlugboard(plugBoard);
         M.setRotors("BB");
@@ -72,7 +72,7 @@ public class MachineTest {
 
     @Test
     public void testRSetting() {
-        M = createTestMachine(1);
+        M = createTestMachine(1,1);
         String result = M.rotorSetting(I);
         assertEquals("A", result);
 
@@ -80,7 +80,7 @@ public class MachineTest {
 
     @Test
     public void testFindRotation() {
-        M = createTestMachine(2);
+        M = createTestMachine(4,2);
         M.insertRotors(new String[] {"B", "Beta", "I", "V"});
         M.setRotors("EAQ");
 
@@ -89,7 +89,7 @@ public class MachineTest {
 
     @Test
     public void testMachineAdvance() {
-        M = createTestMachine(2);
+        M = createTestMachine(4,2);
         M.insertRotors(new String[]{"B", "Beta", "I", "V"});
         M.setRotors("EAP");
         M.machineAdvance();
@@ -106,8 +106,9 @@ public class MachineTest {
         assertEquals(1, getRotorSetting(M, 2));
     }
 
+    @Test
     public void testMachineAdDouble() {
-        M = createTestMachine(3);
+        M = createTestMachine(5,3);
         M.insertRotors(new String[]{"B", "Beta", "I", "II", "V"});
         M.setRotors("ESAP");
 
@@ -129,7 +130,7 @@ public class MachineTest {
 
     @Test
     public void testConvertMsg() {
-        M = createTestMachine(1);
+        M = createTestMachine(3,1);
         M.insertRotors(new String[]{"B", "Beta", "I"});
         M.setPlugboard(plugBoard);
         M.setRotors("BB");

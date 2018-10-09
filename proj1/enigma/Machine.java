@@ -132,6 +132,11 @@ class Machine {
 
     void machineAdvance() {
         int[] toRotate = findRotation();
+        for (int i = 0; i < _numRotors; i += 1) {
+            if (toRotate[i] == 1) {
+                _machineRotors[i].advance();
+            }
+        }
     }
 
     String rotorSetting(Rotor r) {
