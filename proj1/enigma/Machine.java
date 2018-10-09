@@ -51,6 +51,14 @@ class Machine {
             throw error("Mismatch in expected number of rotors");
         }
 
+        for (int i = 0; i < rotors.length; i += 1) {
+            for (int j = 1; j < rotors.length; j += 1) {
+                if (rotors[i].equals(rotors[j])) {
+                    throw error("Can not have duplicate rotors");
+                }
+            }
+        }
+
         int movingRotorCount = 0;
 
         for (int i = 0; i < numRotors(); i += 1) {
@@ -70,6 +78,7 @@ class Machine {
         if (movingRotorCount != numPawls()) {
             throw error("Number of pawls must match the number of moving rotors");
         }
+
         // FIXME
     }
 

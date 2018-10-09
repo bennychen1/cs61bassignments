@@ -52,6 +52,30 @@ public class MachineTest {
         assertArrayEquals(new Rotor[]{B, Beta, I}, M.getMachineRotors());
     }
 
+    @Test(expected = EnigmaException.class)
+    public void testInsertRotorsError() {
+        M = createTestMachine(2, 1);
+        M.insertRotors(new String[] {"B", "Beta"});
+    }
+
+    @Test(expected = EnigmaException.class)
+    public void testWrongMovingRotors() {
+        M = createTestMachine(3,2);
+        M.insertRotors(new String[]{"B", "Beta", "I", "V"});
+    }
+
+    @Test(expected=EnigmaException.class)
+    public void testNotReflector() {
+        M = createTestMachine(3,2);
+        M.insertRotors(new String[]{"Beta", "II", "I"});
+    }
+
+    @Test(expected = EnigmaException.class)
+    public void testRepeatRotors() {
+        M = createTestMachine(3,2);
+        M.insertRotors(new String[]{"B", "II", "II"});
+    }
+
     @Test
     public void testSetRotors() {
         M = createTestMachine(3,1);
@@ -59,6 +83,13 @@ public class MachineTest {
         M.setRotors("QS");
         assertEquals('Q', UPPER.toChar(M.getMachineRotors()[1].setting()));
         assertEquals('S', UPPER.toChar(M.getMachineRotors()[2].setting()));
+    }
+
+    @Test(expected = EnigmaException.class)
+    public void testSetRotorsError() {
+        M = createTestMachine(3,1);
+        M.insertRotors(new String[]{"B", "Beta", "I"});
+        M.setRotors("Q");
     }
 
     @Test
