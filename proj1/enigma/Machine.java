@@ -47,11 +47,29 @@ class Machine {
      *  available rotors (ROTORS[0] names the reflector).
      *  Initially, all rotors are set at their 0 setting. */
     void insertRotors(String[] rotors) {
-    for (int i = 0; i < numRotors(); i += 1) {
-        int rotorIndex = _allRotorNames.indexOf(rotors[i]);
-        _machineRotors[i] = _rotorsArr.get(rotorIndex);
-        _machineRotors[i].set(0);
-    }
+        if (rotors.length != _numRotors) {
+            throw error("Mismatch in expected number of rotors");
+        }
+
+        int movingRotorCount = 0;
+
+        for (int i = 0; i < numRotors(); i += 1) {
+            int rotorIndex = _allRotorNames.indexOf(rotors[i]);
+            _machineRotors[i] = _rotorsArr.get(rotorIndex);
+            _machineRotors[i].set(0);
+
+            if (_rotorsArr.get(rotorIndex) instanceof MovingRotor) {
+                movingRotorCount += 1;
+            }
+        }
+
+        if (!(_machineRotors[0] instanceof Reflector)) {
+            throw error("First rotor must be the reflector");
+        }
+
+        if (movingRotorCount != numPawls()) {
+            throw error("Number of pawls must match the number of moving rotors");
+        }
         // FIXME
     }
 
@@ -59,6 +77,9 @@ class Machine {
      *  numRotors()-1 upper-case letters. The first letter refers to the
      *  leftmost rotor setting (not counting the reflector).  */
     void setRotors(String setting) {
+        if (setting.length() != numRotors() - 1) {
+            throw error("Incorrect number of rotors to set");
+        }
         for (int i = 1; i < _machineRotors.length; i += 1) {
             _machineRotors[i].set(setting.charAt(i - 1));
         }
@@ -76,7 +97,8 @@ class Machine {
 
      *  the machine. */
     int convert(int c) {
-        _machineRotors[_numRotors - 1].advance();
+
+        machineAdvance();
 
         c = _plugboard.permute(c);
 
@@ -93,6 +115,8 @@ class Machine {
     /** Returns the encoding/decoding of MSG, updating the state of
      *  the rotors accordingly. */
     String convert(String msg) {
+        msg = msg.replaceAll("\\s", "");
+        msg = msg.replaceAll("[^A-Z]", "");
         char[] result = new char[msg.length()];
 
         for (int i = 0; i < msg.length(); i += 1) {

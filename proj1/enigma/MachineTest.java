@@ -10,7 +10,7 @@ import static enigma.TestUtils.*;
 public class MachineTest {
     private List rotorList = new ArrayList();
     private Machine M;
-    private Permutation plugBoard = new Permutation("(AB) (HLZ) (IKP)", UPPER);
+    private Permutation plugBoard = new Permutation("(AB) (EH) (OI)", UPPER);
     Reflector B = (Reflector) getRotor("B", NAVALA, "", "reflector");
     FixedRotor Beta = (FixedRotor) getRotor("Beta", NAVALA, "", "fixed");
     MovingRotor I = (MovingRotor) getRotor("I", NAVALA, "B", "moving");
@@ -133,13 +133,12 @@ public class MachineTest {
         M = createTestMachine(3,1);
         M.insertRotors(new String[]{"B", "Beta", "I"});
         M.setPlugboard(plugBoard);
-        M.setRotors("BB");
-        assertEquals("H", M.convert("B"));
+        M.setRotors("BA");
+        assertEquals("HI", M.convert("AZ"));
+
+        M.setRotors("BA");
+        assertEquals("HI", M.convert("   A Z  20 "));
     }
-
-
-
-
 
 
 }
