@@ -17,6 +17,10 @@ class Machine {
      *  available rotors. */
     Machine(Alphabet alpha, int numRotors, int pawls,
             Collection<Rotor> allRotors) {
+        if (numRotors > allRotors.size() || pawls > numRotors - 1) {
+            throw error("Misconfigured machine");
+        }
+
         _alphabet = alpha;
         _numRotors = numRotors;
         _machineRotors = new Rotor[numRotors];
@@ -77,6 +81,12 @@ class Machine {
 
         if (movingRotorCount != numPawls()) {
             throw error("Number of pawls must match the number of moving rotors");
+        }
+
+        for (int i = 0; i < numRotors() - numPawls(); i += 1) {
+            if (_machineRotors[i] instanceof MovingRotor) {
+                throw error("Can't have movingrotors before a fixed rotor");
+            }
         }
 
         // FIXME
