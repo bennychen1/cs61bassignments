@@ -86,16 +86,12 @@ public final class Main {
      *  file _config. */
     private Machine readConfig() {
         try {
-
             String alpha = "";
             String alphaString = "^\\s*[A-Z]\\s*-\\s*[A-Z]";
             Matcher matAlphaPattern = createMatcher(alphaString, alpha);
-            
 
             while (_config.hasNext() && !matAlphaPattern.matches()) {
-                String curChar = _config.next();
-                alpha += curChar;
-                matAlphaPattern = createMatcher(alphaString, alpha);
+                matAlphaPattern = createMatcher(alphaString, alpha = alpha + _config.next() + " ");
             }
 
             if (!matAlphaPattern.matches()) {
@@ -107,13 +103,18 @@ public final class Main {
             Matcher matNum = createMatcher(numString, num);
 
             while (_config.hasNext() && !matNum.matches()) {
-                String curChar = _config.next();
-                num += curChar;
-                matNum = createMatcher(numString, num);
+                matNum = createMatcher(numString, num = num + _config.next() + " ");
             }
 
             if (!matNum.matches()) {
                 throw error ("Need to have rotors and pawl numbers");
+            }
+
+            ArrayList<Rotor> allRotors = new ArrayList<Rotor>();
+
+            while (_config.hasNext()) {
+                Rotor r = readRotor();
+                allRotors.add(r);
             }
 
             // FIXME
