@@ -110,9 +110,7 @@ public final class Main {
                 throw error ("Need to have rotors and pawl numbers");
             }
 
-
-
-
+            Matcher rotorsAndPawls = createMatcher("[0-9]+", num);
 
             ArrayList<Rotor> allRotors = new ArrayList<Rotor>();
 
@@ -124,7 +122,8 @@ public final class Main {
 
             // FIXME
             _alphabet = new CharacterRange(alpha.charAt(0), alpha.charAt(2));
-            return new Machine(_alphabet, 2, 1, null);
+            return new Machine(_alphabet, Integer.parseInt(rotorsAndPawls.group(0)),
+                    Integer.parseInt(rotorsAndPawls.group(1)), allRotors);
         } catch (NoSuchElementException excp) {
             throw error("configuration file truncated");
         }
