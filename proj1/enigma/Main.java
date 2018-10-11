@@ -91,7 +91,7 @@ public final class Main {
             Matcher matAlphaPattern = createMatcher(alphaString, alpha);
 
             while (_config.hasNext() && !matAlphaPattern.matches()) {
-                matAlphaPattern = createMatcher(alphaString, alpha = alpha + _config.next() + " ");
+                matAlphaPattern = createMatcher(alphaString, alpha += _config.next());
             }
 
             if (!matAlphaPattern.matches()) {
@@ -99,7 +99,7 @@ public final class Main {
             }
 
             String num = "";
-            String numString = "^\\s*[0-9]*\\s*[0-9]*";
+            String numString = "[0-9]*\\s[0-9]*";
             Matcher matNum = createMatcher(numString, num);
 
             while (_config.hasNext() && !matNum.matches()) {
@@ -110,6 +110,10 @@ public final class Main {
                 throw error ("Need to have rotors and pawl numbers");
             }
 
+
+
+
+
             ArrayList<Rotor> allRotors = new ArrayList<Rotor>();
 
             while (_config.hasNext()) {
@@ -117,8 +121,9 @@ public final class Main {
                 allRotors.add(r);
             }
 
+
             // FIXME
-            _alphabet = new CharacterRange('A', 'Z');
+            _alphabet = new CharacterRange(alpha.charAt(0), alpha.charAt(2));
             return new Machine(_alphabet, 2, 1, null);
         } catch (NoSuchElementException excp) {
             throw error("configuration file truncated");
@@ -128,7 +133,26 @@ public final class Main {
     /** Return a rotor, reading its description from _config. */
     private Rotor readRotor() {
         try {
-            return null; // FIXME
+            String name = _config.next();
+            String typeNotch = _config.next();
+            String perm = "";
+            while (_config.hasNext("[(][A-Z]*[)]")) {
+                perm += _config.next();
+            }
+
+            Permutation p = new Permutation(perm, _alphabet);
+
+            if (typeNotch.charAt(0) == 'M') {
+                char[] notches = new char[typeNotch.length() - 1];
+                System.arraycopy(typeNotch.toCharArray(), 1, notches, 0,
+                        typeNotch.length() - 1 );
+                String notch = new String(notches);
+                return new MovingRotor(name, p, notch);
+            } else if (typeNotch.charAt(0) == 'N') {
+                return new FixedRotor(name, p);
+            } else {
+                return new Reflector(name, p);
+            }
         } catch (NoSuchElementException excp) {
             throw error("bad rotor description");
         }
