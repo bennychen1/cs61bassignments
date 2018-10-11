@@ -87,18 +87,34 @@ public final class Main {
     private Machine readConfig() {
         try {
 
-            String curLine = skipEmptyLines(_config);
-
-            String firstChar = "^\\s*[A-Z]";
             String alpha = "";
-            Pattern firstCP = Pattern.compile(firstChar);
-            Matcher matfirstChar = firstCP.matcher(curLine);
+            String alphaString = "^\\s*[A-Z]\\s*-\\s*[A-Z]";
+            Matcher matAlphaPattern = createMatcher(alphaString, alpha);
+            
 
-            if (!matfirstChar.matches()) {
-                throw error("Configuration format incorrect");
+            while (_config.hasNext() && !matAlphaPattern.matches()) {
+                String curChar = _config.next();
+                alpha += curChar;
+                matAlphaPattern = createMatcher(alphaString, alpha);
             }
 
+            if (!matAlphaPattern.matches()) {
+                throw error("Configuration file alphabet is incorrect");
+            }
 
+            String num = "";
+            String numString = "^\\s*[0-9]*\\s*[0-9]*";
+            Matcher matNum = createMatcher(numString, num);
+
+            while (_config.hasNext() && !matNum.matches()) {
+                String curChar = _config.next();
+                num += curChar;
+                matNum = createMatcher(numString, num);
+            }
+
+            if (!matNum.matches()) {
+                throw error ("Need to have rotors and pawl numbers");
+            }
 
             // FIXME
             _alphabet = new CharacterRange('A', 'Z');
@@ -139,6 +155,12 @@ public final class Main {
             mat = p.matcher(curLine);
         }
         return curLine;
+    }
+
+    private Matcher createMatcher(String s, String target) {
+        Pattern p = Pattern.compile(s);
+        Matcher m = p.matcher(target);
+        return m;
     }
 
     /** Alphabet used in this machine. */
