@@ -86,18 +86,13 @@ public final class Main {
      *  file _config. */
     private Machine readConfig() {
         try {
-            String emptyLine = "^\\s*$";
-            Pattern p = Pattern.compile(emptyLine);
-            String configLine = _config.nextLine();
-            Matcher mat = p.matcher(configLine);
-            while(_config.hasNextLine() && mat.matches()) {
-                configLine = _config.nextLine();
-                mat = p.matcher(configLine);
-            }
+
+            String curLine = skipEmptyLines(_config);
 
             String firstChar = "^\\s*[A-Z]";
+            String alpha = "";
             Pattern firstCP = Pattern.compile(firstChar);
-            Matcher matfirstChar = firstCP.matcher(configLine);
+            Matcher matfirstChar = firstCP.matcher(curLine);
 
             if (!matfirstChar.matches()) {
                 throw error("Configuration format incorrect");
@@ -132,6 +127,18 @@ public final class Main {
      *  have fewer letters). */
     private void printMessageLine(String msg) {
         // FIXME
+    }
+
+    private String skipEmptyLines(Scanner s) {
+        String emptyLine = "^\\s*$";
+        Pattern p = Pattern.compile(emptyLine);
+        String curLine = s.nextLine();
+        Matcher mat = p.matcher(curLine);
+        while(s.hasNextLine() && mat.matches()) {
+            curLine = s.nextLine();
+            mat = p.matcher(curLine);
+        }
+        return curLine;
     }
 
     /** Alphabet used in this machine. */
