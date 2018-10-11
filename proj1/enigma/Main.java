@@ -87,9 +87,23 @@ public final class Main {
     private Machine readConfig() {
         try {
             String emptyLine = "^\\s*$";
-            Pattern p
+            Pattern p = Pattern.compile(emptyLine);
             String configLine = _config.nextLine();
-            while(_config.hasNextLine() &&  )
+            Matcher mat = p.matcher(configLine);
+            while(_config.hasNextLine() && mat.matches()) {
+                configLine = _config.nextLine();
+                mat = p.matcher(configLine);
+            }
+
+            String firstChar = "^\\s*[A-Z]";
+            Pattern firstCP = Pattern.compile(firstChar);
+            Matcher matfirstChar = firstCP.matcher(configLine);
+
+            if (!matfirstChar.matches()) {
+                throw error("Configuration format incorrect");
+            }
+
+
 
             // FIXME
             _alphabet = new CharacterRange('A', 'Z');
