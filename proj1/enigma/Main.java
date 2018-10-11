@@ -7,6 +7,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import static enigma.EnigmaException.*;
 
@@ -84,6 +86,11 @@ public final class Main {
      *  file _config. */
     private Machine readConfig() {
         try {
+            String emptyLine = "^\\s*$";
+            Pattern p
+            String configLine = _config.nextLine();
+            while(_config.hasNextLine() &&  )
+
             // FIXME
             _alphabet = new CharacterRange('A', 'Z');
             return new Machine(_alphabet, 2, 1, null);
