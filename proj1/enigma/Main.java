@@ -213,7 +213,7 @@ public final class Main {
     /** Print MSG in groups of five (except that the last group may
      *  have fewer letters). */
     private void printMessageLine(String msg) {
-        char[] msgArr = msg.toUpperCase().toCharArray();
+        /*char[] msgArr = msg.toUpperCase().toCharArray();
         for (char c : msgArr) {
             if (_tally == 5) {
                 System.out.print(" ");
@@ -223,7 +223,9 @@ public final class Main {
             System.out.print(_alphabet.toChar(_M.convert(c)));
             _output.print(_alphabet.toChar(_M.convert(c)));
             _tally += 1;
-        }
+        } */
+
+        System.out.print(_M.convert(msg.toUpperCase()));
         // FIXME
     }
 
