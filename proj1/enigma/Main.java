@@ -224,20 +224,7 @@ public final class Main {
             _tally += 1;
         }
     }
-
-    private String skipEmptyLines(Scanner s) {
-        String emptyLine = "^\\s*$";
-        Pattern p = Pattern.compile(emptyLine);
-        String curLine = s.nextLine();
-        Matcher mat = p.matcher(curLine);
-        while(s.hasNextLine() && mat.matches()) {
-            curLine = s.nextLine();
-            mat = p.matcher(curLine);
-        }
-        return curLine;
-    }
-
-    /** Returns a Maycjer with the pattern matching the target string. */
+    /** Returns a Matcher with the pattern from S matching the TARGET string. */
     private Matcher createMatcher(String s, String target) {
         Pattern p = Pattern.compile(s);
         Matcher m = p.matcher(target);
@@ -256,13 +243,15 @@ public final class Main {
     /** File for encoded/decoded messages. */
     private PrintStream _output;
 
+    /** The machine to set up. */
     private Machine _M;
 
-    private ArrayList<Rotor>_allRotors = new ArrayList<Rotor>();
+    /** Contains all rotors from _config. */
+    private ArrayList<Rotor> _allRotors = new ArrayList<Rotor>();
 
-    private ArrayList<String>_allRotorNames = new ArrayList<String>();
+    /** Contains the all rotor names from config as String. */
+    private ArrayList<String> _allRotorNames = new ArrayList<String>();
 
+    /** Count every five prints. */
     private int _tally;
-
-    private String _result;
 }

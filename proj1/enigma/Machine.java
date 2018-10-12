@@ -1,6 +1,5 @@
 package enigma;
 
-import java.util.HashMap;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 import static enigma.EnigmaException.*;
 
 /** Class that represents a complete enigma machine.
- *  @author
+ *  @author Benny Chen
  */
 class Machine {
 
@@ -19,7 +18,8 @@ class Machine {
             Collection<Rotor> allRotors) {
 
         if (numRotors < 0 || pawls < 0) {
-            throw error("Number of rotors and number of pawls must be positive");
+            throw error("Number of rotors and number of pawls "
+                    + "must be positive");
         }
 
         if (numRotors > allRotors.size() || pawls > numRotors - 1) {
@@ -31,7 +31,7 @@ class Machine {
         _numRotors = numRotors;
         _machineRotors = new Rotor[numRotors];
 
-        for(Iterator<Rotor> e = allRotors.iterator(); e.hasNext();) {
+        for (Iterator<Rotor> e = allRotors.iterator(); e.hasNext();) {
             Rotor cur = e.next();
             _allRotorNames.add(cur.name().toUpperCase());
             _rotorsArr.add(cur);
@@ -39,18 +39,16 @@ class Machine {
 
         _numPawls = pawls;
         _machineRotors = new Rotor[_numRotors];
-
-        // FIXME
     }
 
     /** Return the number of rotor slots I have. */
     int numRotors() {
-        return _numRotors; // FIXME
+        return _numRotors;
     }
 
     /** Return the number pawls (and thus rotating rotors) I have. */
     int numPawls() {
-        return _numPawls; // FIXME
+        return _numPawls;
     }
 
     /** Set my rotor slots to the rotors named ROTORS from my set of
