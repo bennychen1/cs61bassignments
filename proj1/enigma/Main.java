@@ -90,8 +90,9 @@ public final class Main {
             } else {
                 continue;
             }
-            while (_input.hasNext("[A-Za-z]+")) {
-                String next = _input.next();
+            while (_input.hasNextLine()
+                    && _input.hasNext("[A-Za-z]+")) {
+                String next = _input.nextLine();
                 printMessageLine(next);
             }
             _output.print("\n");
@@ -223,6 +224,8 @@ public final class Main {
             _output.print(result.charAt(i));
             _tally += 1;
         }
+        _output.print("\n");
+        _tally = 0;
     }
     /** Returns a Matcher with the pattern from S matching the TARGET string. */
     private Matcher createMatcher(String s, String target) {
