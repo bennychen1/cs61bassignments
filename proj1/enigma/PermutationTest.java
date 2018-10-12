@@ -48,8 +48,8 @@ public class PermutationTest {
 
     private Permutation makeAlphabetAndPerm(String c, char from, char to) {
         CharacterRange pAlphabet = new CharacterRange(from, to);
-        Permutation p = new Permutation(c, pAlphabet);
-        return p;
+        Permutation p1 = new Permutation(c, pAlphabet);
+        return p1;
     }
 
     /* ***** TESTS ***** */
@@ -58,13 +58,13 @@ public class PermutationTest {
     @Test
     public void testAddCycles() {
         char[] expected = new char[]{'B', 'A', 'C'};
-        assertArrayEquals(expected, p.get_cycles());
+        assertArrayEquals(expected, p.getCycles());
 
         char[]expected2 = new char[]{'C', 'B', 'A'};
-        assertArrayEquals(expected2, p2.get_cycles());
+        assertArrayEquals(expected2, p2.getCycles());
 
         char[]expected3 = new char[]{'N', 'P', 'M', 'K', 'O', 'Q', 'L'};
-        assertArrayEquals(expected3, p3.get_cycles());
+        assertArrayEquals(expected3, p3.getCycles());
 
         char[] rexpected = new char[]{'N', 'Q', 'M', 'K', 'O', 'L', 'P'};
         assertArrayEquals(rexpected, p3.getRCycles());
@@ -83,7 +83,7 @@ public class PermutationTest {
 
     @Test
     public void testInvertInt() {
-        assertEquals(1,p3.invert(-9));
+        assertEquals(1, p3.invert(-9));
     }
 
     @Test

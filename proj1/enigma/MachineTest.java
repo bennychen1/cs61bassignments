@@ -10,14 +10,17 @@ import java.util.Arrays;
 
 public class MachineTest {
     private List rotorList = new ArrayList();
-    private Machine M;
-    private Permutation plugBoard = new Permutation("(AB) (EH) (OI)", UPPER);
-    private Permutation pB2 = new Permutation("(AB) (LH) (OI)", UPPER);
-    Reflector B = (Reflector) getRotor("B", NAVALA, "", "reflector");
-    FixedRotor Beta = (FixedRotor) getRotor("Beta", NAVALA, "", "fixed");
-    MovingRotor I = (MovingRotor) getRotor("I", NAVALA, "B", "moving");
-    MovingRotor V = (MovingRotor) getRotor("V", NAVALA, "Q", "moving");
-    MovingRotor II = (MovingRotor) getRotor("II", NAVALA, "BC", "moving");
+    private Machine _M;
+    private Permutation _plugBoard = new Permutation("(AB) (EH) (OI)", UPPER);
+    private Permutation _pB2 = new Permutation("(AB) (LH) (OI)", UPPER);
+    private Reflector _B = (Reflector) getRotor("B", NAVALA, "", "reflector");
+    private FixedRotor _beta = (FixedRotor) getRotor("Beta", NAVALA,
+            "", "fixed");
+    private MovingRotor _I = (MovingRotor) getRotor("I", NAVALA,
+            "B", "moving");
+    private MovingRotor _V = (MovingRotor) getRotor("V", NAVALA, "Q", "moving");
+    private MovingRotor _ii = (MovingRotor) getRotor("II", NAVALA,
+            "BC", "moving");
 
     private Rotor getRotor(String name, HashMap<String, String> rotors,
                           String notches, String rotorType) {
@@ -34,13 +37,13 @@ public class MachineTest {
     }
 
     private Machine createTestMachine(int numRotors, int numPawls) {
-        rotorList.add(B);
-        rotorList.add(Beta);
-        rotorList.add(I);
-        rotorList.add(V);
-        rotorList.add(II);
-        M = new Machine(UPPER, numRotors, numPawls, rotorList);
-        return M;
+        rotorList.add(_B);
+        rotorList.add(_beta);
+        rotorList.add(_I);
+        rotorList.add(_V);
+        rotorList.add(_ii);
+        _M = new Machine(UPPER, numRotors, numPawls, rotorList);
+        return _M;
     }
 
     private int getRotorSetting(Machine M, int i) {
@@ -49,129 +52,121 @@ public class MachineTest {
 
     @Test
     public void testInsertRotors() {
-        M = createTestMachine(3,1);
-        M.insertRotors(new String[]{"B", "beta", "I"});
-        assertArrayEquals(new Rotor[]{B, Beta, I}, M.getMachineRotors());
+        _M = createTestMachine(3, 1);
+        _M.insertRotors(new String[]{"B", "beta", "I"});
+        assertArrayEquals(new Rotor[]{_B, _beta, _I}, _M.getMachineRotors());
     }
 
     @Test(expected = EnigmaException.class)
     public void testInsertRotorsError() {
-        M = createTestMachine(2, 1);
-        M.insertRotors(new String[] {"B", "Beta"});
+        _M = createTestMachine(2, 1);
+        _M.insertRotors(new String[] {"B", "Beta"});
     }
 
     @Test(expected = EnigmaException.class)
     public void testWrongMovingRotors() {
-        M = createTestMachine(3,2);
-        M.insertRotors(new String[]{"B", "Beta", "I", "V"});
+        _M = createTestMachine(3, 2);
+        _M.insertRotors(new String[]{"B", "Beta", "I", "V"});
     }
 
-    @Test(expected=EnigmaException.class)
+    @Test(expected = EnigmaException.class)
     public void testNotReflector() {
-        M = createTestMachine(3,2);
-        M.insertRotors(new String[]{"Beta", "II", "I"});
+        _M = createTestMachine(3, 2);
+        _M.insertRotors(new String[]{"Beta", "II", "I"});
     }
 
     @Test(expected = EnigmaException.class)
     public void testRepeatRotors() {
-        M = createTestMachine(3,2);
-        M.insertRotors(new String[]{"B", "II", "II"});
+        _M = createTestMachine(3, 2);
+        _M.insertRotors(new String[]{"B", "II", "II"});
     }
 
     @Test
     public void testSetRotors() {
-        M = createTestMachine(3,1);
-        M.insertRotors(new String[]{"B", "Beta", "I"});
-        M.setRotors("QS");
-        assertEquals('Q', UPPER.toChar(M.getMachineRotors()[1].setting()));
-        assertEquals('S', UPPER.toChar(M.getMachineRotors()[2].setting()));
+        _M = createTestMachine(3, 1);
+        _M.insertRotors(new String[]{"B", "Beta", "I"});
+        _M.setRotors("QS");
+        assertEquals('Q', UPPER.toChar(_M.getMachineRotors()[1].setting()));
+        assertEquals('S', UPPER.toChar(_M.getMachineRotors()[2].setting()));
     }
 
     @Test(expected = EnigmaException.class)
     public void testSetRotorsError() {
-        M = createTestMachine(3,1);
-        M.insertRotors(new String[]{"B", "Beta", "I"});
-        M.setRotors("Q");
+        _M = createTestMachine(3, 1);
+        _M.insertRotors(new String[]{"B", "Beta", "I"});
+        _M.setRotors("Q");
     }
 
     @Test
     public void testConvertChar() {
-        M = createTestMachine(3,1);
-        M.insertRotors(new String[]{"B", "Beta", "I"});
-        M.setPlugboard(pB2);
-        M.setRotors("BB");
-        assertEquals(1, M.convert(7));
+        _M = createTestMachine(3, 1);
+        _M.insertRotors(new String[]{"B", "Beta", "I"});
+        _M.setPlugboard(_pB2);
+        _M.setRotors("BB");
+        assertEquals(1, _M.convert(7));
     }
 
-    @Test
-    public void testRSetting() {
-        M = createTestMachine(1,1);
-        M.insertRotors(new String[] {"I"});
-        String result = M.rotorSetting(I);
-        assertEquals("A", result);
-
-    }
 
     @Test
     public void testFindRotation() {
-        M = createTestMachine(4,2);
-        M.insertRotors(new String[] {"B", "Beta", "I", "V"});
-        M.setRotors("EAQ");
+        _M = createTestMachine(4, 2);
+        _M.insertRotors(new String[] {"B", "Beta", "I", "V"});
+        _M.setRotors("EAQ");
 
-        assertArrayEquals(new int[]{0, 0, 1, 1}, M.findRotation());
+        assertArrayEquals(new int[]{0, 0, 1, 1}, _M.findRotation());
     }
 
     @Test
     public void testMachineAdvance() {
-        M = createTestMachine(4,2);
-        M.insertRotors(new String[]{"B", "Beta", "I", "V"});
-        M.setRotors("EAP");
-        M.machineAdvance();
-        assertEquals(16, getRotorSetting(M, 3));
-        assertEquals(0, getRotorSetting(M, 2));
-        assertEquals(4, getRotorSetting(M, 1));
+        _M = createTestMachine(4, 2);
+        _M.insertRotors(new String[]{"B", "Beta", "I", "V"});
+        _M.setRotors("EAP");
+        _M.machineAdvance();
+        assertEquals(16, getRotorSetting(_M, 3));
+        assertEquals(0, getRotorSetting(_M, 2));
+        assertEquals(4, getRotorSetting(_M, 1));
 
-        M.machineAdvance();
-        assertEquals(17, getRotorSetting(M, 3));
-        assertEquals(1, getRotorSetting(M, 2));
+        _M.machineAdvance();
+        assertEquals(17, getRotorSetting(_M, 3));
+        assertEquals(1, getRotorSetting(_M, 2));
 
-        M.machineAdvance();
-        assertEquals(18, getRotorSetting(M, 3));
-        assertEquals(1, getRotorSetting(M, 2));
+        _M.machineAdvance();
+        assertEquals(18, getRotorSetting(_M, 3));
+        assertEquals(1, getRotorSetting(_M, 2));
     }
 
     @Test
     public void testMachineAdDouble() {
-        M = createTestMachine(5,3);
-        M.insertRotors(new String[]{"B", "Beta", "I", "II", "V"});
-        M.setRotors("ESAP");
+        _M = createTestMachine(5, 3);
+        _M.insertRotors(new String[]{"B", "Beta", "I", "II", "V"});
+        _M.setRotors("ESAP");
 
-        M.machineAdvance();
-        M.machineAdvance();
+        _M.machineAdvance();
+        _M.machineAdvance();
 
-        assertEquals(17, getRotorSetting(M, 4));
-        assertEquals(1, getRotorSetting(M, 3));
+        assertEquals(17, getRotorSetting(_M, 4));
+        assertEquals(1, getRotorSetting(_M, 3));
 
-        M.machineAdvance();
+        _M.machineAdvance();
 
-        assertEquals(19, getRotorSetting(M, 2));
-        assertEquals(2, getRotorSetting(M, 3));
-        assertEquals(18, getRotorSetting(M, 4));
+        assertEquals(19, getRotorSetting(_M, 2));
+        assertEquals(2, getRotorSetting(_M, 3));
+        assertEquals(18, getRotorSetting(_M, 4));
 
-        M.machineAdvance();
-        assertEquals(20, getRotorSetting(M, 2));
+        _M.machineAdvance();
+        assertEquals(20, getRotorSetting(_M, 2));
     }
 
     @Test
     public void testConvertMsg() {
-        M = createTestMachine(3,1);
-        M.insertRotors(new String[]{"B", "Beta", "I"});
-        M.setPlugboard(plugBoard);
-        M.setRotors("BA");
-        assertEquals("HI", M.convert("AZ"));
+        _M = createTestMachine(3, 1);
+        _M.insertRotors(new String[]{"B", "Beta", "I"});
+        _M.setPlugboard(_plugBoard);
+        _M.setRotors("BA");
+        assertEquals("HI", _M.convert("AZ"));
 
-        M.setRotors("BA");
-        assertEquals("HI", M.convert("   A Z  20 "));
+        _M.setRotors("BA");
+        assertEquals("HI", _M.convert("   A Z  20 "));
     }
 
     @Test
@@ -184,7 +179,8 @@ public class MachineTest {
         String setting = "AAA";
         Rotor[] machineRotors = {one, two, three, four};
         String[] rotors = {"R1", "R2", "R3", "R4"};
-        Machine mach = new Machine(ac, 4, 3, new ArrayList<>(Arrays.asList(machineRotors)));
+        Machine mach = new Machine(ac, 4, 3,
+                new ArrayList<>(Arrays.asList(machineRotors)));
         mach.insertRotors(rotors);
         mach.setRotors(setting);
         mach.setPlugboard(new Permutation("(AC)", ac));

@@ -80,7 +80,7 @@ class Machine {
                     movingRotorCount += 1;
                 }
             }
-        } catch (EnigmaException e){
+        } catch (EnigmaException e) {
             throw error("Not a rotor");
         }
 
@@ -90,8 +90,8 @@ class Machine {
         }
 
         if (movingRotorCount != numPawls()) {
-            throw error("Number of pawls must match the " +
-                    "number of moving rotors");
+            throw error("Number of pawls must match the "
+                    + "number of moving rotors");
         }
 
         for (int i = 0; i < numRotors() - numPawls(); i += 1) {
@@ -130,7 +130,7 @@ class Machine {
             c = _plugboard.permute(c);
         }
 
-        for (int i = _numRotors -1; i > 0; i -= 1) {
+        for (int i = _numRotors - 1; i > 0; i -= 1) {
             c = _machineRotors[i].convertForward(c);
         }
 
@@ -160,7 +160,8 @@ class Machine {
         return new String(result);
     }
 
-    /** Advances the rotors of the machine per each character. */
+    /** Advances the rotors of the machine per each character.
+        * returns an int array of 0 or 1 (1 for rotating). */
     int[] findRotation() {
         int[] toRotate = new int[_numRotors];
         int movingStart = _numRotors - _numPawls;
@@ -187,6 +188,7 @@ class Machine {
         return toRotate;
     }
 
+    /** Finds the rotors that advance and advances them. */
     void machineAdvance() {
         int[] toRotate = findRotation();
         for (int i = 0; i < _numRotors; i += 1) {
@@ -196,6 +198,7 @@ class Machine {
         }
     }
 
+    /**Returns a string that is the Rotor R setting. */
     String rotorSetting(Rotor r) {
         char rSetting = _alphabet.toChar(r.setting());
         String result = "";
@@ -206,17 +209,27 @@ class Machine {
     /** Common alphabet of my rotors. */
     private final Alphabet _alphabet;
 
-    // FIXME: ADDITIONAL FIELDS HERE, IF NEEDED.
-
+    /** Return the rotors of this machine. */
     Rotor[] getMachineRotors() {
         return _machineRotors;
     }
 
+    /** The number of rotor slots of the machine. */
     private int _numRotors;
+
+    /** The number of pawls of the machine. */
     private int _numPawls;
+
+    /** All the available rotor names. */
     private ArrayList<String> _allRotorNames = new ArrayList<String>();
+
+    /** All the available rotors as rotor objects. */
     private ArrayList<Rotor> _rotorsArr = new ArrayList<Rotor>();
+
+    /** The rotors that the machine has. */
     private Rotor[] _machineRotors;
+
+    /** The machine's plugboard. */
     private Permutation _plugboard;
 
 }
