@@ -95,6 +95,9 @@ public final class Main {
                 String next = _input.next();
                 printMessageLine(next);
             }
+            _output.print("\n");
+            _output.print("\n");
+            _tally = 0;
             if (_input.hasNextLine()) {
                 _input.nextLine();
             } else {
