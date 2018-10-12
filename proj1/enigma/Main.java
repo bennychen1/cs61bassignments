@@ -151,7 +151,7 @@ public final class Main {
             String name = _config.next();
             String typeNotch = _config.next();
             String perm = "";
-            while (_config.hasNext("[(][A-Z]*[)]")) {
+            while (_config.hasNext("([(][A-Z]+[)])*")) {
                 perm += _config.next();
             }
 
@@ -179,22 +179,23 @@ public final class Main {
         String[] mSettings = settings.split("\\s+");
 
         String[] rotors = new String[M.numRotors()];
-        String[]plugboard = new String[mSettings.length - M.numRotors() - 2];
+        if (mSettings.length > 2 + M.numRotors()) {
+            String[] plugboard = new String[mSettings.length - M.numRotors() - 2];
 
-        String pbPermString = "";
-        for (String c :plugboard) {
-            pbPermString += c;
+            System.arraycopy(mSettings, M.numRotors() + 2, plugboard, 0, plugboard.length);
+
+            String pbPermString = "";
+            for (String c : plugboard) {
+                pbPermString += c;
+            }
+            Permutation pbPerm = new Permutation(pbPermString, _alphabet);
+            M.setPlugboard(pbPerm);
         }
 
-
         System.arraycopy(mSettings, 1, rotors, 0, M.numRotors());
-        System.arraycopy(mSettings, M.numRotors() + 2, plugboard, 0, plugboard.length);
-
-        Permutation pbPerm = new Permutation(pbPermString, _alphabet);
 
         M.insertRotors(rotors);
         M.setRotors(mSettings[M.numRotors() + 1]);
-        M.setPlugboard(pbPerm);
         // FIXME
     }
 
@@ -205,8 +206,10 @@ public final class Main {
         for (char c : msgArr) {
             if (_tally == 5) {
                 System.out.print(" ");
+                _output.print(" ");
             }
             System.out.print(_M.convert(c));
+            _output.print(_M.convert(c));
             _tally += 1;
         }
         // FIXME
