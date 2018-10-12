@@ -72,16 +72,17 @@ class Machine {
         try {
 
             for (int i = 0; i < numRotors(); i += 1) {
-                int rotorIndex = _allRotorNames.indexOf(rotors[i].toUpperCase());
+                String nameUpperCase = rotors[i].toUpperCase();
+                int rotorIndex = _allRotorNames.indexOf(nameUpperCase);
                 _machineRotors[i] = _rotorsArr.get(rotorIndex);
                 _machineRotors[i].set(0);
                 if (_rotorsArr.get(rotorIndex) instanceof MovingRotor) {
                     movingRotorCount += 1;
                 }
             }
-            } catch(EnigmaException e){
-                throw error("Not a rotor");
-            }
+        } catch (EnigmaException e){
+            throw error("Not a rotor");
+        }
 
 
         if (!(_machineRotors[0] instanceof Reflector)) {
@@ -89,7 +90,8 @@ class Machine {
         }
 
         if (movingRotorCount != numPawls()) {
-            throw error("Number of pawls must match the number of moving rotors");
+            throw error("Number of pawls must match the " +
+                    "number of moving rotors");
         }
 
         for (int i = 0; i < numRotors() - numPawls(); i += 1) {
@@ -97,8 +99,6 @@ class Machine {
                 throw error("Can't have movingrotors before a fixed rotor");
             }
         }
-
-        // FIXME
     }
 
     /** Set my rotors according to SETTING, which must be a string of
@@ -111,13 +111,11 @@ class Machine {
         for (int i = 1; i < _machineRotors.length; i += 1) {
             _machineRotors[i].set(setting.charAt(i - 1));
         }
-        // FIXME
     }
 
     /** Set the plugboard to PLUGBOARD. */
     void setPlugboard(Permutation plugboard) {
         _plugboard = plugboard;
-        // FIXME
     }
 
     /** Returns the result of converting the input character C (as an
@@ -132,7 +130,7 @@ class Machine {
             c = _plugboard.permute(c);
         }
 
-        for(int i = _numRotors -1; i > 0; i -= 1) {
+        for (int i = _numRotors -1; i > 0; i -= 1) {
             c = _machineRotors[i].convertForward(c);
         }
 
@@ -159,7 +157,7 @@ class Machine {
             int curInt = _alphabet.toInt(curChar);
             result[i] = _alphabet.toChar(convert(curInt));
         }
-        return new String(result); // FIXME
+        return new String(result);
     }
 
     /** Advances the rotors of the machine per each character. */
@@ -179,8 +177,8 @@ class Machine {
                 if (rRotor.getNotch().contains(rightString)) {
                     toRotate[rIndex] = 1;
                 }
-            } else if (curRotor.getNotch().contains(curString) ||
-                    rRotor.getNotch().contains(rightString)) {
+            } else if (curRotor.getNotch().contains(curString)
+                    || rRotor.getNotch().contains(rightString)) {
                 toRotate[rIndex] = 1;
             }
         }
