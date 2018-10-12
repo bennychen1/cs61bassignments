@@ -39,6 +39,7 @@ class CharacterRange extends Alphabet {
     @Override
     int toInt(char ch) {
         if (!contains(ch)) {
+            String x = "h";
             throw error("character out of range");
         }
         return ch - _first;

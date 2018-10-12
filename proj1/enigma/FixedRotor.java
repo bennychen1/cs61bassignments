@@ -13,15 +13,6 @@ class FixedRotor extends Rotor {
         super(name, perm);
     }
 
-    @Override
-    void set(int posn) {
-        ;
-    }
-
-    @Override
-    void set(char cposn) {
-        ;
-    }
 
     // FIXME ?
 }

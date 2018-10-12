@@ -23,7 +23,11 @@ class MovingRotor extends Rotor {
 
     @Override
     void advance() {
-        set(setting() + 1);
+        set((setting() + 1) % alphabet().size());
+    }
+
+    String getNotch() {
+        return _notches;
     }
 
     // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED

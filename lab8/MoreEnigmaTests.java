@@ -16,6 +16,8 @@ public class MoreEnigmaTests {
         //Permutation p = new Permutation(...);
         //assertEquals(...) ;
         /* TODO: Add additional assert statements here! */
+        Permutation p = new Permutation("(PNH) (ABDFIKLZYXW) (JC)", new CharacterRange('A', 'Z'));
+        assertEquals(p.permute('P'), 'N');
 
     }
 

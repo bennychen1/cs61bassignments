@@ -85,9 +85,20 @@ public final class Main {
             throw error("Input must start with a setting line");
         }
         while (_input.hasNextLine()) {
-            setUp(_M, _input.nextLine());
-            while(_input.hasNext("[A-Za-z]")) {
-                printMessageLine(_input.next());
+            String curLine = _input.nextLine();
+            if (!curLine.equals("")) {
+                setUp(_M, curLine);
+            } else {
+                continue;
+            }
+            while(_input.hasNext("[A-Za-z]+")) {
+                String next = _input.next();
+                printMessageLine(next);
+            }
+            if (_input.hasNextLine()) {
+                _input.nextLine();
+            } else {
+                break;
             }
         }
 
@@ -207,9 +218,10 @@ public final class Main {
             if (_tally == 5) {
                 System.out.print(" ");
                 _output.print(" ");
+                _tally = 0;
             }
-            System.out.print(_M.convert(c));
-            _output.print(_M.convert(c));
+            System.out.print(_alphabet.toChar(_M.convert(c)));
+            _output.print(_alphabet.toChar(_M.convert(c)));
             _tally += 1;
         }
         // FIXME

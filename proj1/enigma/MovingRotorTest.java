@@ -71,4 +71,12 @@ public class MovingRotorTest {
         checkRotor("Rotor I set", UPPER_STRING, NAVALZ_MAP.get("I"));
     }
 
+    @Test
+    public void checkRotationWrap() {
+        setRotor("I", NAVALA, "");
+        rotor.set(25);
+        rotor.advance();
+        assertEquals(0, rotor.setting());
+    }
+
 }
