@@ -88,6 +88,7 @@ public final class Main {
             if (!curLine.equals("")) {
                 setUp(_M, curLine);
             } else {
+                _output.print("\n");
                 continue;
             }
             while (_input.hasNextLine()
@@ -95,7 +96,6 @@ public final class Main {
                 String next = _input.nextLine();
                 printMessageLine(next);
             }
-            _output.print("\n");
             _tally = 0;
         }
     }
