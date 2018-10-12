@@ -17,9 +17,15 @@ class Machine {
      *  available rotors. */
     Machine(Alphabet alpha, int numRotors, int pawls,
             Collection<Rotor> allRotors) {
+
+        if (numRotors < 0 || pawls < 0) {
+            throw error("Number of rotors and number of pawls must be positive");
+        }
+
         if (numRotors > allRotors.size() || pawls > numRotors - 1) {
             throw error("Misconfigured machine");
         }
+
 
         _alphabet = alpha;
         _numRotors = numRotors;
@@ -27,7 +33,7 @@ class Machine {
 
         for(Iterator<Rotor> e = allRotors.iterator(); e.hasNext();) {
             Rotor cur = e.next();
-            _allRotorNames.add(cur.name());
+            _allRotorNames.add(cur.name().toUpperCase());
             _rotorsArr.add(cur);
         }
 
@@ -50,13 +56,13 @@ class Machine {
     /** Set my rotor slots to the rotors named ROTORS from my set of
      *  available rotors (ROTORS[0] names the reflector).
      *  Initially, all rotors are set at their 0 setting. */
-    void insertRotors(String[] rotors) {
+    void insertRotors(String[] rotors) throws EnigmaException {
         if (rotors.length != _numRotors) {
             throw error("Mismatch in expected number of rotors");
         }
 
         for (int i = 0; i < rotors.length; i += 1) {
-            for (int j = 1; j < rotors.length; j += 1) {
+            for (int j = i + 1; j < rotors.length; j += 1) {
                 if (rotors[i].equals(rotors[j])) {
                     throw error("Can not have duplicate rotors");
                 }
@@ -65,15 +71,20 @@ class Machine {
 
         int movingRotorCount = 0;
 
-        for (int i = 0; i < numRotors(); i += 1) {
-            int rotorIndex = _allRotorNames.indexOf(rotors[i]);
-            _machineRotors[i] = _rotorsArr.get(rotorIndex);
-            _machineRotors[i].set(0);
+        try {
 
-            if (_rotorsArr.get(rotorIndex) instanceof MovingRotor) {
-                movingRotorCount += 1;
+            for (int i = 0; i < numRotors(); i += 1) {
+                int rotorIndex = _allRotorNames.indexOf(rotors[i].toUpperCase());
+                _machineRotors[i] = _rotorsArr.get(rotorIndex);
+                _machineRotors[i].set(0);
+                if (_rotorsArr.get(rotorIndex) instanceof MovingRotor) {
+                    movingRotorCount += 1;
+                }
             }
-        }
+            } catch(EnigmaException e){
+                throw error("Not a rotor");
+            }
+
 
         if (!(_machineRotors[0] instanceof Reflector)) {
             throw error("First rotor must be the reflector");
@@ -119,7 +130,9 @@ class Machine {
 
         machineAdvance();
 
-        c = _plugboard.permute(c);
+        if (_plugboard != null) {
+            c = _plugboard.permute(c);
+        }
 
         for(int i = _numRotors -1; i > 0; i -= 1) {
             c = _machineRotors[i].convertForward(c);
@@ -128,7 +141,12 @@ class Machine {
         for (int i = 0; i < _numRotors; i += 1) {
             c = _machineRotors[i].convertBackward(c);
         }
-        return _plugboard.invert(c); // FIXME
+
+        if (_plugboard != null) {
+            return _plugboard.invert(c);
+        } else {
+            return c;
+        }
     }
 
     /** Returns the encoding/decoding of MSG, updating the state of
