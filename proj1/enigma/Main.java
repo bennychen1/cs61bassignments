@@ -102,6 +102,8 @@ public final class Main {
             }
         }
 
+
+
         // FIXME
     }
 
@@ -225,7 +227,19 @@ public final class Main {
             _tally += 1;
         } */
 
-        System.out.print(_M.convert(msg.toUpperCase()));
+        //System.out.print(_M.convert(msg.toUpperCase()));
+
+        String result = _M.convert(msg.toUpperCase());
+
+        for (int i = 0; i < result.length(); i += 1) {
+            if (_tally == 5) {
+                _output.print(" ");
+                _tally = 0;
+            }
+            _output.print(result.charAt(i));
+            _tally += 1;
+        }
+
         // FIXME
     }
 
@@ -266,4 +280,6 @@ public final class Main {
     private ArrayList<String>_allRotorNames = new ArrayList<String>();
 
     private int _tally;
+
+    private String _result;
 }
