@@ -12,6 +12,7 @@ public class MachineTest {
     private List rotorList = new ArrayList();
     private Machine M;
     private Permutation plugBoard = new Permutation("(AB) (EH) (OI)", UPPER);
+    private Permutation pB2 = new Permutation("(AB) (LH) (OI)", UPPER);
     Reflector B = (Reflector) getRotor("B", NAVALA, "", "reflector");
     FixedRotor Beta = (FixedRotor) getRotor("Beta", NAVALA, "", "fixed");
     MovingRotor I = (MovingRotor) getRotor("I", NAVALA, "B", "moving");
@@ -97,14 +98,15 @@ public class MachineTest {
     public void testConvertChar() {
         M = createTestMachine(3,1);
         M.insertRotors(new String[]{"B", "Beta", "I"});
-        M.setPlugboard(plugBoard);
+        M.setPlugboard(pB2);
         M.setRotors("BB");
-        assertEquals(7, M.convert(1));
+        assertEquals(1, M.convert(7));
     }
 
     @Test
     public void testRSetting() {
         M = createTestMachine(1,1);
+        M.insertRotors(new String[] {"I"});
         String result = M.rotorSetting(I);
         assertEquals("A", result);
 
