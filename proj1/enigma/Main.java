@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -85,6 +86,9 @@ public final class Main {
         }
         while (_input.hasNextLine()) {
             setUp(_M, _input.nextLine());
+            while(_input.hasNext("[A-Za-z]")) {
+                printMessageLine(_input.next());
+            }
         }
 
         // FIXME
@@ -99,7 +103,8 @@ public final class Main {
             Matcher matAlphaPattern = createMatcher(alphaString, alpha);
 
             while (_config.hasNext() && !matAlphaPattern.matches()) {
-                matAlphaPattern = createMatcher(alphaString, alpha += _config.next());
+                alpha += _config.next();
+                matAlphaPattern = createMatcher(alphaString, alpha);
             }
 
             if (!matAlphaPattern.matches()) {
@@ -107,29 +112,34 @@ public final class Main {
             }
 
             String num = "";
-            String numString = "[0-9]*\\s[0-9]*";
+            String numString = "[0-9]+\\s[0-9]+\\s";
             Matcher matNum = createMatcher(numString, num);
 
             while (_config.hasNext() && !matNum.matches()) {
-                matNum = createMatcher(numString, num = num + _config.next() + " ");
+                num = num + _config.next() + " ";
+                matNum = createMatcher(numString, num);
             }
 
             if (!matNum.matches()) {
                 throw error ("Need to have rotors and pawl numbers");
             }
 
-            Matcher rotorsAndPawls = createMatcher("[0-9]+", num);
+            Matcher rotorsAndPawls = createMatcher("[0-9]+\\s[0-9]+\\s", num);
+            rotorsAndPawls.matches();
+
+            String[] numArr = num.split("\\s");
 
             ArrayList<Rotor> allRotors = new ArrayList<Rotor>();
+            _alphabet = new CharacterRange(alpha.charAt(0), alpha.charAt(2));
 
             while (_config.hasNext()) {
                 Rotor r = readRotor();
-                allRotors.add(r);
+                _allRotors.add(r);
+                _allRotorNames.add(r.name());
             }
 
-            _alphabet = new CharacterRange(alpha.charAt(0), alpha.charAt(2));
-            return new Machine(_alphabet, Integer.parseInt(rotorsAndPawls.group(0)),
-                    Integer.parseInt(rotorsAndPawls.group(1)), allRotors);
+            return new Machine(_alphabet, Integer.parseInt(numArr[0]),
+                    Integer.parseInt(numArr[1]), _allRotors);
         } catch (NoSuchElementException excp) {
             throw error("configuration file truncated");
         }
@@ -166,13 +176,39 @@ public final class Main {
     /** Set M according to the specification given on SETTINGS,
      *  which must have the format specified in the assignment. */
     private void setUp(Machine M, String settings) {
-        
+        String[] mSettings = settings.split("\\s+");
+
+        String[] rotors = new String[M.numRotors()];
+        String[]plugboard = new String[mSettings.length - M.numRotors() - 2];
+
+        String pbPermString = "";
+        for (String c :plugboard) {
+            pbPermString += c;
+        }
+
+
+        System.arraycopy(mSettings, 1, rotors, 0, M.numRotors());
+        System.arraycopy(mSettings, M.numRotors() + 2, plugboard, 0, plugboard.length);
+
+        Permutation pbPerm = new Permutation(pbPermString, _alphabet);
+
+        M.insertRotors(rotors);
+        M.setRotors(mSettings[M.numRotors() + 1]);
+        M.setPlugboard(pbPerm);
         // FIXME
     }
 
     /** Print MSG in groups of five (except that the last group may
      *  have fewer letters). */
     private void printMessageLine(String msg) {
+        char[] msgArr = msg.toUpperCase().toCharArray();
+        for (char c : msgArr) {
+            if (_tally == 5) {
+                System.out.print(" ");
+            }
+            System.out.print(_M.convert(c));
+            _tally += 1;
+        }
         // FIXME
     }
 
@@ -207,4 +243,10 @@ public final class Main {
     private PrintStream _output;
 
     private Machine _M;
+
+    private ArrayList<Rotor>_allRotors = new ArrayList<Rotor>();
+
+    private ArrayList<String>_allRotorNames = new ArrayList<String>();
+
+    private int _tally;
 }
