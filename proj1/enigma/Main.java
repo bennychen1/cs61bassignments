@@ -79,6 +79,14 @@ public final class Main {
      *  file _config and apply it to the messages in _input, sending the
      *  results to _output. */
     private void process() {
+        _M = readConfig();
+        if (_input.hasNext("[^\\*]")) {
+            throw error("Input must start with a setting line");
+        }
+        while (_input.hasNextLine()) {
+            setUp(_M, _input.nextLine());
+        }
+
         // FIXME
     }
 
@@ -119,8 +127,6 @@ public final class Main {
                 allRotors.add(r);
             }
 
-
-            // FIXME
             _alphabet = new CharacterRange(alpha.charAt(0), alpha.charAt(2));
             return new Machine(_alphabet, Integer.parseInt(rotorsAndPawls.group(0)),
                     Integer.parseInt(rotorsAndPawls.group(1)), allRotors);
@@ -160,6 +166,7 @@ public final class Main {
     /** Set M according to the specification given on SETTINGS,
      *  which must have the format specified in the assignment. */
     private void setUp(Machine M, String settings) {
+        
         // FIXME
     }
 
@@ -198,4 +205,6 @@ public final class Main {
 
     /** File for encoded/decoded messages. */
     private PrintStream _output;
+
+    private Machine _M;
 }
