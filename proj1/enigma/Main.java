@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -14,7 +13,7 @@ import java.util.regex.Matcher;
 import static enigma.EnigmaException.*;
 
 /** Enigma simulator.
- *  @author
+ *  @author Benny Chen
  */
 public final class Main {
 
@@ -91,7 +90,7 @@ public final class Main {
             } else {
                 continue;
             }
-            while(_input.hasNext("[A-Za-z]+")) {
+            while (_input.hasNext("[A-Za-z]+")) {
                 String next = _input.next();
                 printMessageLine(next);
             }
@@ -104,10 +103,6 @@ public final class Main {
                 break;
             }
         }
-
-
-
-        // FIXME
     }
 
     /** Return an Enigma machine configured from the contents of configuration
@@ -137,14 +132,12 @@ public final class Main {
             }
 
             if (!matNum.matches()) {
-                throw error ("Need to have rotors and pawl numbers");
+                throw error("Need to have rotors and pawl numbers");
             }
 
             Matcher rotorsAndPawls = createMatcher("[0-9]+\\s[0-9]+\\s", num);
             rotorsAndPawls.matches();
-
             String[] numArr = num.split("\\s");
-
             ArrayList<Rotor> allRotors = new ArrayList<Rotor>();
             _alphabet = new CharacterRange(alpha.charAt(0), alpha.charAt(2));
 
@@ -176,7 +169,7 @@ public final class Main {
             if (typeNotch.charAt(0) == 'M') {
                 char[] notches = new char[typeNotch.length() - 1];
                 System.arraycopy(typeNotch.toCharArray(), 1, notches, 0,
-                        typeNotch.length() - 1 );
+                        typeNotch.length() - 1);
                 String notch = new String(notches);
                 return new MovingRotor(name, p, notch);
             } else if (typeNotch.charAt(0) == 'N') {
@@ -196,9 +189,11 @@ public final class Main {
 
         String[] rotors = new String[M.numRotors()];
         if (mSettings.length > 2 + M.numRotors()) {
-            String[] plugboard = new String[mSettings.length - M.numRotors() - 2];
+            String[] plugboard = new String[mSettings.length
+                    - M.numRotors() - 2];
 
-            System.arraycopy(mSettings, M.numRotors() + 2, plugboard, 0, plugboard.length);
+            System.arraycopy(mSettings, M.numRotors() + 2, plugboard,
+                    0, plugboard.length);
 
             String pbPermString = "";
             for (String c : plugboard) {
@@ -212,25 +207,11 @@ public final class Main {
 
         M.insertRotors(rotors);
         M.setRotors(mSettings[M.numRotors() + 1]);
-        // FIXME
     }
 
     /** Print MSG in groups of five (except that the last group may
      *  have fewer letters). */
     private void printMessageLine(String msg) {
-        /*char[] msgArr = msg.toUpperCase().toCharArray();
-        for (char c : msgArr) {
-            if (_tally == 5) {
-                System.out.print(" ");
-                _output.print(" ");
-                _tally = 0;
-            }
-            System.out.print(_alphabet.toChar(_M.convert(c)));
-            _output.print(_alphabet.toChar(_M.convert(c)));
-            _tally += 1;
-        } */
-
-        //System.out.print(_M.convert(msg.toUpperCase()));
 
         String result = _M.convert(msg.toUpperCase());
 
@@ -242,8 +223,6 @@ public final class Main {
             _output.print(result.charAt(i));
             _tally += 1;
         }
-
-        // FIXME
     }
 
     private String skipEmptyLines(Scanner s) {
@@ -258,6 +237,7 @@ public final class Main {
         return curLine;
     }
 
+    /** Returns a Maycjer with the pattern matching the target string. */
     private Matcher createMatcher(String s, String target) {
         Pattern p = Pattern.compile(s);
         Matcher m = p.matcher(target);
