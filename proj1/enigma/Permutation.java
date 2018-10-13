@@ -1,7 +1,8 @@
 package enigma;
 
-import static enigma.EnigmaException.*;
 import java.util.ArrayList;
+
+import static enigma.EnigmaException.*;
 
 /** Represents a permutation of a range of integers starting at 0 corresponding
  *  to the characters of an alphabet.
@@ -18,6 +19,7 @@ class Permutation {
         _alphabet = alphabet;
         _cycles = new char[size()];
         _reverseCycles = new char[size()];
+
         for (int i = 0; i < _cycles.length; i += 1) {
             _cycles[i] = alphabet.toChar(i);
             _reverseCycles[i] = alphabet.toChar(i);
@@ -45,17 +47,16 @@ class Permutation {
      *  c0c1...cm. */
     private void addCycle(String cycle) {
         for (int i = 0; i < cycle.length(); i += 1) {
-            char curChar = cycle.charAt(i);
-            if (_tracked.indexOf(curChar) != -1) {
-                throw error("Cycles can not have repeats");
+            if (_tracked.indexOf(cycle.charAt(i)) != -1) {
+                throw error("Can not have repeat characters");
             }
-            _tracked.add(curChar);
-            int index = _alphabet.toInt(curChar);
+            int index = _alphabet.toInt(cycle.charAt(i));
             if (i == cycle.length() - 1) {
                 _cycles[index] = cycle.charAt(0);
             } else {
                 _cycles[index] = cycle.charAt(i + 1);
             }
+            _tracked.add(cycle.charAt(i));
         }
 
         for (int j = cycle.length() - 1; j >= 0; j -= 1) {
@@ -131,7 +132,7 @@ class Permutation {
     /** The inverse permutations. */
     private char[] _reverseCycles;
 
-    /** A tracker of the characters already seen. */
+    /** Tracks the characters already seen in the permutation. */
     private ArrayList<Character> _tracked = new ArrayList<Character>();
 
     /** Returns the cycles of the permutation as a char array. */
