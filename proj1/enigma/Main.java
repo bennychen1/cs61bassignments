@@ -185,6 +185,7 @@ public final class Main {
 
         for (int i = 1; i <= M.numRotors(); i += 1) {
             int rotorIndex = _allRotorNames.indexOf(mSettings[i]);
+
             if (rotorIndex == -1) {
                 throw error("bad rotor name");
             }
