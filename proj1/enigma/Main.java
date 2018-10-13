@@ -155,7 +155,7 @@ public final class Main {
             String name = _config.next();
             String typeNotch = _config.next();
             String perm = "";
-            while (_config.hasNext("([(][A-Z]+[)])*")) {
+            while (_config.hasNext("([(][A-Z]+[)]?)*")) {
                 perm += _config.next();
             }
 
@@ -197,6 +197,7 @@ public final class Main {
             Permutation pbPerm = new Permutation(pbPermString, _alphabet);
             M.setPlugboard(pbPerm);
         }
+
         try {
             System.arraycopy(mSettings, 1, rotors, 0, M.numRotors());
         } catch (ArrayIndexOutOfBoundsException excp) {
