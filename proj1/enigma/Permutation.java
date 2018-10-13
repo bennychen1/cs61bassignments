@@ -1,6 +1,7 @@
 package enigma;
 
 import static enigma.EnigmaException.*;
+import java.util.ArrayList;
 
 /** Represents a permutation of a range of integers starting at 0 corresponding
  *  to the characters of an alphabet.
@@ -44,7 +45,12 @@ class Permutation {
      *  c0c1...cm. */
     private void addCycle(String cycle) {
         for (int i = 0; i < cycle.length(); i += 1) {
-            int index = _alphabet.toInt(cycle.charAt(i));
+            char curChar = cycle.charAt(i);
+            if (_tracked.indexOf(curChar) != -1) {
+                throw error("Cycles can not have repeats");
+            }
+            _tracked.add(curChar);
+            int index = _alphabet.toInt(curChar);
             if (i == cycle.length() - 1) {
                 _cycles[index] = cycle.charAt(0);
             } else {
@@ -124,6 +130,9 @@ class Permutation {
 
     /** The inverse permutations. */
     private char[] _reverseCycles;
+
+    /** A tracker of the characters already seen. */
+    private ArrayList<Character> _tracked = new ArrayList<Character>();
 
     /** Returns the cycles of the permutation as a char array. */
     char[] getCycles() {

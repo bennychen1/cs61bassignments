@@ -106,9 +106,13 @@ public final class Main {
         try {
             String alpha = "";
             String alphaString = "^\\s*[A-Z]\\s*-\\s*[A-Z]";
+            String anyAlpha = "[A-Z]+";
             Matcher matAlphaPattern = createMatcher(alphaString, alpha);
+            Matcher anyAlphaPattern = createMatcher(anyAlpha, alpha);
 
-            while (_config.hasNext() && !matAlphaPattern.matches()) {
+            while (_config.hasNext("[A-Za-z-]+")
+                    && (!matAlphaPattern.matches()
+                    || !anyAlphaPattern.matches())) {
                 alpha += _config.next();
                 matAlphaPattern = createMatcher(alphaString, alpha);
             }
@@ -169,8 +173,10 @@ public final class Main {
                 return new MovingRotor(name, p, notch);
             } else if (typeNotch.charAt(0) == 'N') {
                 return new FixedRotor(name, p);
-            } else {
+            } else if (typeNotch.charAt(0) == 'R') {
                 return new Reflector(name, p);
+            } else {
+                throw error("Rotor type must be specified");
             }
         } catch (NoSuchElementException excp) {
             throw error("bad rotor description");
