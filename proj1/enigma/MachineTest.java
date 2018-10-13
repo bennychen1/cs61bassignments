@@ -190,6 +190,9 @@ public class MachineTest {
 
     }
 
+    /**Returns a string of the settings of rotors
+     * in MACHINEROTORS, changing the int setting
+     * to a char according to ALPH. */
     private String getSetting(Alphabet alph, Rotor[] machineRotors) {
         String currSetting = "";
         for (Rotor r : machineRotors) {
