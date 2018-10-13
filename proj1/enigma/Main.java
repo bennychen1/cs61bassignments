@@ -197,8 +197,11 @@ public final class Main {
             Permutation pbPerm = new Permutation(pbPermString, _alphabet);
             M.setPlugboard(pbPerm);
         }
-
-        System.arraycopy(mSettings, 1, rotors, 0, M.numRotors());
+        try {
+            System.arraycopy(mSettings, 1, rotors, 0, M.numRotors());
+        } catch (ArrayIndexOutOfBoundsException excp) {
+            throw error("Wrong number of rotors");
+        }
 
         M.insertRotors(rotors);
         M.setRotors(mSettings[M.numRotors() + 1]);
