@@ -180,8 +180,23 @@ public final class Main {
     /** Set M according to the specification given on SETTINGS,
      *  which must have the format specified in the assignment. */
     private void setUp(Machine M, String settings) {
+        settings = settings.replaceAll("\\s+\\*", "* ");
         String[] mSettings = settings.split("\\s+");
 
+        for (int i = 1; i < 1 + M.numRotors(); i += 1) {
+            int rotorIndex = _allRotorNames.indexOf(mSettings[i]);
+            if (rotorIndex == -1) {
+                throw error("bad rotor name");
+            }
+
+            Rotor curRotor = _allRotors.get(rotorIndex);
+
+            if (i == 1) {
+                if (!(curRotor instanceof Reflector)) {
+                    throw error ("First rotor must be reflector");
+                }
+            }
+        }
         String[] rotors = new String[M.numRotors()];
         if (mSettings.length > 2 + M.numRotors()) {
             String[] plugboard = new String[mSettings.length
