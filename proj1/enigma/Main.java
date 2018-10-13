@@ -194,7 +194,7 @@ public final class Main {
 
             if (i == 1) {
                 if (!(curRotor instanceof Reflector)) {
-                    throw error ("First rotor must be reflector");
+                    throw error("First rotor must be reflector");
                 }
             }
         }

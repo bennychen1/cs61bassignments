@@ -28,7 +28,7 @@ class Permutation {
             if (!checkCycles(cycles)) {
                 throw new EnigmaException("Cycles in wrong format");
             }
-        } catch (EnigmaException e){
+        } catch (EnigmaException e) {
             throw error("Cycles in wrong format");
         }
 
