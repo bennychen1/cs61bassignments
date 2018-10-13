@@ -21,6 +21,17 @@ class Permutation {
             _cycles[i] = alphabet.toChar(i);
             _reverseCycles[i] = alphabet.toChar(i);
         }
+
+        cycles = cycles.replaceAll("[ ]+", " ");
+
+        try {
+            if (!checkCycles(cycles)) {
+                throw new EnigmaException("Cycles in wrong format");
+            }
+        } catch (EnigmaException e){
+            throw error("Cycles in wrong format");
+        }
+
         cycles = cycles.replaceAll("[(]", "");
         cycles = cycles.replaceAll("[)]", " ");
         String[] splitCycles = cycles.split(" ");
@@ -126,5 +137,23 @@ class Permutation {
         char[] result = new char[_reverseCycles.length];
         System.arraycopy(_reverseCycles, 0, result, 0, _reverseCycles.length);
         return result;
+    }
+
+    /**Checks if the cycles C is in correct format
+     * Returns false if not. */
+    boolean checkCycles(String c) {
+        if (c.equals("")) {
+            return true;
+        }
+        String cNew = c.replaceAll("[ ]", "");
+        cNew = cNew.replaceAll("[)]", ") ");
+        String[]cArr = cNew.split("[ ]");
+        for (String s : cArr) {
+            if (!s.matches("[(][A-Z ]+[)]")) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
