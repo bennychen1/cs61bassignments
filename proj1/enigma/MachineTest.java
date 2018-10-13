@@ -9,7 +9,7 @@ import static enigma.TestUtils.*;
 import java.util.Arrays;
 
 public class MachineTest {
-    private List rotorList = new ArrayList();
+    private List<Rotor> rotorList = new ArrayList<Rotor>();
     private Machine _M;
     private Permutation _plugBoard = new Permutation("(AB) (EH) (OI)", UPPER);
     private Permutation _pB2 = new Permutation("(AB) (LH) (OI)", UPPER);
