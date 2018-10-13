@@ -139,7 +139,7 @@ public final class Main {
             while (_config.hasNext()) {
                 Rotor r = readRotor();
                 _allRotors.add(r);
-                _allRotorNames.add(r.name());
+                _allRotorNames.add(r.name().toUpperCase());
             }
 
             return new Machine(_alphabet, Integer.parseInt(numArr[0]),
@@ -183,7 +183,7 @@ public final class Main {
         settings = settings.replaceAll("\\s+\\*", "* ");
         String[] mSettings = settings.split("\\s+");
 
-        for (int i = 1; i < 1 + M.numRotors(); i += 1) {
+        for (int i = 1; i <= M.numRotors(); i += 1) {
             int rotorIndex = _allRotorNames.indexOf(mSettings[i]);
             if (rotorIndex == -1) {
                 throw error("bad rotor name");
