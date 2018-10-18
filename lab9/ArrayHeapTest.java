@@ -20,6 +20,22 @@ public class ArrayHeapTest {
         assertEquals(0, pq.size());
     }
 
+    @Test
+    public void newTest() {
+        ArrayHeap<String> pq = new ArrayHeap<>();
+        pq.insert("A", 10);
+        pq.insert("B", 2);
+        pq.insert("AB", 5);
+        assertEquals("B", pq.peek().item());
+        assertEquals(3, pq.size());
+
+        pq.insert("BA", 50);
+        pq.insert("ABB", 25);
+
+        assertEquals("B", pq.removeMin());
+        assertEquals("AB", pq.removeMin());
+    }
+
     public static void main(String[] args) {
         System.exit(ucb.junit.textui.runClasses(ArrayHeapTest.class));
     }
