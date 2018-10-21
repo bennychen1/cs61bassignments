@@ -3,25 +3,30 @@ HW #5.
 
 Question D.
 
-1.
+1. Big Theta(x ^ 2) since 9x^2 is the largest term. 
 
 
-2.
+2. Big Theta(log(n)).
+
+3.  Big Theta(n ^ 3). The sum is 0 + (0 + 1) + (0 + 1 + 2) + .... which is in n^3.
 
 
-3.
+4. Big Theta(M + N)
 
 
-4.
+5. Number of levels is log(n) because divide by two each time. There are 3 * i number of nodes in each level. Total work 
+   done on each node is N + 2 ^ i so total would be in N ^ 2.  The worst case run time would be Big Theta(n ^ 2 log(n)).
 
 
-5.
+6. Use change of base rule so that log b f(x) becomes (log 10 f(x) / log 10 b). For any M > 1, K is some constant 
+   c / (log 10 b). So there is a K such that log 10 f(x) is always less than and always greater than log b f(x) for 
+   M > 1. 
 
 
-6.
+7. Any polynomial function can be written as a product of (x + c1)(x+c2)...(x+cN). Log of a product is the sum of the logs,
+   so get log(x + c1) + log(x + c2) + ... + log(x + cN). x gets large then this sum tends towards nlog(x). There exists values
+   of K such smaller and larger than n such that |nlog(x)| is either less than or equal to |Klog(x)| such as K = n -1 and K = n + 1. 
 
 
-7.
-
-
-8.
+8. For two integers c1 < c2, c1 <= [f(n)] <= c2. K can be any number (c2 + 1) / f(n) such that |[f(n)]| is always less than 
+   |Kf(n)| for x > 1. 

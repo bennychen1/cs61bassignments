@@ -24,9 +24,19 @@ public class Nybbles {
     public int get(int k) {
         if (k < 0 || k >= _n) {
             throw new IndexOutOfBoundsException();
-        } else {
-            return 0; // REPLACE WITH SOLUTION
         }
+        int whichInt = _data[k / 8];
+        int start = 31 - 4 * k - 3;
+        int getInt = (whichInt >>> start) & ((1<<4) - 1);
+        int leftMask = 1 << 3;
+        String x = Integer.toBinaryString(whichInt);
+
+        if ((getInt & leftMask) == 8) {
+            String toReturn = Integer.toBinaryString((getInt << 28) >> 28);
+            String toReturnComplement = Integer.toBinaryString(((getInt << 28) >> 28));
+            return (getInt << 28) >> 28;
+        }
+        return getInt;
     }
 
     /** Set the Kth integer in THIS array to VAL.  Assumes
@@ -37,8 +47,24 @@ public class Nybbles {
         } else if (val < (-MAX_VALUE - 1) || val > MAX_VALUE) {
             throw new IllegalArgumentException();
         } else {
-            _data[0] = 0; // REPLACE WITH SOLUTION
+            for (int i = 0; i < 4; i += 1) {
+                int mask = 1 << i;
+                int newDigit = val & mask;
+                int alignLeft = newDigit << ((32 - (4 * (k + 1))));
+
+                String m = Integer.toBinaryString(mask);
+                String newDigit1 = Integer.toBinaryString(newDigit);
+                String aLeft = Integer.toBinaryString(alignLeft);
+                _data[k / 8] = (_data[k / 8] & ~(mask << (32 - (4 * (k + 1))))) | alignLeft;
+
+                String dataK = Integer.toBinaryString(_data[k / 8]);
+                String x = "x";
+            }
         }
+    }
+
+    public int[] getData() {
+        return _data;
     }
 
     // DON'T CHANGE OR ADD TO THESE.
