@@ -35,6 +35,9 @@ class Board {
 
     /** Copies MODEL into me. */
     void copy(Board model) {
+        _turn = model._turn;
+        _winner = model._winner;
+        _boardArr = model._boardArr;
         // FIXME
     }
 
@@ -260,4 +263,8 @@ class Board {
     /** Cached value of winner on this board, or EMPTY if it has not been
      *  computed. */
     private Piece _winner;
+
+    /** Represents the board squares. Keep track of occupied
+     * squares. */
+    private int[][] _boardArr;
 }
