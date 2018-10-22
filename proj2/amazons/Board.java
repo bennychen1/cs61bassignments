@@ -48,8 +48,8 @@ class Board {
         // FIXME
         _turn = WHITE;
         _winner = EMPTY;
-        _initBoard = new int[SIZE][SIZE]; // Put in pieces here according to spec
-        _boardArr = new int[SIZE][SIZE];
+        _initBoard = new Piece[SIZE][SIZE]; // Put in pieces here according to spec
+        _boardArr = new Piece[SIZE][SIZE];
 
         for (int i = 0; i < _boardArr.length; i += 1) {
             System.arraycopy(_initBoard[i], 0,
@@ -279,11 +279,11 @@ class Board {
 
     /** Represents the board squares. Keep track of occupied
      * squares. */
-    private int[][] _boardArr;
+    private Piece[][] _boardArr;
 
     /** Sets up the initial positions and
      * stays at initial positions */
-    private int[][] _initBoard;
+    private Piece[][] _initBoard;
 
     /** Keeps count of the moves made. */
     private int _numMoves;
