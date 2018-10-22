@@ -80,13 +80,14 @@ class Board {
 
     /** Return the contents the square at S. */
     final Piece get(Square s) {
-        return null;  // FIXME
+        return get(s.row(), s.col());
+        // FIXME
     }
 
     /** Return the contents of the square at (COL, ROW), where
      *  0 <= COL, ROW < 9. */
     final Piece get(int col, int row) {
-        return null; // FIXME
+        return _boardArr[row][col]; // FIXME
     }
 
     /** Return the contents of the square at COL ROW. */
