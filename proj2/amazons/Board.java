@@ -87,7 +87,12 @@ class Board {
     /** Return the contents of the square at (COL, ROW), where
      *  0 <= COL, ROW < 9. */
     final Piece get(int col, int row) {
-        return _boardArr[row][col]; // FIXME
+        if (col < 0 || row < 0
+                || col >= 9 || row > 9) {
+            return null;
+        }
+        return _boardArr[row][col];
+        // FIXME
     }
 
     /** Return the contents of the square at COL ROW. */
@@ -97,6 +102,7 @@ class Board {
 
     /** Set square S to P. */
     final void put(Piece p, Square s) {
+        put(p, s.col(), s.row());
         // FIXME
     }
 
