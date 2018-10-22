@@ -39,6 +39,7 @@ class Board {
         _winner = model._winner;
         _boardArr = model._boardArr;
         _initBoard = model._initBoard;
+        _numMoves = model._numMoves;
         // FIXME
     }
 
@@ -54,6 +55,8 @@ class Board {
             System.arraycopy(_initBoard[i], 0,
                     _boardArr[i], 0, _boardArr[i].length);
         }
+
+        _numMoves = 0;
     }
 
     /** Return the Piece whose move it is (WHITE or BLACK). */
@@ -64,13 +67,15 @@ class Board {
     /** Return the number of moves (that have not been undone) for this
      *  board. */
     int numMoves() {
-        return 0;  // FIXME
+        return _numMoves;
+        // FIXME
     }
 
     /** Return the winner in the current position, or null if the game is
      *  not yet finished. */
     Piece winner() {
-        return null;  // FIXME
+        return _winner;
+        // FIXME
     }
 
     /** Return the contents the square at S. */
@@ -275,5 +280,11 @@ class Board {
     /** Represents the board squares. Keep track of occupied
      * squares. */
     private int[][] _boardArr;
+
+    /** Sets up the initial positions and
+     * stays at initial positions */
     private int[][] _initBoard;
+
+    /** Keeps count of the moves made. */
+    private int _numMoves;
 }
