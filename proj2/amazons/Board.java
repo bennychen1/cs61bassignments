@@ -38,6 +38,7 @@ class Board {
         _turn = model._turn;
         _winner = model._winner;
         _boardArr = model._boardArr;
+        _initBoard = model._initBoard;
         // FIXME
     }
 
@@ -46,6 +47,13 @@ class Board {
         // FIXME
         _turn = WHITE;
         _winner = EMPTY;
+        _initBoard = new int[SIZE][SIZE]; // Put in pieces here according to spec
+        _boardArr = new int[SIZE][SIZE];
+
+        for (int i = 0; i < _boardArr.length; i += 1) {
+            System.arraycopy(_initBoard[i], 0,
+                    _boardArr[i], 0, _boardArr[i].length);
+        }
     }
 
     /** Return the Piece whose move it is (WHITE or BLACK). */
@@ -267,4 +275,5 @@ class Board {
     /** Represents the board squares. Keep track of occupied
      * squares. */
     private int[][] _boardArr;
+    private int[][] _initBoard;
 }
