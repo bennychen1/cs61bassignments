@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.Formatter;
 import java.util.Stack;
 import java.util.NoSuchElementException;
+import java.util.Arrays;
 
 import static amazons.Piece.*;
 import static amazons.Move.mv;
@@ -51,12 +52,31 @@ class Board {
         _initBoard = new Piece[SIZE][SIZE]; // Put in pieces here according to spec
         _boardArr = new Piece[SIZE][SIZE];
 
+        for (int i = 0; i < _initBoard.length; i += 1) {
+            Arrays.fill(_initBoard[i], Piece.EMPTY);
+        }
+
+        _initBoard[0][3] = Piece.WHITE;
+        _initBoard[0][6] = Piece.WHITE;
+        _initBoard[3][0] = Piece.WHITE;
+        _initBoard[3][9] = Piece.WHITE;
+
+        _initBoard[6][0] = Piece.BLACK;
+        _initBoard[6][9] = Piece.BLACK;
+        _initBoard[9][3] = Piece.BLACK;
+        _initBoard[9][6] = Piece.BLACK;
+
         for (int i = 0; i < _boardArr.length; i += 1) {
             System.arraycopy(_initBoard[i], 0,
                     _boardArr[i], 0, _boardArr[i].length);
         }
 
         _numMoves = 0;
+    }
+
+    /** Returns the initial board. */
+    Piece[][] getInitBoard() {
+        return _initBoard;
     }
 
     /** Return the Piece whose move it is (WHITE or BLACK). */
@@ -88,7 +108,7 @@ class Board {
      *  0 <= COL, ROW < 9. */
     final Piece get(int col, int row) {
         if (col < 0 || row < 0
-                || col >= 9 || row > 9) {
+                || col > 9 || row > 9) {
             return null;
         }
         return _boardArr[row][col];
@@ -108,8 +128,17 @@ class Board {
 
     /** Set square (COL, ROW) to P. */
     final void put(Piece p, int col, int row) {
-        // FIXME
-        _winner = EMPTY;
+        if (col < 0 || row < 0
+                || col > 9 || row > 9) {
+            return ;
+        }
+
+        if (!(get(col, row).toString().equals("-"))) {
+            return ;
+        }
+
+        _boardArr[row][col] = p;
+        _winner = EMPTY; // FIXME
     }
 
     /** Set square COL ROW to P. */
