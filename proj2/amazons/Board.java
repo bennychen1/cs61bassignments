@@ -152,6 +152,30 @@ class Board {
      *  squares along it, other than FROM and ASEMPTY, must be
      *  empty. ASEMPTY may be null, in which case it has no effect. */
     boolean isUnblockedMove(Square from, Square to, Square asEmpty) {
+
+        if (asEmpty == null) {
+            asEmpty = from;
+        }
+
+        if (from != asEmpty && !(get(from).toString().equals("-"))) {
+            return false;
+        }
+
+        if (to.col() < 0 || to.col() > 9
+                || to.row() < 0 || to.row() > 9) {
+            return false;
+        }
+
+        if (from == to) {
+            return true;
+        }
+
+        boolean horizLeft = isUnblockedMove(Square.sq(from.row() - 1, from.col()),
+                to, asEmpty);
+
+        boolean horizRight = isUnblockedMove(Square.sq(from.row() + 1, from.col()),
+                to, asEmpty);
+
         return false; // FIXME
     }
 
