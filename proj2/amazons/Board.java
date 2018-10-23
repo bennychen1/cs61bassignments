@@ -156,27 +156,39 @@ class Board {
         if (asEmpty == null) {
             asEmpty = from;
         }
+        return false; // FIXME
+    }
 
-        if (from != asEmpty && !(get(from).toString().equals("-"))) {
-            return false;
-        }
-
-        if (to.col() < 0 || to.col() > 9
-                || to.row() < 0 || to.row() > 9) {
-            return false;
-        }
-
+    /** Returns true iff FROM - TO is unblocked queen move in the direction
+     * of DIRECTION. The square of ASEMPTY is treated as empty. */
+    boolean isUnblockedMoveDirection(Square from, Square to, Square asEmpty, String direction) {
         if (from == to) {
             return true;
         }
 
-        boolean horizLeft = isUnblockedMove(Square.sq(from.row() - 1, from.col()),
-                to, asEmpty);
+        if (from != asEmpty && !(get(from)).toString().equals("-")) {
+            return false;
+        }
 
-        boolean horizRight = isUnblockedMove(Square.sq(from.row() + 1, from.col()),
-                to, asEmpty);
+        if (from.col() < 0 || from.col() > 9 || from.row() < 0
+                || from.row() > 9 || to.col() < 0 || to.col() > 9
+                || to.row() < 0 || to.row() > 9) {
+            return false;
+        }
 
-        return false; // FIXME
+        if (direction.equals("horiz")) {
+            Square fromLeft = Square.sq(from.col() - 1, from.row());
+            Square fromRight = Square.sq(from.col() + 1, from.row());
+            return isUnblockedMoveDirection(fromLeft, to, asEmpty, direction)
+                    || isUnblockedMoveDirection(fromRight, to, asEmpty, direction);
+        }
+
+        else if (direction.equals("vert")) {
+            Square fromDown = Square.sq(from.col(), from.row() - 1);
+            Square fromUp = Square.sq(from.col(), from.row() + 1);
+            return isUnblockedMoveDirection(fromDown, to, asEmpty, direction)
+                    || isUnblockedMoveDirection(fromUp, to, asEmpty, direction);
+        }
     }
 
     /** Return true iff FROM is a valid starting square for a move. */
