@@ -190,62 +190,60 @@ class Board {
             return true;
         }
         if (from != asEmpty && !(get(from)).toString().equals("-")) {
-            return false; }
+            return false;
+        }
         if (from.col() < 0 || from.col() > 9 || from.row() < 0
                 || from.row() > 9 || to.col() < 0 || to.col() > 9
                 || to.row() < 0 || to.row() > 9) {
             return false;
         }
         if (direction.equals("horizLeft")) {
-            return isUnblockedHorizLeft(from, to, asEmpty, direction);
-        }
-        else if (direction.equals("horizRight")) {
-            return isUnblockedHorizRight(from, to, asEmpty, direction);
-        }
-        else if (direction.equals("vertDown")) {
-            if (from.row() == 0) {
-                return false;
-            }
-            Square fromDown = Square.sq(from.col(), from.row() - 1);
-            return isUnblockedMoveDirection(fromDown, to, asEmpty, direction);
-        }
-        else if (direction.equals("vertUp")) {
+            return isUBHorizL(from, to, asEmpty, direction);
+        } else if (direction.equals("horizRight")) {
+            return isUBHorizR(from, to, asEmpty, direction);
+        } else if (direction.equals("vertDown")) {
+            return isUBVertD(from, to, asEmpty, direction);
+        } else if (direction.equals("vertUp")) {
             if (from.row() == 9) {
                 return false;
             }
-        	 Square fromUp = Square.sq(from.col(), from.row() + 1);
+            Square fromUp = Square.sq(from.col(), from.row() + 1);
             return isUnblockedMoveDirection(fromUp, to, asEmpty, direction);
-        }
-        else if (direction.equals("leftUpDiag")) {
+        } else if (direction.equals("leftUpDiag")) {
             if (from.col() == 0 || from.row() == 9) {
                 return false;
             }
-        	Square fromUpDiag = Square.sq(from.col() - 1, from.row() + 1);
+            Square fromUpDiag = Square.sq(from.col() - 1, from.row() + 1);
             return isUnblockedMoveDirection(fromUpDiag, to, asEmpty, direction);
         } else if (direction.equals("leftDownDiag")) {
             if (from.col() == 9 || from.row() == 0) {
                 return false;
             }
             Square fromDownDiag = Square.sq(from.col() + 1, from.row() - 1);
-            return isUnblockedMoveDirection(fromDownDiag, to, asEmpty, direction);
+            return isUnblockedMoveDirection(fromDownDiag, to,
+                    asEmpty, direction);
         } else if (direction.equals("rightDownDiag")) {
             if (from.col() == 0 || from.row() == 0) {
                 return false;
             }
             Square fromDownDiag = Square.sq(from.col() - 1, from.row() - 1);
-            return isUnblockedMoveDirection(fromDownDiag, to, asEmpty, direction);
+            return isUnblockedMoveDirection(fromDownDiag, to,
+                    asEmpty, direction);
         } else {
             if (from.col() == 9 || from.row() == 9) {
                 return false;
             }
             Square fromUpDiag = Square.sq(from.col() + 1, from.row() +  1);
-            return isUnblockedMoveDirection(fromUpDiag, to, asEmpty, direction);
+            return isUnblockedMoveDirection(fromUpDiag, to,
+                    asEmpty, direction);
         }
     }
 
     /**Return true iff FROM-TO is a valid first part of move
-     * in the horizontal direction moving left. */
-    boolean isUnblockedHorizLeft(Square from, Square to, Square asEmpty, String direction) {
+     * in the horizontal DIRECTION moving left. Take ASEMPTY to
+     * be empty square. */
+    boolean isUBHorizL(Square from, Square to, Square asEmpty,
+                       String direction) {
         if (from.col() == 0) {
             return false;
         }
@@ -253,12 +251,29 @@ class Board {
         return isUnblockedMoveDirection(fromLeft, to, asEmpty, direction);
     }
 
-    boolean isUnblockedHorizRight(Square from, Square to, Square asEmpty, String direction) {
+    /**Return true iff FROM-TO is a valid first part of move
+     * in the horizontal DIRECTION moving right. Take ASEMPTY to
+     * be empty square. */
+    boolean isUBHorizR(Square from, Square to, Square asEmpty,
+                       String direction) {
         if (from.col() == 9) {
             return false;
         }
         Square fromRight = Square.sq(from.col() + 1, from.row());
         return isUnblockedMoveDirection(fromRight, to, asEmpty, direction);
+    }
+
+    /**Return true iff FROM-TO is a valid first part of move
+     * in the vertical DIRECTION moving down. Take ASEMPTY to
+     * be empty square. */
+    boolean isUBVertD(Square from, Square to, Square asEmpty,
+                      String direction) {
+        if (from.row() == 0) {
+            return false;
+        }
+        Square fromDown = Square.sq(from.col(), from.row() - 1);
+        return isUnblockedMoveDirection(fromDown, to, asEmpty, direction);
+
     }
     /** Return true iff FROM is a valid starting square for a move. */
     boolean isLegal(Square from) {
