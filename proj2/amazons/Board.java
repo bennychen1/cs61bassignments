@@ -10,7 +10,6 @@ import java.util.Formatter;
 import java.util.Stack;
 import java.util.NoSuchElementException;
 import java.util.Arrays;
-import java.util.Stack;
 
 import static amazons.Utils.*;
 
@@ -19,7 +18,7 @@ import static amazons.Move.mv;
 
 
 /** The state of an Amazons Game.
- *  @author
+ *  @author Benny Chen
  */
 class Board {
 
@@ -52,7 +51,7 @@ class Board {
         // FIXME
         _turn = WHITE;
         _winner = EMPTY;
-        _initBoard = new Piece[SIZE][SIZE]; // Put in pieces here according to spec
+        _initBoard = new Piece[SIZE][SIZE];
         _boardArr = new Piece[SIZE][SIZE];
 
         for (int i = 0; i < _initBoard.length; i += 1) {
@@ -88,7 +87,7 @@ class Board {
         return _turn;
     }
 
-    /** Set the turn for testing. */
+    /** Set the turn to the color of P for testing. */
     void setTurn(Piece p) {
         _turn = p;
     }
@@ -109,7 +108,7 @@ class Board {
 
     /**Returns the current moves stack. */
     Stack<Move> getMovesStack() {
-        Stack<Move> moveCopy= new Stack<Move>();
+        Stack<Move> moveCopy = new Stack<Move>();
         moveCopy.addAll(_moves);
         return moveCopy;
     }
@@ -146,7 +145,7 @@ class Board {
     final void put(Piece p, int col, int row) {
         if (col < 0 || row < 0
                 || col > 9 || row > 9) {
-            return ;
+            return;
         }
 
         _boardArr[row][col] = p;
@@ -172,7 +171,7 @@ class Board {
             asEmpty = from;
         }
         String[] directions = new String[]{"horizLeft", "horizRight",
-                                           "vertUp", "vertDown",
+                "vertUp", "vertDown",
                                             "leftUpDiag", "leftDownDiag",
                                             "rightUpDiag", "rightDownDiag"};
         for (String direction : directions) {
@@ -185,37 +184,24 @@ class Board {
 
     /** Returns true iff FROM - TO is unblocked queen move in the direction
      * of DIRECTION. The square of ASEMPTY is treated as empty. */
-    boolean isUnblockedMoveDirection(Square from, Square to, Square asEmpty, String direction) {
+    boolean isUnblockedMoveDirection(Square from, Square to, Square asEmpty,
+                                     String direction) {
         if (from == to) {
             return true;
         }
-
         if (from != asEmpty && !(get(from)).toString().equals("-")) {
-            return false;
-        }
-
+            return false; }
         if (from.col() < 0 || from.col() > 9 || from.row() < 0
                 || from.row() > 9 || to.col() < 0 || to.col() > 9
                 || to.row() < 0 || to.row() > 9) {
             return false;
         }
-
         if (direction.equals("horizLeft")) {
-            if (from.col() == 0) {
-                return false;
-            }
-            Square fromLeft = Square.sq(from.col() - 1, from.row());
-            return isUnblockedMoveDirection(fromLeft, to, asEmpty, direction);
+            return isUnblockedHorizLeft(from, to, asEmpty, direction);
         }
-
         else if (direction.equals("horizRight")) {
-            if (from.col() == 9) {
-                return false;
-            }
-        	Square fromRight = Square.sq(from.col() + 1, from.row());
-        	return isUnblockedMoveDirection(fromRight, to, asEmpty, direction);
+            return isUnblockedHorizRight(from, to, asEmpty, direction);
         }
-
         else if (direction.equals("vertDown")) {
             if (from.row() == 0) {
                 return false;
@@ -223,7 +209,6 @@ class Board {
             Square fromDown = Square.sq(from.col(), from.row() - 1);
             return isUnblockedMoveDirection(fromDown, to, asEmpty, direction);
         }
-
         else if (direction.equals("vertUp")) {
             if (from.row() == 9) {
                 return false;
@@ -231,31 +216,25 @@ class Board {
         	 Square fromUp = Square.sq(from.col(), from.row() + 1);
             return isUnblockedMoveDirection(fromUp, to, asEmpty, direction);
         }
-
         else if (direction.equals("leftUpDiag")) {
             if (from.col() == 0 || from.row() == 9) {
                 return false;
             }
         	Square fromUpDiag = Square.sq(from.col() - 1, from.row() + 1);
             return isUnblockedMoveDirection(fromUpDiag, to, asEmpty, direction);
-        }
-
-        else if (direction.equals("leftDownDiag")) {
+        } else if (direction.equals("leftDownDiag")) {
             if (from.col() == 9 || from.row() == 0) {
                 return false;
             }
             Square fromDownDiag = Square.sq(from.col() + 1, from.row() - 1);
             return isUnblockedMoveDirection(fromDownDiag, to, asEmpty, direction);
-        }
-
-        else if (direction.equals("rightDownDiag")) {
+        } else if (direction.equals("rightDownDiag")) {
             if (from.col() == 0 || from.row() == 0) {
                 return false;
             }
             Square fromDownDiag = Square.sq(from.col() - 1, from.row() - 1);
             return isUnblockedMoveDirection(fromDownDiag, to, asEmpty, direction);
-        }
-        else {
+        } else {
             if (from.col() == 9 || from.row() == 9) {
                 return false;
             }
@@ -264,6 +243,23 @@ class Board {
         }
     }
 
+    /**Return true iff FROM-TO is a valid first part of move
+     * in the horizontal direction moving left. */
+    boolean isUnblockedHorizLeft(Square from, Square to, Square asEmpty, String direction) {
+        if (from.col() == 0) {
+            return false;
+        }
+        Square fromLeft = Square.sq(from.col() - 1, from.row());
+        return isUnblockedMoveDirection(fromLeft, to, asEmpty, direction);
+    }
+
+    boolean isUnblockedHorizRight(Square from, Square to, Square asEmpty, String direction) {
+        if (from.col() == 9) {
+            return false;
+        }
+        Square fromRight = Square.sq(from.col() + 1, from.row());
+        return isUnblockedMoveDirection(fromRight, to, asEmpty, direction);
+    }
     /** Return true iff FROM is a valid starting square for a move. */
     boolean isLegal(Square from) {
         return get(from).toString().equals(_turn.toString());
@@ -458,7 +454,7 @@ class Board {
     private Piece[][] _boardArr;
 
     /** Sets up the initial positions and
-     * stays at initial positions */
+     * stays at initial positions. */
     private Piece[][] _initBoard;
 
     /** Keeps count of the moves made. */
