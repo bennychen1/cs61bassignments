@@ -21,6 +21,21 @@ public class BoardTest {
     }
 
     @Test
+    public void testPutAndGet() {
+        nB.init();
+
+        Square get1 = Square.sq(6, 9);
+
+        assertEquals("B", nB.get(get1).toString());
+
+        nB.put(Piece.WHITE, get1);
+
+        assertEquals(nB.get(get1), nB.get(6, 9));
+
+        assertEquals("W", nB.get(get1).toString());
+    }
+
+    @Test
     public void testOccupied() {
         nB.init();
         nB.put(Piece.SPEAR, 3, 9);
@@ -34,10 +49,11 @@ public class BoardTest {
         Square to = Square.sq(5, 0);
         Square distance = Square.sq(6, 7);
         Square occupied = Square.sq(6, 9);
+        Square invalDir = Square.sq(7, 2);
 
         assertTrue(nB.isUnblockedMove(from, to, null));
         assertTrue(nB.isUnblockedMove(from, distance, null));
-        assertFalse(nB.isUnblockedMove(from, Square.sq(7, 2), null));
+        assertFalse(nB.isUnblockedMove(from, invalDir, null));
 
         nB.put(Piece.WHITE, 3, 0);
 
@@ -186,8 +202,49 @@ public class BoardTest {
     @Test
     public void testMakeMove() {
         nB.init();
-
         Square from = Square.sq(6, 0);
+        Square to = Square.sq(8, 2);
+        Square toInvalDir = Square.sq(9, 1);
+        Square spearInvalDir = Square.sq(9, 0);
+        Square spear = Square.sq(1, 9);
+
+        Move move1 = Move.mv(from, to, spear);
+        Move moveInvalDir = Move.mv(from, toInvalDir, spearInvalDir);
+
+        nB.makeMove(move1);
+
+        assertEquals("-", nB.get(from).toString());
+        assertEquals("W", nB.get(to).toString());
+        assertEquals("S", nB.get(spear).toString());
+        assertEquals(1, nB.numMoves());
+
+        nB.makeMove(moveInvalDir);
+
+        assertEquals(1, nB.numMoves());
+        assertEquals("-", nB.get(spear).toString());
+
+
+
+        Square fromInval = Square.sq(9, 3);
+        Square toInval = Square.sq(7, 1);
+        Square spearInval = Square.sq(7, 2);
+
+        Move moveInval = Move.mv(fromInval, toInval, spearInval);
+
+        nB.makeMove(moveInval);
+
+        assertEquals("W", nB.get(fromInval).toString());
+        assertEquals("-", nB.get(toInval).toString());
+        assertEquals("-", nB.get(spearInval).toString());
+        assertEquals(1, nB.numMoves());
+
+        Square from2 = Square.sq(0, 6);
+        Square to2 = Square.sq(2, 6);
+        Square spear2 = Square.sq(0, 6);
+
+        Move move2 = Move.mv(from2, to2, spear2);
+
+        assertEquals("S", nB.get(from2).toString());
     }
 }
 
