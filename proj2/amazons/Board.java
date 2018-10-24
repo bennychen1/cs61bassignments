@@ -12,6 +12,8 @@ import java.util.NoSuchElementException;
 import java.util.Arrays;
 import java.util.Stack;
 
+import static amazons.Utils.*;
+
 import static amazons.Piece.*;
 import static amazons.Move.mv;
 
@@ -73,6 +75,7 @@ class Board {
         }
 
         _numMoves = 0;
+        _moves = new Stack<Move>();
     }
 
     /** Returns the initial board. */
@@ -83,6 +86,11 @@ class Board {
     /** Return the Piece whose move it is (WHITE or BLACK). */
     Piece turn() {
         return _turn;
+    }
+
+    /** Set the turn for testing. */
+    void setTurn(Piece p) {
+        _turn = p;
     }
 
     /** Return the number of moves (that have not been undone) for this
@@ -97,6 +105,13 @@ class Board {
     Piece winner() {
         return _winner;
         // FIXME
+    }
+
+    /**Returns the current moves stack. */
+    Stack<Move> getMovesStack() {
+        Stack<Move> moveCopy= new Stack<Move>();
+        moveCopy.addAll(_moves);
+        return moveCopy;
     }
 
     /** Return the contents the square at S. */
@@ -251,11 +266,7 @@ class Board {
 
     /** Return true iff FROM is a valid starting square for a move. */
     boolean isLegal(Square from) {
-        if (get(from).toString().equals("B")
-                || get(from).toString().equals("W")) {
-            return true;
-        }
-        return false;
+        return get(from).toString().equals(_turn.toString());
         // FIXME
     }
 
@@ -300,13 +311,20 @@ class Board {
             Piece p = get(from);
             put(p, to);
             put(Piece.SPEAR, spear);
-            put(Piece.EMPTY, from);
+            if (spear != from) {
+                put(Piece.EMPTY, from);
+            }
+            _numMoves += 1;
         }
         // FIXME
     }
 
     /** Move according to MOVE, assuming it is a legal move. */
     void makeMove(Move move) {
+        Square from = move.from();
+        Square to = move.to();
+        Square spear = move.spear();
+        makeMove(from, to, spear);
         // FIXME
     }
 

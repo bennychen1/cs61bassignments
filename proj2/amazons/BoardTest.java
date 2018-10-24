@@ -3,6 +3,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.Arrays;
 
+import java.util.Stack;
+
 public class BoardTest {
     Board nB = new Board();
     @Test
@@ -166,6 +168,8 @@ public class BoardTest {
 
         nB.put(Piece.WHITE, 3, 6);
 
+        nB.setTurn(Piece.WHITE);
+
         assertFalse(nB.isLegal(from2, occupied));
         assertFalse(nB.isLegal(from2, illegalMove));
         assertFalse(nB.isLegal(from2, pieceBetween));
@@ -183,7 +187,9 @@ public class BoardTest {
         Square spearInval = Square.sq(7, 9);
         Move mInval = Move.mv(from, to, spearInval);
 
+        nB.setTurn(Piece.BLACK);
         assertTrue(nB.isLegal(m));
+
         assertFalse(nB.isLegal(mInval));
     }
 
@@ -221,7 +227,7 @@ public class BoardTest {
         nB.makeMove(moveInvalDir);
 
         assertEquals(1, nB.numMoves());
-        assertEquals("-", nB.get(spear).toString());
+        assertEquals("-", nB.get(spearInvalDir).toString());
 
 
 
@@ -244,7 +250,16 @@ public class BoardTest {
 
         Move move2 = Move.mv(from2, to2, spear2);
 
+        nB.makeMove(move2);
+
+        assertEquals(2, nB.numMoves());
+
         assertEquals("S", nB.get(from2).toString());
+
+        Stack<Move> curMoves = nB.getMovesStack();
+
+        assertTrue(curMoves.size() == 2);
+        assertTrue(move2 == curMoves.pop());
     }
 }
 
