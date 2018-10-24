@@ -140,17 +140,17 @@ public class BoardTest {
         assertTrue(nB.isLegal(start));
         assertTrue(nB.isLegal(start, horiz));
         assertTrue(nB.isLegal(start, backDiag));
-        assertTrue(nB.isLegal(forDiag));
+        assertFalse(nB.isLegal(forDiag));
 
         nB.init();
 
         Square from2 = Square.sq(6, 9);
-        Square oOB = Square.sq(6, 10);
         Square occupied = Square.sq(6, 0);
         Square illegalMove = Square.sq(5, 2);
         Square pieceBetween = Square.sq(2, 5);
 
-        assertFalse(nB.isLegal(from2, oOB));
+        nB.put(Piece.WHITE, 3, 6);
+
         assertFalse(nB.isLegal(from2, occupied));
         assertFalse(nB.isLegal(from2, illegalMove));
         assertFalse(nB.isLegal(from2, pieceBetween));
