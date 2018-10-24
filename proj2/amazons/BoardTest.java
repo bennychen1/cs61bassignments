@@ -28,15 +28,15 @@ public class BoardTest {
     @Test
     public void testUnBlockedMoveQueen() {
         Board nB = new Board();
-        Square from = Square.sq(0, 6);
-        Square to = Square.sq(0, 5);
+        Square from = Square.sq(6, 0);
+        Square to = Square.sq(5, 0);
 
-        assertTrue(nB.isUnblockedMove(to, from, null));
-        assertFalse(nB.isUnblockedMove(to, Square.sq(7, 2), null));
+        assertTrue(nB.isUnblockedMove(from, to, null));
+        assertFalse(nB.isUnblockedMove(from, Square.sq(7, 2), null));
 
-        nB.put(Piece.WHITE, 0 , 3);
+        nB.put(Piece.WHITE, 3, 0);
 
-        Square to2 = Square.sq(0, 2);
+        Square to2 = Square.sq(2, 0);
 
         assertFalse(nB.isUnblockedMove(to, to2, null));
     }
@@ -44,8 +44,8 @@ public class BoardTest {
     @Test
     public void testUnBlockedMoveSpear() {
         Board nB = new Board();
-        Square from = Square.sq(0, 9);
-        Square to = Square.sq(0, 6);
+        Square from = Square.sq(9, 0);
+        Square to = Square.sq(6, 0);
         Square asEmpty = to;
 
         assertTrue(nB.isUnblockedMove(from, to, asEmpty));

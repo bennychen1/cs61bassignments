@@ -185,50 +185,66 @@ class Board {
             return false;
         }
 
-        if (from.col() + 1 > 10  || from.col() - 1 < -1
-                || from.row() + 1 > 10 || from.row() - 1 < -1) {
-            return false;
-        }
-
-
         if (direction.equals("horizLeft")) {
+            if (from.col() == 0) {
+                return false;
+            }
             Square fromLeft = Square.sq(from.col() - 1, from.row());
             return isUnblockedMoveDirection(fromLeft, to, asEmpty, direction);
         }
 
         else if (direction.equals("horizRight")) {
+            if (from.col() == 9) {
+                return false;
+            }
         	Square fromRight = Square.sq(from.col() + 1, from.row());
         	return isUnblockedMoveDirection(fromRight, to, asEmpty, direction);
-
         }
 
         else if (direction.equals("vertDown")) {
+            if (from.row() == 0) {
+                return false;
+            }
             Square fromDown = Square.sq(from.col(), from.row() - 1);
             return isUnblockedMoveDirection(fromDown, to, asEmpty, direction);
         }
 
         else if (direction.equals("vertUp")) {
+            if (from.row() == 9) {
+                return false;
+            }
         	 Square fromUp = Square.sq(from.col(), from.row() + 1);
             return isUnblockedMoveDirection(fromUp, to, asEmpty, direction);
         }
 
         else if (direction.equals("leftUpDiag")) {
+            if (from.col() == 0 || from.row() == 9) {
+                return false;
+            }
         	Square fromUpDiag = Square.sq(from.col() - 1, from.row() + 1);
             return isUnblockedMoveDirection(fromUpDiag, to, asEmpty, direction);
         }
 
         else if (direction.equals("leftDownDiag")) {
+            if (from.col() == 9 || from.row() == 0) {
+                return false;
+            }
             Square fromDownDiag = Square.sq(from.col() + 1, from.row() - 1);
             return isUnblockedMoveDirection(fromDownDiag, to, asEmpty, direction);
         }
 
         else if (direction.equals("rightDownDiag")) {
-            Square fromDownDiag = Square.sq(from.col() + 1, from.row() + 1);
+            if (from.col() == 0 || from.row() == 0) {
+                return false;
+            }
+            Square fromDownDiag = Square.sq(from.col() - 1, from.row() - 1);
             return isUnblockedMoveDirection(fromDownDiag, to, asEmpty, direction);
-
         }
         else {
-            Square fromUpDiag = Square.sq(from.col() - 1, from.row() - 1);
+            if (from.col() == 9 || from.row() == 9) {
+                return false;
+            }
+            Square fromUpDiag = Square.sq(from.col() + 1, from.row() +  1);
             return isUnblockedMoveDirection(fromUpDiag, to, asEmpty, direction);
         }
     }
