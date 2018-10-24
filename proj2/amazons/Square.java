@@ -111,7 +111,9 @@ final class Square {
      *  valid square designation. */
     static Square sq(String posn) {
         assert posn.matches(SQ);
-        return sq(0);  // FIXME
+        int col = ((int) posn.charAt(0)) - 97;
+        int row = posn.charAt(1) - '0';
+        return sq(col, row - 1);  // FIXME
     }
 
     /** Return an iterator over all Squares. */

@@ -18,4 +18,11 @@ public class SquareTest {
         assertTrue(ninetyNine == Square.sq(99));
         assertEquals("j10", ninetyNine.toString());
     }
+
+    @Test
+    public void testSquarePOSN() {
+        assertEquals(Square.sq(9, 8), Square.sq("j9"));
+        assertEquals(Square.sq(81), Square.sq("b9"));
+        assertEquals(Square.sq(1), Square.sq("b1"));
+    }
 }
