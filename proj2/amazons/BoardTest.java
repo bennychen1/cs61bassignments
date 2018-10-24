@@ -170,6 +170,18 @@ public class BoardTest {
         assertTrue(nB.isLegal(m));
         assertFalse(nB.isLegal(mInval));
     }
+
+    @Test
+    public void testIsLegalMoveString() {
+        String m = "g1-h1(g1)";
+        //String m2 = "g1-g9(g10)";
+
+        Move move1 = Move.mv(m);
+        //Move move2 = Move.mv(m2);
+
+        assertTrue(nB.isLegal(move1));
+        //assertFalse(nB.isLegal(move2));
+    }
 }
 
 // Put square already occupied (isLegal)

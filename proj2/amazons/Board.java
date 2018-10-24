@@ -281,14 +281,18 @@ class Board {
                 return true;
             }
         }
-        return false;  // FIXME
-
+        return false;
+        // FIXME
     }
 
     /** Return true iff MOVE is a legal move in the current
      *  position. */
     boolean isLegal(Move move) {
-        return false;  // FIXME
+        Square from = move.from();
+        Square to = move.to();
+        Square spear = move.spear();
+        return isLegal(from, to, spear);
+        // FIXME
     }
 
     /** Move FROM-TO(SPEAR), assuming this is a legal move. */
