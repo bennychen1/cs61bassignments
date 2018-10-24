@@ -7,18 +7,17 @@ public class BoardTest {
     Board nB = new Board();
     @Test
     public void testInit() {
-        Board newBoard = new Board();
-        newBoard.put(Piece.BLACK, 0, 0);
-        newBoard.put(Piece.SPEAR, 7, 2);
+        nB.put(Piece.BLACK, 0, 0);
+        nB.put(Piece.SPEAR, 7, 2);
 
-        assertTrue(newBoard.get(3, 0).toString().equals( "W"));
-        assertTrue(newBoard.get(0, 0).toString().equals("B"));
-        assertTrue(newBoard.get(7, 2).toString().equals("S"));
-        assertTrue(newBoard.getInitBoard()[0][0].toString().equals("-"));
+        assertTrue(nB.get(3, 0).toString().equals( "W"));
+        assertTrue(nB.get(0, 0).toString().equals("B"));
+        assertTrue(nB.get(7, 2).toString().equals("S"));
+        assertTrue(nB.getInitBoard()[0][0].toString().equals("-"));
 
-        newBoard.init();
+        nB.init();
 
-        assertTrue(newBoard.get(0, 0).toString().equals("-"));
+        assertTrue(nB.get(0, 0).toString().equals("-"));
     }
 
     @Test
@@ -154,6 +153,22 @@ public class BoardTest {
         assertFalse(nB.isLegal(from2, occupied));
         assertFalse(nB.isLegal(from2, illegalMove));
         assertFalse(nB.isLegal(from2, pieceBetween));
+    }
+
+    @Test
+    public void testIsLegalMove() {
+        nB.init();
+
+        Square from = Square.sq(9, 6);
+        Square to = Square.sq(8, 7);
+        Square spear = Square.sq(1, 7);
+        Move m = Move.mv(from, to, spear);
+
+        Square spearInval = Square.sq(7, 9);
+        Move mInval = Move.mv(from, to, spearInval);
+
+        assertTrue(nB.isLegal(m));
+        assertFalse(nB.isLegal(mInval));
     }
 }
 
