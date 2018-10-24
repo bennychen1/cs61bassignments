@@ -315,6 +315,7 @@ class Board {
                 put(Piece.EMPTY, from);
             }
             _numMoves += 1;
+            _turn = _turn.opponent();
         }
         // FIXME
     }
