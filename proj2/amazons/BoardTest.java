@@ -109,14 +109,14 @@ public class BoardTest {
         nB.init();
 
         Square from = Square.sq(6, 0);
-        Square to = Square.sq(9, 3);
-        Square spear = Square.sq(9, 2);
+        Square to = Square.sq(8, 2);
+        Square spear = Square.sq(5, 2);
         Square spearFrom = Square.sq(6, 0);
-        Square spearBetween = Square.sq(9, 1);
-        Square spearOccupied = Square.sq(9, 2);
+        Square spearBetween = Square.sq(8, 4);
+        Square spearOccupied = Square.sq(8, 3);
         Square spearInval = Square.sq(3, 3);
 
-        nB.put(Piece.WHITE, 9, 2);
+        nB.put(Piece.WHITE, 8, 3);
 
         assertTrue(nB.isLegal(from, to, spear));
         assertTrue(nB.isLegal(from, to, spearFrom));
@@ -124,7 +124,6 @@ public class BoardTest {
         assertFalse(nB.isLegal(from, to,spearBetween));
         assertFalse(nB.isLegal(from, to, spearOccupied));
         assertFalse(nB.isLegal(from, to, spearInval));
-
     }
 
     @Test

@@ -153,7 +153,7 @@ class Board {
      *  empty. ASEMPTY may be null, in which case it has no effect. */
     boolean isUnblockedMove(Square from, Square to, Square asEmpty) {
 
-        if (!(get(to).toString().equals("-"))) {
+        if (!(get(to).toString().equals("-")) && to != asEmpty) {
             return false;
         }
         if (asEmpty == null) {
@@ -276,7 +276,12 @@ class Board {
     /** Return true iff FROM-TO(SPEAR) is a legal move in the current
      *  position. */
     boolean isLegal(Square from, Square to, Square spear) {
-        return true;  // FIXME
+        if (isLegal(from, to)) {
+            if (isUnblockedMove(to, spear, from)) {
+                return true;
+            }
+        }
+        return false;  // FIXME
 
     }
 
