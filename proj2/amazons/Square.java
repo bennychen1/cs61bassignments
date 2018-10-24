@@ -55,6 +55,12 @@ final class Square {
         { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 }
     };
 
+    /** Returns an 2d int array containing the possible directions
+     * of movement. */
+    public static int[][] getDIR() {
+        return DIR;
+    }
+
     /** Return the Square that is STEPS>0 squares away from me in direction
      *  DIR, or null if there is no such square.
      *  DIR = 0 for north, 1 for northeast, 2 for east, etc., up to 7 for west.
@@ -86,7 +92,7 @@ final class Square {
         if (!exists(row, col)) {
             throw error("row or column out of bounds");
         }
-        return sq(0);  // FIXME
+        return sq(row * 10 + col);  // FIXME
     }
 
     /** Return the (unique) Square denoting the position with index INDEX. */
@@ -116,9 +122,11 @@ final class Square {
     /** Return the Square with index INDEX. */
     private Square(int index) {
         _index = index;
-        _row = 0;  // FIXME
-        _col = 0;  // FIXME
-        _str = String.format("a1");  // FIXME
+        _row = index / 10;  // FIXME
+        _col = index % 10;  // FIXME
+        char charCol = (char) (_col + 97);
+        int rowPrint = _row + 1;
+        _str = String.format(charCol + Integer.toString(rowPrint));  // FIXME
     }
 
     /** The cache of all created squares, by index. */

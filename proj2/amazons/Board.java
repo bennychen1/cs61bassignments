@@ -156,7 +156,16 @@ class Board {
         if (asEmpty == null) {
             asEmpty = from;
         }
-        return false; // FIXME
+        String[] directions = new String[]{"horizLeft", "horizRight," +
+                                           "vertUp", "vertDown",
+                                            "leftUpDiag", "leftDownDiag",
+                                            "rightUpDiag", "rightDownDiag"};
+        for (String direction : directions) {
+            if (isUnblockedMoveDirection(from, to, asEmpty, direction)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Returns true iff FROM - TO is unblocked queen move in the direction
@@ -176,18 +185,51 @@ class Board {
             return false;
         }
 
-        if (direction.equals("horiz")) {
-            Square fromLeft = Square.sq(from.col() - 1, from.row());
-            Square fromRight = Square.sq(from.col() + 1, from.row());
-            return isUnblockedMoveDirection(fromLeft, to, asEmpty, direction)
-                    || isUnblockedMoveDirection(fromRight, to, asEmpty, direction);
+        if (from.col() + 1 > 10  || from.col() - 1 < -1
+                || from.row() + 1 > 10 || from.row() - 1 < -1) {
+            return false;
         }
 
-        else if (direction.equals("vert")) {
+
+        if (direction.equals("horizLeft")) {
+            Square fromLeft = Square.sq(from.col() - 1, from.row());
+            return isUnblockedMoveDirection(fromLeft, to, asEmpty, direction);
+        }
+
+        else if (direction.equals("horizRight")) {
+        	Square fromRight = Square.sq(from.col() + 1, from.row());
+        	return isUnblockedMoveDirection(fromRight, to, asEmpty, direction);
+
+        }
+
+        else if (direction.equals("vertDown")) {
             Square fromDown = Square.sq(from.col(), from.row() - 1);
-            Square fromUp = Square.sq(from.col(), from.row() + 1);
-            return isUnblockedMoveDirection(fromDown, to, asEmpty, direction)
-                    || isUnblockedMoveDirection(fromUp, to, asEmpty, direction);
+            return isUnblockedMoveDirection(fromDown, to, asEmpty, direction);
+        }
+
+        else if (direction.equals("vertUp")) {
+        	 Square fromUp = Square.sq(from.col(), from.row() + 1);
+            return isUnblockedMoveDirection(fromUp, to, asEmpty, direction);
+        }
+
+        else if (direction.equals("leftUpDiag")) {
+        	Square fromUpDiag = Square.sq(from.col() - 1, from.row() + 1);
+            return isUnblockedMoveDirection(fromUpDiag, to, asEmpty, direction);
+        }
+
+        else if (direction.equals("leftDownDiag")) {
+            Square fromDownDiag = Square.sq(from.col() + 1, from.row() - 1);
+            return isUnblockedMoveDirection(fromDownDiag, to, asEmpty, direction);
+        }
+
+        else if (direction.equals("rightDownDiag")) {
+            Square fromDownDiag = Square.sq(from.col() + 1, from.row() + 1);
+            return isUnblockedMoveDirection(fromDownDiag, to, asEmpty, direction);
+
+        }
+        else {
+            Square fromUpDiag = Square.sq(from.col() - 1, from.row() - 1);
+            return isUnblockedMoveDirection(fromUpDiag, to, asEmpty, direction);
         }
     }
 
