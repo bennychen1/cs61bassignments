@@ -100,7 +100,7 @@ class Board {
 
     /** Return the contents the square at S. */
     final Piece get(Square s) {
-        return get(s.row(), s.col());
+        return get(s.col(), s.row());
         // FIXME
     }
 
@@ -153,10 +153,13 @@ class Board {
      *  empty. ASEMPTY may be null, in which case it has no effect. */
     boolean isUnblockedMove(Square from, Square to, Square asEmpty) {
 
+        if (!(get(to).toString().equals("-"))) {
+            return false;
+        }
         if (asEmpty == null) {
             asEmpty = from;
         }
-        String[] directions = new String[]{"horizLeft", "horizRight," +
+        String[] directions = new String[]{"horizLeft", "horizRight",
                                            "vertUp", "vertDown",
                                             "leftUpDiag", "leftDownDiag",
                                             "rightUpDiag", "rightDownDiag"};
@@ -251,13 +254,23 @@ class Board {
 
     /** Return true iff FROM is a valid starting square for a move. */
     boolean isLegal(Square from) {
-        return true;  // FIXME
+        if (get(from).toString().equals("B")
+                || get(from).toString().equals("W")) {
+            return true;
+        }
+        return false;
+        // FIXME
     }
 
     /** Return true iff FROM-TO is a valid first part of move, ignoring
      *  spear throwing. */
     boolean isLegal(Square from, Square to) {
-        return true;  // FIXME
+        if (isLegal(from)) {
+            if (isUnblockedMove(from, to, null)) {
+                return true;
+            }
+        }
+        return false;  // FIXME
     }
 
     /** Return true iff FROM-TO(SPEAR) is a legal move in the current

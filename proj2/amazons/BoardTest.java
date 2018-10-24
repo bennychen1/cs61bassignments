@@ -4,13 +4,16 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 
 public class BoardTest {
+    Board nB = new Board();
     @Test
     public void testInit() {
         Board newBoard = new Board();
         newBoard.put(Piece.BLACK, 0, 0);
+        newBoard.put(Piece.SPEAR, 7, 2);
 
         assertTrue(newBoard.get(3, 0).toString().equals( "W"));
         assertTrue(newBoard.get(0, 0).toString().equals("B"));
+        assertTrue(newBoard.get(7, 2).toString().equals("S"));
         assertTrue(newBoard.getInitBoard()[0][0].toString().equals("-"));
 
         newBoard.init();
@@ -20,18 +23,21 @@ public class BoardTest {
 
     @Test
     public void testOccupied() {
-        Board nB = new Board();
+        nB.init();
         nB.put(Piece.SPEAR, 3, 9);
         assertEquals("B", nB.get(3, 9).toString());
     }
 
     @Test
     public void testUnBlockedMoveQueen() {
-        Board nB = new Board();
+        nB.init();
         Square from = Square.sq(6, 0);
         Square to = Square.sq(5, 0);
+        Square distance = Square.sq(6, 7);
+        Square occupied = Square.sq(6, 9);
 
         assertTrue(nB.isUnblockedMove(from, to, null));
+        assertTrue(nB.isUnblockedMove(from, distance, null));
         assertFalse(nB.isUnblockedMove(from, Square.sq(7, 2), null));
 
         nB.put(Piece.WHITE, 3, 0);
@@ -39,22 +45,67 @@ public class BoardTest {
         Square to2 = Square.sq(2, 0);
 
         assertFalse(nB.isUnblockedMove(to, to2, null));
+        assertFalse(nB.isUnblockedMove(from, occupied, null));
     }
 
     @Test
     public void testUnBlockedMoveSpear() {
-        Board nB = new Board();
+        nB.init();
         Square from = Square.sq(9, 0);
         Square to = Square.sq(6, 0);
         Square asEmpty = to;
 
         assertTrue(nB.isUnblockedMove(from, to, asEmpty));
 
+        Square from2 = Square.sq(7, 4);
+        nB.put(Piece.SPEAR, 8, 5);
+        String spear = nB.get(8, 5).toString();
+        Square to2 = Square.sq(9, 6);
+        Square to3 = Square.sq(9, 3);
+        Square asEmpty2 = to2;
+
+        assertFalse(nB.isUnblockedMove(from2, to2, asEmpty));
+        assertFalse(nB.isUnblockedMove(from2,to2, asEmpty));
+    }
+
+    @Test
+    public void testIsLegalStart() {
+        nB.init();
+        nB.put(Piece.WHITE, 2, 1);
+
+        Square defaultSquare = Square.sq(9, 6);
+        Square newPut = Square.sq(2, 1);
+        Square emptySquare = Square.sq(2, 2);
+
+        assertTrue(nB.isLegal(defaultSquare));
+        assertTrue(nB.isLegal(newPut));
+        assertFalse(nB.isLegal(emptySquare));
+    }
+
+    @Test
+    public void testIsLegalFirst() {
+        nB.init();
+        Square defaultSquare = Square.sq(6, 0);
+        Square occupied = Square.sq(6, 9);
+        Square inval = Square.sq(7, 2);
+        Square goodMove = Square.sq(6, 5);
+        Square pieceBetween = Square.sq(5, 1);
+        Square wPieceBetween = Square.sq(1, 5);
+        Square emptySquare = Square.sq(0, 0);
+
+        nB.put(Piece.WHITE, 5, 1);
+
+        assertTrue(nB.isLegal(defaultSquare, goodMove));
+
+        assertFalse(nB.isLegal(emptySquare, defaultSquare));
+        assertFalse(nB.isLegal(defaultSquare, occupied));
+        assertFalse(nB.isLegal(defaultSquare, inval));
+        assertFalse(nB.isLegal(defaultSquare, wPieceBetween));
     }
 
     @Test
     public void testIsLegals() {
-        Board nB = new Board();
+        nB.init();
 
         Square start = Square.sq(2, 1);
         Square horiz = Square.sq(1, 1);
