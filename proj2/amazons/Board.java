@@ -10,6 +10,7 @@ import java.util.Formatter;
 import java.util.Stack;
 import java.util.NoSuchElementException;
 import java.util.Arrays;
+import java.util.Stack;
 
 import static amazons.Piece.*;
 import static amazons.Move.mv;
@@ -130,10 +131,6 @@ class Board {
     final void put(Piece p, int col, int row) {
         if (col < 0 || row < 0
                 || col > 9 || row > 9) {
-            return ;
-        }
-
-        if (!(get(col, row).toString().equals("-"))) {
             return ;
         }
 
@@ -297,6 +294,14 @@ class Board {
 
     /** Move FROM-TO(SPEAR), assuming this is a legal move. */
     void makeMove(Square from, Square to, Square spear) {
+        if (isLegal(from, to, spear)) {
+            Move m = Move.mv(from, to, spear);
+            _moves.push(m);
+            Piece p = get(from);
+            put(p, to);
+            put(Piece.SPEAR, spear);
+            put(Piece.EMPTY, from);
+        }
         // FIXME
     }
 
@@ -439,4 +444,7 @@ class Board {
 
     /** Keeps count of the moves made. */
     private int _numMoves;
+
+    /** Keeps track of the moves made. */
+    private Stack<Move> _moves;
 }

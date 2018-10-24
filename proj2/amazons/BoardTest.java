@@ -24,7 +24,7 @@ public class BoardTest {
     public void testOccupied() {
         nB.init();
         nB.put(Piece.SPEAR, 3, 9);
-        assertEquals("B", nB.get(3, 9).toString());
+        assertEquals("S", nB.get(3, 9).toString());
     }
 
     @Test
@@ -181,6 +181,13 @@ public class BoardTest {
 
         assertTrue(nB.isLegal(move1));
         //assertFalse(nB.isLegal(move2));
+    }
+
+    @Test
+    public void testMakeMove() {
+        nB.init();
+
+        Square from = Square.sq(6, 0);
     }
 }
 
