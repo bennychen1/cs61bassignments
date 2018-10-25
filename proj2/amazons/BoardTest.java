@@ -66,6 +66,24 @@ public class BoardTest {
     }
 
     @Test
+    public void testHorizUB() {
+        nB.init();
+
+        Square from = Square.sq(6, 0);
+        Square left = Square.sq(5, 0);
+        Square right = Square.sq(7, 0);
+        Square between = Square.sq(0, 0);
+        Square between2 = Square.sq(9, 0);
+
+        nB.put(Piece.SPEAR, 8, 0);
+
+        assertTrue(nB.isUnblockedMove(from, left, null));
+        assertTrue(nB.isUnblockedMove(from, right, null));
+        assertFalse(nB.isUnblockedMove(from, between, null));
+        assertFalse(nB.isUnblockedMove(from, between2, null));
+    }
+
+    @Test
     public void testUnBlockedMoveSpear() {
         nB.init();
         Square from = Square.sq(9, 0);
@@ -94,7 +112,10 @@ public class BoardTest {
         Square newPut = Square.sq(2, 1);
         Square emptySquare = Square.sq(2, 2);
 
+        nB.setTurn(Piece.BLACK);
         assertTrue(nB.isLegal(defaultSquare));
+
+        nB.setTurn(Piece.WHITE);
         assertTrue(nB.isLegal(newPut));
         assertFalse(nB.isLegal(emptySquare));
     }
@@ -243,6 +264,7 @@ public class BoardTest {
         assertEquals("-", nB.get(toInval).toString());
         assertEquals("-", nB.get(spearInval).toString());
         assertEquals(1, nB.numMoves());
+        assertEquals("B", nB.turn().toString());
 
         Square from2 = Square.sq(0, 6);
         Square to2 = Square.sq(2, 6);
@@ -250,9 +272,12 @@ public class BoardTest {
 
         Move move2 = Move.mv(from2, to2, spear2);
 
+        assertEquals("B", nB.turn().toString());
+
         nB.makeMove(move2);
 
         assertEquals(2, nB.numMoves());
+        assertEquals("W", nB.turn().toString());
 
         assertEquals("S", nB.get(from2).toString());
 
@@ -260,6 +285,73 @@ public class BoardTest {
 
         assertTrue(curMoves.size() == 2);
         assertTrue(move2 == curMoves.pop());
+    }
+
+    @Test
+    public void testMakeMoveString() {
+        Move move1 = Move.mv("g1 h1 h3");
+        nB.makeMove(move1);
+
+        assertEquals(1, nB.numMoves());
+        assertEquals("W", nB.get(7, 0).toString());
+        assertEquals("-", nB.get(6, 0).toString());
+        assertEquals("S", nB.get(7, 2).toString());
+
+        Move move2 = Move.mv("a7-a6(a7)");
+        nB.makeMove(move2);
+        assertEquals("S", nB.get(0, 6).toString());
+
+    }
+
+    @Test
+    public void testUndo() {
+        nB.init();
+
+        Move move1 = Move.mv("a4-c2(b1)");
+        Move botMove1 = Move.mv("a7-a4(b3)");
+
+       nB.undo();
+
+       assertEquals(0, nB.numMoves());
+
+       checkWithInitBoard(nB.getBoard());
+    }
+
+    @Test
+    public void testTwoMovesUndo() {
+        nB.init();
+
+        Move move1 = Move.mv("j4-h6(j8)");
+        Move botMove1 = Move.mv("j7-j4(j7)");
+
+        Move move2 = Move.mv("h6-h1(j3)");
+        Move botMove2 = Move.mv("j4-j6(j4)");
+
+        nB.undo();
+
+        assertEquals(1, nB.numMoves());
+        assertEquals("B", nB.get(9, 3).toString());
+        assertEquals("-", nB.get(9, 5).toString());
+        assertEquals("-", nB.get(7, 0).toString());
+        assertEquals("W", nB.get(7, 5).toString());
+        assertEquals("-", nB.get(9, 2).toString());
+
+        nB.undo();
+
+        assertEquals(0, nB.numMoves());
+        checkWithInitBoard(nB.getBoard());
+
+        nB.undo();
+        checkWithInitBoard(nB.getBoard());
+
+    }
+
+    void checkWithInitBoard(Piece[][]b) {
+        int i = 0;
+        for (Piece[] p : b) {
+            assertArrayEquals(p, nB.getInitBoard()[i]);
+            i += 1;
+        }
     }
 }
 

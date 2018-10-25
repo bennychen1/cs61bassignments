@@ -82,6 +82,11 @@ class Board {
         return _initBoard;
     }
 
+    /** Returns the current board array. */
+    Piece[][] getBoard() {
+        return _boardArr;
+    }
+
     /** Return the Piece whose move it is (WHITE or BLACK). */
     Piece turn() {
         return _turn;
@@ -273,8 +278,8 @@ class Board {
         }
         Square fromDown = Square.sq(from.col(), from.row() - 1);
         return isUnblockedMoveDirection(fromDown, to, asEmpty, direction);
-
     }
+
     /** Return true iff FROM is a valid starting square for a move. */
     boolean isLegal(Square from) {
         return get(from).toString().equals(_turn.toString());
