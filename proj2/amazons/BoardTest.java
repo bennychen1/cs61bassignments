@@ -310,9 +310,13 @@ public class BoardTest {
         Move move1 = Move.mv("a4-c2(b1)");
         Move botMove1 = Move.mv("a7-a4(b3)");
 
+        nB.makeMove(move1);
+        nB.makeMove(botMove1);
+
        nB.undo();
 
        assertEquals(0, nB.numMoves());
+       assertEquals("W", nB.turn().toString());
 
        checkWithInitBoard(nB.getBoard());
     }
@@ -327,9 +331,15 @@ public class BoardTest {
         Move move2 = Move.mv("h6-h1(j3)");
         Move botMove2 = Move.mv("j4-j6(j4)");
 
+        nB.makeMove(move1);
+        nB.makeMove(botMove1);
+        nB.makeMove(move2);
+        nB.makeMove(botMove2);
+
         nB.undo();
 
-        assertEquals(1, nB.numMoves());
+        assertEquals(2, nB.numMoves());
+        assertEquals("W", nB.turn().toString());
         assertEquals("B", nB.get(9, 3).toString());
         assertEquals("-", nB.get(9, 5).toString());
         assertEquals("-", nB.get(7, 0).toString());

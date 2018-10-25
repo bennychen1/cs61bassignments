@@ -347,7 +347,37 @@ class Board {
 
     /** Undo one move.  Has no effect on the initial board. */
     void undo() {
+        if (numMoves() >= 2) {
+            Move move2 = _moves.pop();
+            Move move1 = _moves.pop();
+
+            Square from2 = move2.from();
+            Square to2 = move2.to();
+            Square spear2 = move2.spear();
+
+           undoAMove(from2, to2, spear2);
+
+            Square from1= move1.from();
+            Square to1 = move1.to();
+            Square spear1 = move1.spear();
+
+            undoAMove(from1, to1, spear1);
+        }
         // FIXME
+    }
+
+    /** Undoes a move by returning the piece at TO back to
+     *  FROM, puts an empty piece at TO, and nulls the spear
+     *  square if it does not equal FROM. Subtract number
+     *  of moves by 1.*/
+    void undoAMove(Square from, Square to, Square spear) {
+        put(get(to), from);
+        put(Piece.EMPTY, to);
+
+        if (from != spear) {
+            put(Piece.EMPTY, spear);
+        }
+        _numMoves -= 1;
     }
 
     /** Return an Iterator over the Squares that are reachable by an
