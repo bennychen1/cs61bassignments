@@ -423,20 +423,38 @@ class Board {
         @Override
         public Square next() {
             if (hasNext()) {
-                if (_dir == -1) {
-                    checker(_from.col() - _steps, _from.row() + _steps,
+                if (_dir == 0) {
+                    return checker(_from.col() - _steps, _from.row() + _steps,
                             "leftUpDiag");
-                } else if (_dir == 0) {
-                    checker(_from.col(), _from.row() - _steps, "horizLeft");
+                } else if (_dir == 1) {
+                    return checker(_from.col() - _steps, _from.row(), "horizLeft");
+                } else if (_dir == 2) {
+                    return checker(_from.col() - _steps, _from.row() - _steps,
+                            "leftDownDiag");
+                } else if (_dir == 3) {
+                    return checker(_from.col(), _from.row() - _steps, "vertDown");
+                } else if (_dir == 4) {
+                    return checker(_from.col() + _steps, _from.row() - _steps,
+                            "rightDownDiag");
+                } else if (_dir == 5) {
+                    return checker(_from.col() + _steps, _from.row(), "horizRight");
+                } else if (_dir == 6) {
+                    return checker(_from.col() + _steps, _from.row() + _steps,
+                            "rightUpDiag");
+                } else {
+                    return checker(_from.col(), _from.row() + _steps, "vertUp");
                 }
-                return null;   // FIXME
+            } else {
+                throw error("No more reachable squares");
+                // FIXME
             }
         }
 
         /** Advance _dir and _steps, so that the next valid Square is
          *  _steps steps in direction _dir from _from. */
         private void toNext() {
-            _steps += 1;
+            _dir += 1;
+            _steps = 1;
             // FIXME
         }
 
@@ -445,18 +463,16 @@ class Board {
          * checks another direction.*/
         private Square checker(int c, int r, String direction) {
             if (r < 0 || r > 9 || c < 0 || c < 9) {
-                _dir += 1;
-                _steps = 0;
+                toNext();
                 return next();
             }
 
             Square to = Square.sq(c, r);
             if(!(isUnblockedMoveDirection(_from, to, _asEmpty, direction))) {
-                _dir += 1;
-                _steps = 0;
+                toNext();
                 return next();
             } else {
-                toNext();
+                _steps += 1;
                 return Square.sq(c, r);
             }
         }
