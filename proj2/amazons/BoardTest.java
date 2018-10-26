@@ -2,6 +2,9 @@ package amazons;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
 
 import java.util.Stack;
 
@@ -354,6 +357,58 @@ public class BoardTest {
         nB.undo();
         checkWithInitBoard(nB.getBoard());
 
+    }
+
+    @Test
+    public void testReachableFrom() {
+        nB.init();
+
+        for (int i = 0; i < 100; i +=1) {
+            Square s = Square.sq(i);
+            nB.put(Piece.SPEAR, s);
+        }
+
+        nB.put(Piece.EMPTY, 9, 0);
+        nB.put(Piece.EMPTY, 9, 1);
+        nB.put(Piece.EMPTY, 9, 2);
+
+        Iterator<Square> reachableIter = nB.reachableFrom(Square.sq(9, 0), null);
+
+        Square first = reachableIter.next();
+        Square second = reachableIter.next();
+
+        assertEquals(Square.sq(9, 1), first);
+        assertEquals(Square.sq(9,2), second);
+    }
+
+    @Test
+    public void testReachableFromDirections() {
+        nB.init();
+
+        Square from = Square.sq(6, 5);
+
+        int[][] directions = Square.getDIR();
+
+        for (int[] d : directions) {
+            int dx = 2 * d[0];
+            int dy = 2 * d[1];
+            Square s = Square.sq(from.col() + dx, from.row() + dy);
+
+            nB.put(Piece.SPEAR, s);
+        }
+
+        assertEquals("S", nB.get(6, 7).toString());
+        assertEquals("-", nB.get(7, 6).toString());
+
+        Iterator<Square> reachbleIter = nB.reachableFrom(from, null);
+
+        List<Square> rSquares = new ArrayList<Square>();
+
+        while (reachbleIter.hasNext()) {
+            rSquares.add(reachbleIter.next());
+        }
+
+        assertEquals(8, rSquares.size());
     }
 
     void checkWithInitBoard(Piece[][]b) {
