@@ -404,13 +404,35 @@ public class BoardTest {
 
         List<Square> rSquares = new ArrayList<Square>();
 
-        while (reachbleIter.hasNext()) {
-            rSquares.add(reachbleIter.next());
-        }
-
-        assertEquals(8, rSquares.size());
+        addToList(rSquares, reachbleIter, 8);
     }
 
+    @Test
+    public void testRIteratorEdge() {
+        nB.init();
+
+        Square from = Square.sq(6, 0);
+        Square from2 = Square.sq(9, 0);
+        nB.put(Piece.WHITE, 3, 3);
+        nB.put(Piece.BLACK, 8, 2);
+        nB.put(Piece.SPEAR, 6, 3);
+
+        Iterator<Square> rIter = nB.reachableFrom(from, null);
+
+        List<Square> rSquares = new ArrayList<Square>();
+
+        addToList(rSquares, rIter, 10);
+
+        Iterator<Square> rIter2 = nB.reachableFrom(from2, from);
+
+        rSquares.clear();
+
+        addToList(rSquares, rIter2, 9);
+
+        assertTrue(rSquares.contains(from));
+    }
+
+    /** Checks if the current board is the same as the initial board. */
     void checkWithInitBoard(Piece[][]b) {
         int i = 0;
         for (Piece[] p : b) {
@@ -418,6 +440,17 @@ public class BoardTest {
             i += 1;
         }
     }
+
+    /** Adds all the squares in an iterator I to a list R.
+     * Checks that r has size S after adding all the elements. */
+    void addToList(List<Square>r, Iterator<Square>i, int s) {
+        while (i.hasNext()) {
+            r.add(i.next());
+        }
+        assertEquals(s, r.size());
+    }
+
+
 }
 
 // Put square already occupied (isLegal)
