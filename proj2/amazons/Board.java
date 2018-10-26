@@ -422,13 +422,43 @@ class Board {
 
         @Override
         public Square next() {
-            return null;   // FIXME
+            if (hasNext()) {
+                if (_dir == -1) {
+                    checker(_from.col() - _steps, _from.row() + _steps,
+                            "leftUpDiag");
+                } else if (_dir == 0) {
+                    checker(_from.col(), _from.row() - _steps, "horizLeft");
+                }
+                return null;   // FIXME
+            }
         }
 
         /** Advance _dir and _steps, so that the next valid Square is
          *  _steps steps in direction _dir from _from. */
         private void toNext() {
+            _steps += 1;
             // FIXME
+        }
+
+        /** Returns Square at (C, R) if col C and row R are valid and _from to
+         * the square _steps steps in DIRECTION is unblocked. Otherwise,
+         * checks another direction.*/
+        private Square checker(int c, int r, String direction) {
+            if (r < 0 || r > 9 || c < 0 || c < 9) {
+                _dir += 1;
+                _steps = 0;
+                return next();
+            }
+
+            Square to = Square.sq(c, r);
+            if(!(isUnblockedMoveDirection(_from, to, _asEmpty, direction))) {
+                _dir += 1;
+                _steps = 0;
+                return next();
+            } else {
+                toNext();
+                return Square.sq(c, r);
+            }
         }
 
         /** Starting square. */
