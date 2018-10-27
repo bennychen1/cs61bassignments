@@ -15,10 +15,12 @@ class TopBottomDraw {
      */
     public int findBestScore(int i, int j) {
         if (i == j) {
-            return 0;
+            return deck[i];
         } else if ((j - i) % 2 == deck.length % 2) {
+            int max = Math.max(findBestScore(i + 1, j) + deck[i], findBestScore(i, j - 1) + deck[j]);
             return Math.max(findBestScore(i + 1, j) + deck[i], findBestScore(i, j - 1) + deck[j]);
         } else {
+            int min = Math.min(findBestScore(i + 1, j), findBestScore(i, j - 1));
             return Math.min(findBestScore(i + 1, j), findBestScore(i, j - 1));
         }
     }
@@ -28,10 +30,15 @@ class TopBottomDraw {
     public static void main(String[] args) {
         int[] exampleDeck1 = new int[] {1, 3, 45, 6, 7, 8, 9, 9};
         int[] exampleDeck2 = new int[] {1, 3, 45, 6, 7, 8, 9, 9, 2};
+
         TopBottomDraw tbp1 = new TopBottomDraw(exampleDeck1);
         TopBottomDraw tbp2 = new TopBottomDraw(exampleDeck2);
         System.out.printf("findBestScore returned %d, should be 63\n", tbp1.findBestScore(0, exampleDeck1.length - 1));
         System.out.printf("findBestScore returned %d, should be 27\n", tbp2.findBestScore(0, exampleDeck2.length - 1));
+
+        int[]deck3 = new int[]{1, 3};
+        TopBottomDraw tbp3 = new TopBottomDraw(deck3);
+        System.out.print(tbp3.findBestScore(0, deck3.length - 1));
     }
 
 }

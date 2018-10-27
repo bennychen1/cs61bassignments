@@ -10,7 +10,7 @@ import java.util.List;
  */
 class ECHashStringSet implements StringSet {
     public ECHashStringSet(int M) {
-        
+
     }
 
 
