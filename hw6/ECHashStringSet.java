@@ -64,8 +64,9 @@ class ECHashStringSet implements StringSet {
     } */
 
     void resize() {
-        while ((_added + 1) / numBuckets > 0.2) {
-            numBuckets += 1;
+        numBuckets = numBuckets * 2;
+        while ((_added + 1) / numBuckets < 0.2) {
+            numBuckets -= 1;
         }
 
         ArrayList<ArrayList<String>> temp = _buckets;
