@@ -535,17 +535,18 @@ class Board {
         int tally = 1;
         int innerTally = 1;
         String result = "";
-        for (int i = 0; i < _boardArr.length; i += 1) {
+        for (int i = 9; i >= 0; i -= 1) {
             Piece[] r = _boardArr[i];
+            result += " " + " " + " ";
             for (int j = 0; j < r.length; j += 1) {
-                if (j == 9 && i != 9) {
-                    result += r[j].toString() + "\n";
-                } else {
-                    result += r[j].toString();
-                }
+               String toAdd = r[j].toString();
+               if (j == 9) {
+                   result += toAdd + "\n";
+               } else {
+                   result += toAdd + " ";
+               }
             }
         }
-
         return result;
         // FIXME
     }
