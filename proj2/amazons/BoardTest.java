@@ -432,6 +432,39 @@ public class BoardTest {
         assertTrue(rSquares.contains(from));
     }
 
+    @Test
+    public void testToString() {
+        nB.init();
+        String initBoard =
+                "- - - B - - B - - -\n" +
+                "- - - - - - - - - -\n" +
+                "- - - - - - - - - -\n" +
+                "B - - - - - - - - - B\n" +
+                "- - - - - - - - - -\n" +
+                "- - - - - - - - - -\n" +
+                "W - - - - - - - - - W\n" +
+                "- - - - - - - - - -\n" +
+                "- - - - - - - - - -\n" +
+                "- - - W - - W - - -";
+        assertEquals(initBoard, nB.toString());
+
+        nB.put(Piece.SPEAR, 9, 0);
+        nB.put(Piece.SPEAR, 9, 1);
+
+        String boardSpear = "- - - B - - B - - -\n" +
+                "- - - - - - - - - -\n" +
+                "- - - - - - - - - -\n" +
+                "B - - - - - - - - - B\n" +
+                "- - - - - - - - - -\n" +
+                "- - - - - - - - - -\n" +
+                "W - - - - - - - - - W\n" +
+                "- - - - - - - - - -\n" +
+                "- - - - - - - - - -\\\n" +
+                "- - - W - - W - - \\";
+
+        assertEquals(boardSpear, nB.toString());
+    }
+
     /** Checks if the current board is the same as the initial board. */
     void checkWithInitBoard(Piece[][]b) {
         int i = 0;

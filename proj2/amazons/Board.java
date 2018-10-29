@@ -532,7 +532,22 @@ class Board {
 
     @Override
     public String toString() {
-        return ""; // FIXME
+        int tally = 1;
+        int innerTally = 1;
+        String result = "";
+        for (int i = 0; i < _boardArr.length; i += 1) {
+            Piece[] r = _boardArr[i];
+            for (int j = 0; j < r.length; j += 1) {
+                if (j == 9 && i != 9) {
+                    result += r[j].toString() + "\n";
+                } else {
+                    result += r[j].toString();
+                }
+            }
+        }
+
+        return result;
+        // FIXME
     }
 
     /** An empty iterator for initialization. */
