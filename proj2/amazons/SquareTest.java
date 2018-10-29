@@ -35,4 +35,15 @@ public class SquareTest {
         assertEquals(null, from.queenMove(10, 3));
         assertEquals(null, from.queenMove(0, 10));
     }
+
+    @Test
+    public void testIsQueenMove() {
+        assertFalse(Square.sq(1, 5).isQueenMove(Square.sq(1, 5)));
+        assertFalse(Square.sq(1, 5).isQueenMove(Square.sq(2, 7)));
+        assertFalse(Square.sq(0, 0).isQueenMove(Square.sq(5, 1)));
+        assertTrue(Square.sq(1, 1).isQueenMove(Square.sq(9, 9)));
+        assertTrue(Square.sq(2, 7).isQueenMove(Square.sq(8, 7)));
+        assertTrue(Square.sq(3, 0).isQueenMove(Square.sq(3, 4)));
+        assertTrue(Square.sq(7, 9).isQueenMove(Square.sq(0, 2)));
+    }
 }

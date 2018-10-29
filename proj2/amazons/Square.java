@@ -43,8 +43,18 @@ final class Square {
 
     /** Return true iff THIS - TO is a valid queen move. */
     boolean isQueenMove(Square to) {
-        return this != to
-            && true; // FIXME
+        if (this == to) {
+            return false;
+        }
+
+        int dx = (_col - to.col());
+        int dy = (_row - to.row());
+
+        if (dx == 0 || dy == 0) {
+            return true;
+        } else {
+            return Math.abs(dx) == Math.abs(dy);
+        }
     }
 
     /** Definitions of direction for queenMove.  DIR[k] = (dcol, drow)
@@ -81,9 +91,30 @@ final class Square {
             dx = 1;
             dy = -1;
         } else if (dir == 4) {
-
+            dx = 0;
+            dy = -1;
+        } else if (dir == 5) {
+            dx = -1;
+            dy = -1;
+        } else if (dir == 6) {
+            dx = -1;
+            dy = 0;
+        } else if (dir == 7) {
+            dx = -1;
+            dy = 1;
+        } else {
+            return null;
         }
-        return this;  // FIXME
+
+        int moveCol = _col + dx * steps;
+        int moveRow = _row + dy * steps;
+
+        if (moveCol < 0 || moveCol > 9
+                || moveRow < 0 || moveRow > 9){
+            return null;
+        }
+
+        return Square.sq(moveCol, moveRow);  // FIXME
     }
 
     /** Return the direction (an int as defined in the documentation
