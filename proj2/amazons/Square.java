@@ -67,6 +67,22 @@ final class Square {
      *  If DIR has another value, return null. Thus, unless the result
      *  is null the resulting square is a queen move away rom me. */
     Square queenMove(int dir, int steps) {
+        int dx, dy;
+        if (dir == 0) {
+            dx = 0;
+            dy = 1;
+        } else if (dir == 1) {
+            dx = 1;
+            dy = 1;
+        } else if (dir == 2) {
+            dx = 1;
+            dy = 0;
+        } else if (dir == 3) {
+            dx = 1;
+            dy = -1;
+        } else if (dir == 4) {
+
+        }
         return this;  // FIXME
     }
 

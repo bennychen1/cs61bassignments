@@ -25,4 +25,14 @@ public class SquareTest {
         assertEquals(Square.sq(81), Square.sq("b9"));
         assertEquals(Square.sq(1), Square.sq("b1"));
     }
+
+    @Test
+    public void testQueenMove() {
+        Square from = Square.sq(6, 0);
+        Square to = Square.sq(8, 2);
+
+        assertEquals(to, from.queenMove(1, 2));
+        assertEquals(null, from.queenMove(10, 3));
+        assertEquals(null, from.queenMove(0, 10));
+    }
 }
