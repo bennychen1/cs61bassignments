@@ -51,7 +51,7 @@ public class BSTStringSet implements SortedStringSet, Iterable<String> {
 
     @Override
     public Iterator<String> iterator(String low, String high) {
-        return null;  // FIXME
+        return new BSTRangeIterator(root, low, high);  // FIXME
     }
 
     /** Return either the node in this BST that contains S, or, if
@@ -142,6 +142,47 @@ public class BSTStringSet implements SortedStringSet, Iterable<String> {
     }
 
     // ADD A CLASS, PERHAPS?
+    private static class BSTRangeIterator implements Iterator<String> {
+
+        Stack<Node> toDo = new Stack<Node>();
+        String _low;
+        String _high;
+
+        BSTRangeIterator(Node node, String low, String high) {
+            _low = low;
+            _high = high;
+            addTree(node);
+
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !toDo.empty();
+        }
+
+        @Override
+        public String next() {
+            if (hasNext()) {
+                Node nextNode = toDo.pop();
+                addTree(nextNode.right);
+                return nextNode.s;
+            } else {
+                throw new NoSuchElementException();
+            }
+        }
+
+        private void addTree(Node node) {
+            if (node == null) {
+                return;
+            }
+
+            if (node.s.compareTo(_low) > 0 && node.s.compareTo(_high) < 0) {
+                toDo.push(node);
+                addTree(node.left);
+            }
+
+        }
+    }
 
     /** Root node of the tree. */
     private Node root;

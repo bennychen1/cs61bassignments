@@ -33,7 +33,7 @@ HashSet: 0.02 sec
 2c. Does your **BST**StringSet look roughly linear or roughly
 quadratic in its scaling behavior for in order strings?
 The time exactly doubled form a size of 10000 strings to a size of 20000 strings. The runtime
-appears linear. 
+appears linear.
 
 
 Before submitting, make sure that your ECHashStringSet is capable of
