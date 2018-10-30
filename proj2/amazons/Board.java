@@ -466,7 +466,7 @@ class Board {
          * the square _steps steps in DIRECTION is unblocked. Otherwise,
          * checks another direction.*/
         private Square checker(int c, int r, String direction) {
-            if (r < 0 || r > 9 || c < 0 || c < 9) {
+            if (r < 0 || r > 9 || c < 0 || c > 9) {
                 toNext();
                 return next();
             }
