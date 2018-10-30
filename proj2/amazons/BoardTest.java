@@ -107,6 +107,20 @@ public class BoardTest {
     }
 
     @Test
+    public void testDiags() {
+        nB.init();
+
+        Square from = Square.sq(9, 6);
+        Square to = Square.sq(8, 5);
+        Square pieceBetween = Square.sq(6, 3);
+
+        nB.put(Piece.WHITE, 7, 4);
+
+        assertTrue(nB.isUnblockedMove(from, to, null));
+        assertFalse(nB.isUnblockedMove(from, pieceBetween, null));
+    }
+
+    @Test
     public void testIsLegalStart() {
         nB.init();
         nB.put(Piece.WHITE, 2, 1);
@@ -396,8 +410,6 @@ public class BoardTest {
 
             nB.put(Piece.SPEAR, s);
         }
-
-        System.out.print(nB.toString());
 
         assertEquals("S", nB.get(6, 7).toString());
         assertEquals("-", nB.get(7, 6).toString());

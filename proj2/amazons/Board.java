@@ -454,7 +454,7 @@ class Board {
 
                     Square nextVSqaure = Square.sq(_from.col(), _from.row() + _steps);
 
-                    if (!isUnblockedMoveDirection(_from, nextVSqaure, _asEmpty, "vertUp")) {
+                    if (!isUnblockedMoveDirection(_from, nextVSqaure, _from, "vertUp")) {
                         toNext();
                     }
                     return s;
@@ -478,13 +478,22 @@ class Board {
          * the square _steps steps in DIRECTION is unblocked. Otherwise,
          * checks another direction.*/
         private Square checker(int c, int r, String direction) {
+
+            Square e;
+
+            if (_asEmpty == null) {
+                e = _from;
+            } else {
+                e = _asEmpty;
+            }
+
             if (r < 0 || r > 9 || c < 0 || c > 9) {
                 toNext();
                 return next();
             }
 
             Square to = Square.sq(c, r);
-            if(!(isUnblockedMoveDirection(_from, to, _asEmpty, direction))) {
+            if(!(isUnblockedMoveDirection(_from, to, e, direction))) {
                 toNext();
                 return next();
             } else {
