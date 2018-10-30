@@ -176,7 +176,7 @@ public class BSTStringSet implements SortedStringSet, Iterable<String> {
                 return;
             }
 
-            if (node.s.compareTo(_low) > 0 && node.s.compareTo(_high) < 0) {
+            if (node.s.compareTo(_low) >= 0 && node.s.compareTo(_high) < 0) {
                 toDo.push(node);
                 addTree(node.left);
             }

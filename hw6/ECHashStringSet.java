@@ -78,9 +78,9 @@ class ECHashStringSet implements StringSet {
             _buckets.add(initial);
         }
 
-        for (int i = 0; i < _buckets.size(); i += 1) {
-            for (int j = 0; j < _buckets.get(i).size(); j += 1) {
-                put(_buckets.get(i).get(j));
+        for (int i = 0; i < temp.size(); i += 1) {
+            for (int j = 0; j < temp.get(i).size(); j += 1) {
+                put(temp.get(i).get(j));
             }
         }
     }
