@@ -397,8 +397,11 @@ public class BoardTest {
             nB.put(Piece.SPEAR, s);
         }
 
+        System.out.print(nB.toString());
+
         assertEquals("S", nB.get(6, 7).toString());
         assertEquals("-", nB.get(7, 6).toString());
+
 
         Iterator<Square> reachbleIter = nB.reachableFrom(from, null);
 

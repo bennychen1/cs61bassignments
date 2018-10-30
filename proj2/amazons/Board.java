@@ -225,17 +225,17 @@ class Board {
             Square fromUpDiag = Square.sq(from.col() - 1, from.row() + 1);
             return isUnblockedMoveDirection(fromUpDiag, to, asEmpty, direction);
         } else if (direction.equals("leftDownDiag")) {
-            if (from.col() == 9 || from.row() == 0) {
-                return false;
-            }
-            Square fromDownDiag = Square.sq(from.col() + 1, from.row() - 1);
-            return isUnblockedMoveDirection(fromDownDiag, to,
-                    asEmpty, direction);
-        } else if (direction.equals("rightDownDiag")) {
             if (from.col() == 0 || from.row() == 0) {
                 return false;
             }
             Square fromDownDiag = Square.sq(from.col() - 1, from.row() - 1);
+            return isUnblockedMoveDirection(fromDownDiag, to,
+                    asEmpty, direction);
+        } else if (direction.equals("rightDownDiag")) {
+            if (from.col() == 9 || from.row() == 0) {
+                return false;
+            }
+            Square fromDownDiag = Square.sq(from.col() + 1, from.row() - 1);
             return isUnblockedMoveDirection(fromDownDiag, to,
                     asEmpty, direction);
         } else {
@@ -446,7 +446,19 @@ class Board {
                     return checker(_from.col() + _steps, _from.row() + _steps,
                             "rightUpDiag");
                 } else {
-                    return checker(_from.col(), _from.row() + _steps, "vertUp");
+                    Square s = checker(_from.col(), _from.row() + _steps, "vertUp");
+
+                    if (_from.row() + _steps > 9) {
+                        toNext();
+                    }
+
+                    Square nextVSqaure = Square.sq(_from.col(), _from.row() + _steps);
+
+                    if (!isUnblockedMoveDirection(_from, nextVSqaure, _asEmpty, "vertUp")) {
+                        toNext();
+                    }
+                    return s;
+
                 }
             } else {
                 throw error("No more reachable squares");
