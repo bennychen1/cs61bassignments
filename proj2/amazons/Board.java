@@ -446,16 +446,7 @@ class Board {
                     return checker(_from.col() + _steps, _from.row() + _steps,
                             "rightUpDiag");
                 } else {
-                    Square s = checker(_from.col(), _from.row() + _steps, "vertUp");
-                    if (s != null) {
-                        Square s2 = checkerNext(_from.col(),_from.row() + _steps * 2, "vertUp");
-                        if (s2 == null) {
-                            toNext();
-                        }
-                        return s;
-                    } else {
-                        return next();
-                    }
+                    return checker(_from.col(), _from.row() + _steps, "vertUp");
                 }
             } else {
                 throw error("No more reachable squares");
@@ -475,39 +466,19 @@ class Board {
          * the square _steps steps in DIRECTION is unblocked. Otherwise,
          * checks another direction.*/
         private Square checker(int c, int r, String direction) {
-            if (r < 0 || r > 9 || c < 0 || c > 9) {
+            if (r < 0 || r > 9 || c < 0 || c < 9) {
                 toNext();
-                if (_dir == 8) {
-                    return null;
-                }
                 return next();
             }
 
             Square to = Square.sq(c, r);
             if(!(isUnblockedMoveDirection(_from, to, _asEmpty, direction))) {
                 toNext();
-                if (_dir == 8) {
-                    return null;
-                }
                 return next();
             } else {
                 _steps += 1;
                 return Square.sq(c, r);
             }
-        }
-
-        private Square checkerNext(int c, int r, String direction) {
-            if (r < 0 || r > 9 || c < 0 || c > 9) {
-                return null;
-            }
-
-            Square to = Square.sq(c, r);
-
-            if(!(isUnblockedMoveDirection(_from, to, _asEmpty, direction))) {
-                return null;
-            }
-
-            return to;
         }
 
         /** Starting square. */
