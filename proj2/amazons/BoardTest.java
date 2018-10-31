@@ -448,6 +448,11 @@ public class BoardTest {
     }
 
     @Test
+    public void testReachableFromFull() {
+        nB.init();
+    }
+
+    @Test
     public void testToString() {
         nB.init();
         String initBoard =
