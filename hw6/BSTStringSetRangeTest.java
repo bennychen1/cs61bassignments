@@ -62,6 +62,31 @@ public class BSTStringSetRangeTest {
         System.exit(ucb.junit.textui.runClasses(BSTStringSetRangeTest.class));
     }
 
+    @Test
+    public void testBSTRange() {
+        BSTStringSet b = new BSTStringSet();
+        b.put("aardvark");
+        b.put("bob");
+        b.put("cat");
+        b.put("dog");
+        b.put("enter");
+        b.put("free");
+        b.put("good");
+        b.put("ardvark");
+
+        Iterator<String> bIterator = b.iterator("a", "focus");
+
+        ArrayList<String> s= new ArrayList<String>();
+
+        while (bIterator.hasNext()) {
+            s.add(bIterator.next());
+        }
+
+        for (String x : s) {
+            System.out.println(x);
+        }
+    }
+
     private static final ArrayList<String> WORDS1 = new ArrayList<>();
     private static final ArrayList<String> WORDS2 = new ArrayList<>();
     private static String _low, _high;
