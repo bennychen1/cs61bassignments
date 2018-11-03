@@ -168,22 +168,41 @@ class Board {
      *  squares along it, other than FROM and ASEMPTY, must be
      *  empty. ASEMPTY may be null, in which case it has no effect. */
     boolean isUnblockedMove(Square from, Square to, Square asEmpty) {
-
         if (!(get(to).toString().equals("-")) && to != asEmpty) {
             return false;
         }
         if (asEmpty == null) {
             asEmpty = from;
         }
-        String[] directions = new String[]{"horizLeft", "horizRight",
-                "vertUp", "vertDown",
-                                            "leftUpDiag", "leftDownDiag",
-                                            "rightUpDiag", "rightDownDiag"};
-        for (String direction : directions) {
-            if (isUnblockedMoveDirection(from, to, asEmpty, direction)) {
+
+        for (int i = 0; i < 8; i += 1) {
+            if (isUBDirection(from, to, asEmpty, i)) {
                 return true;
-            }
+            };
         }
+        return false;
+    }
+
+    /** Returns true iff FROM - TO is an unblocked queen move in the direction of DIRECTION
+     * (0 is North, 2 is Northeast, and so on clockwise up to 7). The square of ASEMPTY is
+     * treated as empty. */
+    boolean isUBDirection(Square from, Square to, Square asEmpty, int direction) {
+        if (!(get(to).toString().equals("-")) && to != asEmpty) {
+            return false;
+        }
+
+        if (from == to) {
+            return true;
+        }
+        if (from != asEmpty && !(get(from)).toString().equals("-")) {
+            return false;
+        }
+
+        Square moveTo = from.queenMove(direction, 1);
+        if (moveTo != null) {
+            return isUBDirection(moveTo, to, asEmpty, direction);
+        }
+
         return false;
     }
 
@@ -612,4 +631,10 @@ class Board {
 
     /** Keeps track of the moves made. */
     private Stack<Move> _moves;
+
+    /** The eight possible directions of moving. */
+    private static final int[][] DIR = {
+            { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1 },
+            { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 }
+    };
 }
