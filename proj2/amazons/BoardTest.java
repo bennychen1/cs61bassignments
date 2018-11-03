@@ -536,7 +536,16 @@ public class BoardTest {
     @Test
     public void testManyLegalMoves() {
         nB.init();
-        
+        putPiece(Piece.BLACK);
+        nB.put(Piece.WHITE, 0, 3);
+        nB.put(Piece.WHITE, 6, 0);
+
+        Iterator<Move>legalMovesW = nB.legalMoves(Piece.WHITE);
+        List<Move>allMoves = new ArrayList<Move>();
+        addToList(allMoves, legalMovesW, 18);
+
+        Move exampleMove = Move.mv("g1-g2(h1)");
+        assertTrue(allMoves.contains(exampleMove));
     }
 
 
@@ -551,7 +560,7 @@ public class BoardTest {
 
     /** Adds all the squares in an iterator I to a list R.
      * Checks that r has size S after adding all the elements. */
-    void addToList(List<Square>r, Iterator<Square>i, int s) {
+    <T> void addToList (List<T>r, Iterator<T>i, int s) {
         while (i.hasNext()) {
             r.add(i.next());
         }
