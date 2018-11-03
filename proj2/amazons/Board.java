@@ -194,6 +194,10 @@ class Board {
         if (from == to) {
             return true;
         }
+
+        if (asEmpty == null) {
+            asEmpty = from;
+        }
         if (from != asEmpty && !(get(from)).toString().equals("-")) {
             return false;
         }
