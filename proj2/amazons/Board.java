@@ -412,16 +412,23 @@ class Board {
                 return false;
             }
 
-            Square curSquare = _startingSquares.next();
-            if (get(curSquare) != _fromPiece) {
+            if (!_pieceMoves.hasNext()) {
+                toNext();
+                return hasNext();
+            }
+            if (get(_start) != _fromPiece) {
                 return hasNext();
             }
 
-            Iterator<Square>reachable = new ReachableFromIterator(curSquare, curSquare);
+            _spearThrows = new ReachableFromIterator(_pieceMoves.next(), _start);
 
+            if (!_spearThrows.hasNext()) {
+                toNext();
+                return hasNext();
+            }
 
-
-            return false;  // FIXME
+            return true;
+            //FIXME
         }
 
         @Override
@@ -433,6 +440,8 @@ class Board {
          *  _start-_nextSquare(sp), where sp is the next value of
          *  _spearThrows. */
         private void toNext() {
+            _start = _startingSquares.next();
+            _pieceMoves = new ReachableFromIterator(_start, _start);
             // FIXME
         }
 
