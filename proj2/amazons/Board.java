@@ -343,17 +343,18 @@ class Board {
 
         @Override
         public boolean hasNext() {
-            int[][] directions;
             if (_dir < 8) {
-                directions = Square.getDIR();
-                int dx = directions[_dir][0] * _steps;
-                int dy = directions[_dir][1] * _steps;
-                int moveCol = _from.col() + dx;
-                int moveRow = _from.row() + dy;
-
-                if (moveCol < 0 || moveCol > 9
-                        || moveRow < 0 || moveRow > 9) {
-                    return false;
+                Square moveTo = _from.queenMove(_dir, _steps);
+                if (moveTo != null) {
+                    if (isUBDirection(_from, moveTo, _asEmpty, _dir)) {
+                        return true;
+                    } else {
+                        toNext();
+                        return hasNext();
+                    }
+                } else {
+                    toNext();
+                    return hasNext();
                 }
             }
             return _dir < 8;
@@ -362,39 +363,9 @@ class Board {
         @Override
         public Square next() {
             if (hasNext()) {
-                if (_dir == 0) {
-                    return checker(_from.col() - _steps, _from.row() + _steps,
-                            "leftUpDiag");
-                } else if (_dir == 1) {
-                    return checker(_from.col() - _steps, _from.row(), "horizLeft");
-                } else if (_dir == 2) {
-                    return checker(_from.col() - _steps, _from.row() - _steps,
-                            "leftDownDiag");
-                } else if (_dir == 3) {
-                    return checker(_from.col(), _from.row() - _steps, "vertDown");
-                } else if (_dir == 4) {
-                    return checker(_from.col() + _steps, _from.row() - _steps,
-                            "rightDownDiag");
-                } else if (_dir == 5) {
-                    return checker(_from.col() + _steps, _from.row(), "horizRight");
-                } else if (_dir == 6) {
-                    return checker(_from.col() + _steps, _from.row() + _steps,
-                            "rightUpDiag");
-                } else {
-                    Square s = checker(_from.col(), _from.row() + _steps, "vertUp");
-
-                    if (_from.row() + _steps > 9) {
-                        toNext();
-                    }
-
-                    Square nextVSqaure = Square.sq(_from.col(), _from.row() + _steps);
-
-                    if (!isUnblockedMoveDirection(_from, nextVSqaure, _from, "vertUp")) {
-                        toNext();
-                    }
-                    return s;
-
-                }
+                Square toReturn = _from.queenMove(_dir, _steps);
+                _steps += 1;
+                return toReturn;
             } else {
                 throw error("No more reachable squares");
                 // FIXME
@@ -407,34 +378,6 @@ class Board {
             _dir += 1;
             _steps = 1;
             // FIXME
-        }
-
-        /** Returns Square at (C, R) if col C and row R are valid and _from to
-         * the square _steps steps in DIRECTION is unblocked. Otherwise,
-         * checks another direction.*/
-        private Square checker(int c, int r, String direction) {
-
-            Square e;
-
-            if (_asEmpty == null) {
-                e = _from;
-            } else {
-                e = _asEmpty;
-            }
-
-            if (r < 0 || r > 9 || c < 0 || c > 9) {
-                toNext();
-                return next();
-            }
-
-            Square to = Square.sq(c, r);
-            if(!(isUnblockedMoveDirection(_from, to, e, direction))) {
-                toNext();
-                return next();
-            } else {
-                _steps += 1;
-                return Square.sq(c, r);
-            }
         }
 
         /** Starting square. */
