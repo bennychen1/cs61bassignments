@@ -445,14 +445,21 @@ class Board {
          *  _start-_nextSquare(sp), where sp is the next value of
          *  _spearThrows. */
         private void toNext() {
-            _start = _startingSquares.next();
-            _pieceMoves = reachableFrom(_start, null);
             if (!_pieceMoves.hasNext()) {
-                toNext();
+                if (_startingSquares.hasNext()) {
+                    _start = _startingSquares.next();
+                    _pieceMoves = reachableFrom(_start, null);
+                    if (_pieceMoves.hasNext()) {
+                        _nextSquare = _pieceMoves.next();
+                        _spearThrows = reachableFrom(_nextSquare, _start);
+                    } else {
+                        toNext();
+                    }
+                }
+            } else {
+                _nextSquare = _pieceMoves.next();
+                _spearThrows = reachableFrom(_nextSquare, _start);
             }
-            _nextSquare = _pieceMoves.next();
-            _spearThrows = reachableFrom(_nextSquare, _start);
-
             // FIXME
         }
 
