@@ -408,6 +408,19 @@ class Board {
 
         @Override
         public boolean hasNext() {
+            if (!_startingSquares.hasNext()) {
+                return false;
+            }
+
+            Square curSquare = _startingSquares.next();
+            if (get(curSquare) != _fromPiece) {
+                return hasNext();
+            }
+
+            Iterator<Square>reachable = new ReachableFromIterator(curSquare, curSquare);
+
+
+
             return false;  // FIXME
         }
 
@@ -439,8 +452,6 @@ class Board {
 
     @Override
     public String toString() {
-        int tally = 1;
-        int innerTally = 1;
         String result = "";
         for (int i = 9; i >= 0; i -= 1) {
             Piece[] r = _boardArr[i];

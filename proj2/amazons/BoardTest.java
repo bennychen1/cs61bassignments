@@ -451,12 +451,8 @@ public class BoardTest {
     public void testReachableFromFull() {
         nB.init();
 
-        for (int i = 0; i < 100; i += 1) {
-            Square s = Square.sq(i);
-            nB.put(Piece.EMPTY, s);
-        }
-
         Square from = Square.sq(1, 9);
+
 
         Iterator<Square> rIter = nB.reachableFrom(from, null);
         Iterator<Square> rIter2 = nB.reachableFrom(from, from);
@@ -464,10 +460,27 @@ public class BoardTest {
         List<Square> rSquares = new ArrayList<Square>();
         List<Square>rSquares2 = new ArrayList<Square>();
 
-        addToList(rSquares, rIter, 24);
+        addToList(rSquares, rIter, 20);
+        addToList(rSquares2, rIter2, 20);
 
+        for (int i = 0; i < 100; i += 1) {
+            Square s = Square.sq(i);
+            nB.put(Piece.EMPTY, s);
+        }
 
+        List<Square>rSquares3 = new ArrayList<Square>();
+        Iterator<Square>rIter3 = nB.reachableFrom(from, from);
 
+        addToList(rSquares3, rIter3, 27);
+    }
+
+    @Test
+    public void testRightCorner() {
+        nB.init();
+        Square corner = Square.sq(9, 0);
+        Iterator<Square>rIter = nB.reachableFrom(corner, null);
+        List<Square>rSquares = new ArrayList<Square>();
+        addToList(rSquares, rIter, 13);
     }
 
     @Test
@@ -503,6 +516,29 @@ public class BoardTest {
 
         assertEquals(boardSpear, nB.toString());
     }
+
+    @Test
+    public void testLegalMovesIterator() {
+        nB.init();
+
+        for (int i = 0; i < 100; i += 1) {
+            Square s = Square.sq(i);
+            nB.put(Piece.SPEAR, s);
+        }
+
+        nB.put(Piece.WHITE, 9, 3);
+        nB.put(Piece.EMPTY, 9, 2);
+        nB.put(Piece.BLACK, 6, 9);
+
+        Iterator<Move>legalMovesW = nB.legalMoves(Piece.WHITE);
+        Iterator<Move>legalMovesB = nB.legalMoves(Piece.BLACK);
+
+        Move oneMove = legalMovesW.next();
+        Move expected = Move.mv("j4-j3(j4)");
+        assertEquals(expected, oneMove);
+        assertFalse(legalMovesB.hasNext());
+    }
+
 
     /** Checks if the current board is the same as the initial board. */
     void checkWithInitBoard(Piece[][]b) {
