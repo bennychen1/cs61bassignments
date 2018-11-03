@@ -463,10 +463,7 @@ public class BoardTest {
         addToList(rSquares, rIter, 20);
         addToList(rSquares2, rIter2, 20);
 
-        for (int i = 0; i < 100; i += 1) {
-            Square s = Square.sq(i);
-            nB.put(Piece.EMPTY, s);
-        }
+        putPiece(Piece.EMPTY);
 
         List<Square>rSquares3 = new ArrayList<Square>();
         Iterator<Square>rIter3 = nB.reachableFrom(from, from);
@@ -521,10 +518,7 @@ public class BoardTest {
     public void testLegalMovesIterator() {
         nB.init();
 
-        for (int i = 0; i < 100; i += 1) {
-            Square s = Square.sq(i);
-            nB.put(Piece.SPEAR, s);
-        }
+       putPiece(Piece.SPEAR);
 
         nB.put(Piece.WHITE, 9, 3);
         nB.put(Piece.EMPTY, 9, 2);
@@ -537,6 +531,12 @@ public class BoardTest {
         Move expected = Move.mv("j4-j3(j4)");
         assertEquals(expected, oneMove);
         assertFalse(legalMovesB.hasNext());
+    }
+
+    @Test
+    public void testManyLegalMoves() {
+        nB.init();
+        
     }
 
 
@@ -556,6 +556,14 @@ public class BoardTest {
             r.add(i.next());
         }
         assertEquals(s, r.size());
+    }
+
+    /** Put PIECE p into each square. */
+    void putPiece(Piece p) {
+        for (int i = 0; i < 100; i += 1) {
+            Square s = Square.sq(i);
+            nB.put(p, s);
+        }
     }
 
 
