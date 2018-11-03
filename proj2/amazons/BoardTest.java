@@ -450,6 +450,24 @@ public class BoardTest {
     @Test
     public void testReachableFromFull() {
         nB.init();
+
+        for (int i = 0; i < 100; i += 1) {
+            Square s = Square.sq(i);
+            nB.put(Piece.EMPTY, s);
+        }
+
+        Square from = Square.sq(1, 9);
+
+        Iterator<Square> rIter = nB.reachableFrom(from, null);
+        Iterator<Square> rIter2 = nB.reachableFrom(from, from);
+
+        List<Square> rSquares = new ArrayList<Square>();
+        List<Square>rSquares2 = new ArrayList<Square>();
+
+        addToList(rSquares, rIter, 24);
+
+
+
     }
 
     @Test
