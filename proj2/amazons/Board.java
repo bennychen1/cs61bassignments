@@ -421,6 +421,19 @@ class Board {
 
         @Override
         public boolean hasNext() {
+            int[][] directions;
+            if (_dir < 8) {
+                directions = Square.getDIR();
+                int dx = directions[_dir][0] * _steps;
+                int dy = directions[_dir][1] * _steps;
+                int moveCol = _from.col() + dx;
+                int moveRow = _from.row() + dy;
+
+                if (moveCol < 0 || moveCol > 9
+                        || moveRow < 0 || moveRow > 9) {
+                    return false;
+                }
+            }
             return _dir < 8;
         }
 
