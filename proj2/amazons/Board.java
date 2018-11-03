@@ -408,7 +408,8 @@ class Board {
 
         @Override
         public boolean hasNext() {
-            if (!_startingSquares.hasNext()) {
+            if (!_startingSquares.hasNext()
+                    && !_pieceMoves.hasNext() && !_spearThrows.hasNext()) {
                 return false;
             }
 
@@ -417,23 +418,27 @@ class Board {
                 return hasNext();
             }
             if (get(_start) != _fromPiece) {
+                toNext();
                 return hasNext();
             }
-
-            _spearThrows = new ReachableFromIterator(_pieceMoves.next(), _start);
 
             if (!_spearThrows.hasNext()) {
                 toNext();
                 return hasNext();
             }
-
             return true;
             //FIXME
         }
 
         @Override
         public Move next() {
-            return null;  // FIXME
+            if (hasNext()) {
+                Move m = Move.mv(_start, _nextSquare, _spearThrows.next());
+                return m;
+            } else {
+                throw error("No legal moves");
+            }
+            // FIXME
         }
 
         /** Advance so that the next valid Move is
@@ -441,7 +446,13 @@ class Board {
          *  _spearThrows. */
         private void toNext() {
             _start = _startingSquares.next();
-            _pieceMoves = new ReachableFromIterator(_start, _start);
+            _pieceMoves = reachableFrom(_start, null);
+            if (!_pieceMoves.hasNext()) {
+                toNext();
+            }
+            _nextSquare = _pieceMoves.next();
+            _spearThrows = reachableFrom(_nextSquare, _start);
+
             // FIXME
         }
 
