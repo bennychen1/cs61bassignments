@@ -539,13 +539,21 @@ public class BoardTest {
         putPiece(Piece.BLACK);
         nB.put(Piece.WHITE, 0, 3);
         nB.put(Piece.WHITE, 6, 0);
+        nB.put(Piece.WHITE, 9, 3);
+        nB.put(Piece.EMPTY, 6, 1);
+        nB.put(Piece.EMPTY, 5, 0);
+        nB.put(Piece.EMPTY, 5, 1);
+        nB.put(Piece.EMPTY, 7, 0);
+        nB.put(Piece.EMPTY, 7, 1);
 
         Iterator<Move>legalMovesW = nB.legalMoves(Piece.WHITE);
         List<Move>allMoves = new ArrayList<Move>();
         addToList(allMoves, legalMovesW, 18);
 
         Move exampleMove = Move.mv("g1-g2(h1)");
+        Move exampleMove2 = Move.mv("g1-h2(g1)");
         assertTrue(allMoves.contains(exampleMove));
+        assertTrue(allMoves.contains(exampleMove2));
     }
 
 
