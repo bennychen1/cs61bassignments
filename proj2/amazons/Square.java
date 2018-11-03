@@ -77,34 +77,12 @@ final class Square {
      *  If DIR has another value, return null. Thus, unless the result
      *  is null the resulting square is a queen move away rom me. */
     Square queenMove(int dir, int steps) {
-        int dx, dy;
-        if (dir == 0) {
-            dx = 0;
-            dy = 1;
-        } else if (dir == 1) {
-            dx = 1;
-            dy = 1;
-        } else if (dir == 2) {
-            dx = 1;
-            dy = 0;
-        } else if (dir == 3) {
-            dx = 1;
-            dy = -1;
-        } else if (dir == 4) {
-            dx = 0;
-            dy = -1;
-        } else if (dir == 5) {
-            dx = -1;
-            dy = -1;
-        } else if (dir == 6) {
-            dx = -1;
-            dy = 0;
-        } else if (dir == 7) {
-            dx = -1;
-            dy = 1;
-        } else {
+        if (dir > 8 || dir < 0) {
             return null;
         }
+
+        int dx = DIR[dir][0];
+        int dy = DIR[dir][1];
 
         int moveCol = _col + dx * steps;
         int moveRow = _row + dy * steps;
