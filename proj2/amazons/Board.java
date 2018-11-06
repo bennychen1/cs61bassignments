@@ -182,15 +182,17 @@ class Board {
         for (int i = 0; i < 8; i += 1) {
             if (isUBDirection(from, to, asEmpty, i)) {
                 return true;
-            };
+            }
         }
         return false;
     }
 
-    /** Returns true iff FROM - TO is an unblocked queen move in the direction of DIRECTION
-     * (0 is North, 2 is Northeast, and so on clockwise up to 7). The square of ASEMPTY is
+    /** Returns true iff FROM - TO is an unblocked queen move in the
+     * direction of DIRECTION(0 is North, 2 is Northeast, and so on
+     * clockwise up to 7). The square of ASEMPTY is
      * treated as empty. */
-    boolean isUBDirection(Square from, Square to, Square asEmpty, int direction) {
+    boolean isUBDirection(Square from, Square to, Square asEmpty,
+                          int direction) {
         if (!(get(to).toString().equals("-")) && to != asEmpty) {
             return false;
         }
@@ -291,9 +293,9 @@ class Board {
             Square to2 = move2.to();
             Square spear2 = move2.spear();
 
-           undoAMove(from2, to2, spear2);
+            undoAMove(from2, to2, spear2);
 
-            Square from1= move1.from();
+            Square from1 = move1.from();
             Square to1 = move1.to();
             Square spear1 = move1.spear();
 
@@ -303,7 +305,7 @@ class Board {
     }
 
     /** Undoes a move by returning the piece at TO back to
-     *  FROM, puts an empty piece at TO, and nulls the spear
+     *  FROM, puts an empty piece at TO, and nulls the SPEAR
      *  square if it does not equal FROM. Subtract number
      *  of moves by 1.*/
     void undoAMove(Square from, Square to, Square spear) {
@@ -495,12 +497,12 @@ class Board {
             Piece[] r = _boardArr[i];
             result += " " + " " + " ";
             for (int j = 0; j < r.length; j += 1) {
-               String toAdd = r[j].toString();
-               if (j == 9) {
-                   result += toAdd + "\n";
-               } else {
-                   result += toAdd + " ";
-               }
+                String toAdd = r[j].toString();
+                if (j == 9) {
+                    result += toAdd + "\n";
+                } else {
+                    result += toAdd + " ";
+                }
             }
         }
         return result;
