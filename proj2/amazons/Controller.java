@@ -212,10 +212,8 @@ final class Controller {
 
         if (player.equals("black")) {
             _black = _autoPlayerTemplate.create(Piece.BLACK, this);
-            _white = _manualPlayerTemplate.create(Piece.WHITE, this);
         } else {
-            _black = _autoPlayerTemplate.create(Piece.BLACK, this);
-            _white = _manualPlayerTemplate.create(Piece.WHITE, this);
+            _white = _autoPlayerTemplate.create(Piece.WHITE, this);
         }
     }
 
@@ -230,9 +228,7 @@ final class Controller {
 
         if (player.equals("black")) {
             _black = _manualPlayerTemplate.create(Piece.BLACK, this);
-            _white = _autoPlayerTemplate.create(Piece.WHITE, this);
         } else {
-            _black = _autoPlayerTemplate.create(Piece.BLACK, this);
             _white = _manualPlayerTemplate.create(Piece.WHITE, this);
         }
     }
