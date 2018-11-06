@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 public class SquareTest {
     @Test
-    public void testIndex(){
+    public void testIndex() {
         Square ten = Square.sq(0, 1);
         assertEquals("a2", ten.toString());
     }

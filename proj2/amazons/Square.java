@@ -16,7 +16,7 @@ import static amazons.Utils.*;
  *  position, you can freely use the cheap == operator (rather than the
  *  .equals method) to compare Squares, and the program does not waste time
  *  creating the same square over and over again.
- *  @author
+ *  @author Benny Chen
  */
 final class Square {
 
@@ -90,7 +90,7 @@ final class Square {
         int moveRow = _row + dy * steps;
 
         if (moveCol < 0 || moveCol > 9
-                || moveRow < 0 || moveRow > 9){
+                || moveRow < 0 || moveRow > 9) {
             return null;
         }
 
@@ -138,7 +138,7 @@ final class Square {
      *  valid square designation. */
     static Square sq(String posn) {
         assert posn.matches(SQ);
-        int col = ((int) posn.charAt(0)) - 97;
+        int col = ((int) posn.charAt(0)) - START;
         Pattern p = Pattern.compile("[a-j]([1-9]|10)");
         Matcher m = p.matcher(posn);
         m.matches();
@@ -146,7 +146,8 @@ final class Square {
         if (m.group(1).equals("10")) {
             row = 10;
         } else {
-            row = posn.charAt(1) -'0';
+            char start = '0';
+            row = posn.charAt(1) - start;
         }
         return sq(col, row - 1);  // FIXME
     }
@@ -161,7 +162,7 @@ final class Square {
         _index = index;
         _row = index / 10;  // FIXME
         _col = index % 10;  // FIXME
-        char charCol = (char) (_col + 97);
+        char charCol = (char) (_col + START);
         int rowPrint = _row + 1;
         _str = String.format(charCol + Integer.toString(rowPrint));  // FIXME
     }
@@ -187,5 +188,8 @@ final class Square {
 
     /** My String denotation. */
     private final String _str;
+
+    /** The start of the alphabet. */
+    private static final int START = 97;
 
 }
