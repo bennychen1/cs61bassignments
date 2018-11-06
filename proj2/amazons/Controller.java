@@ -242,10 +242,12 @@ final class Controller {
             throw error("Bad move command: format should be a1 a2 a3");
         }
 
+        String moveString = mat.group(1) + "-" + mat.group(3)
+                + "(" + mat.group(5) + ")";
 
+        Move m = Move.mv(moveString);
 
-
-
+        board().makeMove(m);
         }
 
     /** The board. */
