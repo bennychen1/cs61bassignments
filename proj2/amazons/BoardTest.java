@@ -317,6 +317,12 @@ public class BoardTest {
         Move move2 = Move.mv("a7-a6(a7)");
         nB.makeMove(move2);
         assertEquals("S", nB.get(0, 6).toString());
+
+        nB.init();
+        Move move3 = Move.mv("g1 g9 h9");
+        nB.makeMove(move3);
+        System.out.print(move3);
+        assertEquals(Piece.SPEAR, nB.get(7, 9));
     }
 
     @Test
@@ -328,6 +334,8 @@ public class BoardTest {
 
         nB.makeMove(move1);
         nB.makeMove(botMove1);
+
+        assertEquals(2, nB.numMoves());
 
        nB.undo();
 

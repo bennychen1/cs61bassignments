@@ -146,7 +146,7 @@ final class Controller {
         new Command("new$", this::doNew),
         new Command("auto ([Bb]\\d+|[Ww]\\d+)", this::doAuto),
         new Command("move ([Bb]\\d+|[Ww]\\d+)", this::doManaul),
-        new Command("([a-j]\\d|10) ([a-j]\\d|10) ([a-j]\\d|10)", this::doMove)
+        new Command("([a-j]([1-9]|10))\\s+([a-j]([1-9]|10))\\s+([a-j]([1-9]|10))", this::doMove)
         // FIXME
     };
 
@@ -238,6 +238,13 @@ final class Controller {
     }
 
     private void doMove(Matcher mat) {
+        if (!mat.matches()) {
+            throw error("Bad move command: format should be a1 a2 a3");
+        }
+
+
+
+
 
         }
 
