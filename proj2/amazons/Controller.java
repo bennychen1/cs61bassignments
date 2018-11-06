@@ -144,8 +144,8 @@ final class Controller {
         new Command("seed\\s+(\\d+)$", this::doSeed),
         new Command("dump$", this::doDump),
         new Command("new$", this::doNew),
-        new Command("auto ([Bb]\\d+|[Ww]\\d+)", this::doAuto),
-        new Command("move ([Bb]\\d+|[Ww]\\d+)", this::doManaul),
+        new Command("auto\\s+([Bb]lack|[Ww]hite)", this::doAuto),
+        new Command("manual\\s([Bb]lack+|[Ww]hite)", this::doManaul),
         new Command("([a-j]([1-9]|10))\\s+([a-j]([1-9]|10))\\s+([a-j]([1-9]|10))", this::doMove)
         // FIXME
     };
@@ -247,8 +247,14 @@ final class Controller {
 
         Move m = Move.mv(moveString);
 
-        board().makeMove(m);
+        try {
+            board().makeMove(m);
+        } catch (IllegalArgumentException excp) {
+            throw error("Move is invalid");
+        } catch (NullPointerException e) {
+            throw error("Move is not a valid direction");
         }
+    }
 
     /** The board. */
     private Board _board = new Board();

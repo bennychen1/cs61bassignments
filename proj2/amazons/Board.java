@@ -266,6 +266,8 @@ class Board {
             }
             _numMoves += 1;
             _turn = _turn.opponent();
+        } else {
+            throw error("Piece is in between or square occupied");
         }
         // FIXME
     }

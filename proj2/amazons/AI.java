@@ -44,7 +44,8 @@ class AI extends Player {
     String myMove() {
         Move move = findMove();
         _controller.reportMove(move);
-        return move.toString();
+        //return move.toString();
+        return "g9-g8(g9)";
     }
 
     /** Return a move for me from the current position, assuming there
