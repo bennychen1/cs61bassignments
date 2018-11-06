@@ -9,6 +9,10 @@ import static java.lang.Math.*;
 import static amazons.Piece.*;
 import static amazons.Utils.iterable;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
+
 /** A Player that automatically generates moves.
  *  @author
  */
@@ -92,8 +96,26 @@ class AI extends Player {
             return WINNING_VALUE;
         }
 
+        List<Move> myMoves = new ArrayList<Move>();
+        List<Move> opponentMoves = new ArrayList<Move>();
+
+        Iterator<Move> myLegalMoves = board.legalMoves(_myPiece);
+        Iterator<Move> opponentLM = board.legalMoves(_myPiece.opponent());
+
+        while (myLegalMoves.hasNext()) {
+            myMoves.add(myLegalMoves.next());
+        }
+
+        while (opponentLM.hasNext()) {
+            opponentMoves.add(opponentLM.next());
+        }
+
+        if (myMoves.size() > opponentMoves.size()) {
+            return 10;
+        } else {
+            return 1;
+        }
         // FIXME
-        return 0;
     }
 
 

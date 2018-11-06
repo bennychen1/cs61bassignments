@@ -143,6 +143,10 @@ final class Controller {
         new Command("quit$", this::doQuit),
         new Command("seed\\s+(\\d+)$", this::doSeed),
         new Command("dump$", this::doDump),
+        new Command("new$", this::doNew),
+        new Command("auto ([Bb]\\d+|[Ww]\\d+)", this::doAuto),
+        new Command("move ([Bb]\\d+|[Ww]\\d+)", this::doManaul),
+        new Command("([a-j]\\d|10) ([a-j]\\d|10) ([a-j]\\d|10)", this::doMove)
         // FIXME
     };
 
@@ -197,6 +201,45 @@ final class Controller {
     private void doDump(Matcher unused) {
         System.out.printf("===%n%s===%n", _board);
     }
+
+    /** Command "auto C" where C is the first group of MAT. */
+    private void doAuto(Matcher mat) {
+        if (!mat.matches()) {
+            throw error ("Bad command: Need to be auto BLACK or auto White");
+        }
+
+        String player = mat.group(1).toLowerCase();
+
+        if (player.equals("black")) {
+            _black = _autoPlayerTemplate.create(Piece.BLACK, this);
+            _white = _manualPlayerTemplate.create(Piece.WHITE, this);
+        } else {
+            _black = _autoPlayerTemplate.create(Piece.BLACK, this);
+            _white = _manualPlayerTemplate.create(Piece.WHITE, this);
+        }
+    }
+
+    /** Command "manual C" where C is the first group of MAT. */
+    private void doManaul(Matcher mat) {
+        if (!mat.matches()) {
+            throw error("The player to set as manual" +
+                    "must be either 'Black' or 'White'.");
+        }
+
+        String player = mat.group(1).toLowerCase();
+
+        if (player.equals("black")) {
+            _black = _manualPlayerTemplate.create(Piece.BLACK, this);
+            _white = _autoPlayerTemplate.create(Piece.WHITE, this);
+        } else {
+            _black = _autoPlayerTemplate.create(Piece.BLACK, this);
+            _white = _manualPlayerTemplate.create(Piece.WHITE, this);
+        }
+    }
+
+    private void doMove(Matcher mat) {
+
+        }
 
     /** The board. */
     private Board _board = new Board();
