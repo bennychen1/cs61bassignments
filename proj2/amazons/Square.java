@@ -3,6 +3,8 @@ package amazons;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static amazons.Utils.*;
 
@@ -137,7 +139,15 @@ final class Square {
     static Square sq(String posn) {
         assert posn.matches(SQ);
         int col = ((int) posn.charAt(0)) - 97;
-        int row = posn.charAt(1) - '0';
+        Pattern p = Pattern.compile("[a-j]([1-9]|10)");
+        Matcher m = p.matcher(posn);
+        m.matches();
+        int row;
+        if (m.group(1).equals("10")) {
+            row = 10;
+        } else {
+            row = posn.charAt(1) -'0';
+        }
         return sq(col, row - 1);  // FIXME
     }
 

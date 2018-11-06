@@ -305,6 +305,20 @@ public class BoardTest {
     }
 
     @Test
+    public void testMoveTen() {
+        nB.init();
+        Move m1 = Move.mv("a4-a2(a4)");
+        Move m2 = Move.mv("g10-j10(h10)");
+
+        nB.makeMove(m1);
+        nB.makeMove(m2);
+
+        assertEquals(Piece.BLACK, nB.get(9, 9));
+        assertEquals(Piece.SPEAR, nB.get(7, 9));
+        assertEquals(Piece.WHITE, nB.get(0, 1));
+    }
+
+    @Test
     public void testMakeMoveString() {
         Move move1 = Move.mv("g1 h1 h3");
         nB.makeMove(move1);
@@ -321,8 +335,9 @@ public class BoardTest {
         nB.init();
         Move move3 = Move.mv("g1 g9 h10");
         nB.makeMove(move3);
-        System.out.print(move3);
+
         assertEquals(Piece.SPEAR, nB.get(7, 9));
+        assertEquals(Piece.WHITE, nB.get(6, 8));
     }
 
     @Test

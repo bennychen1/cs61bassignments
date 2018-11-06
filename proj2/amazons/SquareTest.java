@@ -24,6 +24,7 @@ public class SquareTest {
         assertEquals(Square.sq(9, 8), Square.sq("j9"));
         assertEquals(Square.sq(81), Square.sq("b9"));
         assertEquals(Square.sq(1), Square.sq("b1"));
+        assertEquals(Square.sq(9, 9), Square.sq("j10"));
     }
 
     @Test
