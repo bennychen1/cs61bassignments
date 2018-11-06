@@ -1,7 +1,6 @@
 package amazons;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public class BoardTest {
         nB.put(Piece.BLACK, 0, 0);
         nB.put(Piece.SPEAR, 7, 2);
 
-        assertTrue(nB.get(3, 0).toString().equals( "W"));
+        assertTrue(nB.get(3, 0).toString().equals("W"));
         assertTrue(nB.get(0, 0).toString().equals("B"));
         assertTrue(nB.get(7, 2).toString().equals("S"));
         assertTrue(nB.getInitBoard()[0][0].toString().equals("-"));
@@ -103,7 +102,7 @@ public class BoardTest {
         Square asEmpty2 = to2;
 
         assertFalse(nB.isUnblockedMove(from2, to2, asEmpty));
-        assertFalse(nB.isUnblockedMove(from2,to2, asEmpty));
+        assertFalse(nB.isUnblockedMove(from2, to2, asEmpty));
     }
 
     @Test
@@ -176,7 +175,7 @@ public class BoardTest {
         assertTrue(nB.isLegal(from, to, spear));
         assertTrue(nB.isLegal(from, to, spearFrom));
 
-        assertFalse(nB.isLegal(from, to,spearBetween));
+        assertFalse(nB.isLegal(from, to, spearBetween));
         assertFalse(nB.isLegal(from, to, spearOccupied));
         assertFalse(nB.isLegal(from, to, spearInval));
     }
@@ -234,13 +233,13 @@ public class BoardTest {
     @Test
     public void testIsLegalMoveString() {
         String m = "g1-h1(g1)";
-        //String m2 = "g1-g9(g10)";
+        String m2 = "g1-g9(g10)";
 
         Move move1 = Move.mv(m);
-        //Move move2 = Move.mv(m2);
+        Move move2 = Move.mv(m2);
 
         assertTrue(nB.isLegal(move1));
-        //assertFalse(nB.isLegal(move2));
+        assertFalse(nB.isLegal(move2));
     }
 
     @Test
@@ -248,38 +247,15 @@ public class BoardTest {
         nB.init();
         Square from = Square.sq(6, 0);
         Square to = Square.sq(8, 2);
-        Square toInvalDir = Square.sq(9, 1);
-        Square spearInvalDir = Square.sq(9, 0);
         Square spear = Square.sq(1, 9);
 
         Move move1 = Move.mv(from, to, spear);
-        Move moveInvalDir = Move.mv(from, toInvalDir, spearInvalDir);
 
         nB.makeMove(move1);
 
         assertEquals("-", nB.get(from).toString());
         assertEquals("W", nB.get(to).toString());
         assertEquals("S", nB.get(spear).toString());
-        assertEquals(1, nB.numMoves());
-
-        nB.makeMove(moveInvalDir);
-
-        assertEquals(1, nB.numMoves());
-        assertEquals("-", nB.get(spearInvalDir).toString());
-
-
-
-        Square fromInval = Square.sq(9, 3);
-        Square toInval = Square.sq(7, 1);
-        Square spearInval = Square.sq(7, 2);
-
-        Move moveInval = Move.mv(fromInval, toInval, spearInval);
-
-        //nB.makeMove(moveInval);
-
-        assertEquals("W", nB.get(fromInval).toString());
-        assertEquals("-", nB.get(toInval).toString());
-        assertEquals("-", nB.get(spearInval).toString());
         assertEquals(1, nB.numMoves());
         assertEquals("B", nB.turn().toString());
 
@@ -303,6 +279,41 @@ public class BoardTest {
         assertTrue(curMoves.size() == 2);
         assertTrue(move2 == curMoves.pop());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalMove() {
+        nB.init();
+        Square from = Square.sq(6, 0);
+        Square toInvalDir = Square.sq(9, 1);
+        Square spearInvalDir = Square.sq(9, 0);
+
+        Move moveInvalDir = Move.mv(from, toInvalDir, spearInvalDir);
+
+        nB.makeMove(moveInvalDir);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBlockedMove() {
+        nB.init();
+        Square from = Square.sq(6, 0);
+        Square to = Square.sq(8, 2);
+        Square spear = Square.sq(1, 9);
+
+        Move move1 = Move.mv(from, to, spear);
+
+        nB.makeMove(move1);
+
+        Square fromInval = Square.sq(9, 3);
+        Square toInval = Square.sq(7, 1);
+        Square spearInval = Square.sq(7, 2);
+
+        Move moveInval = Move.mv(fromInval, toInval, spearInval);
+
+        nB.makeMove(moveInval);
+
+    }
+
+
 
     @Test
     public void testMoveTen() {
@@ -352,12 +363,13 @@ public class BoardTest {
 
         assertEquals(2, nB.numMoves());
 
-       nB.undo();
+        nB.undo();
 
-       assertEquals(0, nB.numMoves());
-       assertEquals("W", nB.turn().toString());
+        assertEquals(0, nB.numMoves());
 
-       checkWithInitBoard(nB.getBoard());
+        assertEquals("W", nB.turn().toString());
+
+        checkWithInitBoard(nB.getBoard());
     }
 
     @Test
@@ -398,7 +410,7 @@ public class BoardTest {
     public void testReachableFrom() {
         nB.init();
 
-        for (int i = 0; i < 100; i +=1) {
+        for (int i = 0; i < 100; i += 1) {
             Square s = Square.sq(i);
             nB.put(Piece.SPEAR, s);
         }
@@ -407,13 +419,14 @@ public class BoardTest {
         nB.put(Piece.EMPTY, 9, 1);
         nB.put(Piece.EMPTY, 9, 2);
 
-        Iterator<Square> reachableIter = nB.reachableFrom(Square.sq(9, 0), null);
+        Iterator<Square> reachableIter = nB.reachableFrom(Square.sq(9, 0),
+                null);
 
         Square first = reachableIter.next();
         Square second = reachableIter.next();
 
         assertEquals(Square.sq(9, 1), first);
-        assertEquals(Square.sq(9,2), second);
+        assertEquals(Square.sq(9, 2), second);
     }
 
     @Test
@@ -479,15 +492,15 @@ public class BoardTest {
         Iterator<Square> rIter2 = nB.reachableFrom(from, from);
 
         List<Square> rSquares = new ArrayList<Square>();
-        List<Square>rSquares2 = new ArrayList<Square>();
+        List<Square> rSquares2 = new ArrayList<Square>();
 
         addToList(rSquares, rIter, 20);
         addToList(rSquares2, rIter2, 20);
 
         putPiece(Piece.EMPTY);
 
-        List<Square>rSquares3 = new ArrayList<Square>();
-        Iterator<Square>rIter3 = nB.reachableFrom(from, from);
+        List<Square> rSquares3 = new ArrayList<Square>();
+        Iterator<Square> rIter3 = nB.reachableFrom(from, from);
 
         addToList(rSquares3, rIter3, 27);
     }
@@ -496,8 +509,8 @@ public class BoardTest {
     public void testRightCorner() {
         nB.init();
         Square corner = Square.sq(9, 0);
-        Iterator<Square>rIter = nB.reachableFrom(corner, null);
-        List<Square>rSquares = new ArrayList<Square>();
+        Iterator<Square> rIter = nB.reachableFrom(corner, null);
+        List<Square> rSquares = new ArrayList<Square>();
         addToList(rSquares, rIter, 13);
     }
 
@@ -505,32 +518,32 @@ public class BoardTest {
     public void testToString() {
         nB.init();
         String initBoard =
-                "   - - - B - - B - - -\n" +
-                "   - - - - - - - - - -\n" +
-                "   - - - - - - - - - -\n" +
-                "   B - - - - - - - - B\n" +
-                "   - - - - - - - - - -\n" +
-                "   - - - - - - - - - -\n" +
-                "   W - - - - - - - - W\n" +
-                "   - - - - - - - - - -\n" +
-                "   - - - - - - - - - -\n" +
-                "   - - - W - - W - - -\n";
+                "   - - - B - - B - - -\n"
+                        + "   - - - - - - - - - -\n"
+                        + "   - - - - - - - - - -\n"
+                        + "   B - - - - - - - - B\n"
+                        + "   - - - - - - - - - -\n"
+                        + "   - - - - - - - - - -\n"
+                        + "   W - - - - - - - - W\n"
+                        + "   - - - - - - - - - -\n"
+                        + "   - - - - - - - - - -\n"
+                        + "   - - - W - - W - - -\n";
         assertEquals(initBoard, nB.toString());
 
         nB.put(Piece.SPEAR, 9, 0);
         nB.put(Piece.SPEAR, 9, 1);
 
         String boardSpear =
-                "   - - - B - - B - - -\n" +
-                "   - - - - - - - - - -\n" +
-                "   - - - - - - - - - -\n" +
-                "   B - - - - - - - - B\n" +
-                "   - - - - - - - - - -\n" +
-                "   - - - - - - - - - -\n" +
-                "   W - - - - - - - - W\n" +
-                "   - - - - - - - - - -\n" +
-                "   - - - - - - - - - S\n" +
-                "   - - - W - - W - - S\n";
+                "   - - - B - - B - - -\n"
+                        + "   - - - - - - - - - -\n"
+                        + "   - - - - - - - - - -\n"
+                        + "   B - - - - - - - - B\n"
+                        + "   - - - - - - - - - -\n"
+                        + "   - - - - - - - - - -\n"
+                        + "   W - - - - - - - - W\n"
+                        + "   - - - - - - - - - -\n"
+                        + "   - - - - - - - - - S\n"
+                        + "   - - - W - - W - - S\n";
 
         assertEquals(boardSpear, nB.toString());
     }
@@ -539,14 +552,14 @@ public class BoardTest {
     public void testLegalMovesIterator() {
         nB.init();
 
-       putPiece(Piece.SPEAR);
+        putPiece(Piece.SPEAR);
 
         nB.put(Piece.WHITE, 0, 3);
         nB.put(Piece.EMPTY, 0, 2);
         nB.put(Piece.BLACK, 6, 9);
 
-        Iterator<Move>legalMovesW = nB.legalMoves(Piece.WHITE);
-        Iterator<Move>legalMovesB = nB.legalMoves(Piece.BLACK);
+        Iterator<Move> legalMovesW = nB.legalMoves(Piece.WHITE);
+        Iterator<Move> legalMovesB = nB.legalMoves(Piece.BLACK);
 
         Move oneMove = legalMovesW.next();
         Move expected = Move.mv("a4-a3(a4)");
@@ -567,8 +580,8 @@ public class BoardTest {
         nB.put(Piece.EMPTY, 7, 0);
         nB.put(Piece.EMPTY, 7, 1);
 
-        Iterator<Move>legalMovesW = nB.legalMoves(Piece.WHITE);
-        List<Move>allMoves = new ArrayList<Move>();
+        Iterator<Move> legalMovesW = nB.legalMoves(Piece.WHITE);
+        List<Move> allMoves = new ArrayList<Move>();
         addToList(allMoves, legalMovesW, 21);
 
         Move exampleMove = Move.mv("g1-g2(h1)");
@@ -582,7 +595,7 @@ public class BoardTest {
     @Test
     public void testLegalFirstMoves() {
         nB.init();
-        Iterator<Move>legalMovesW = nB.legalMoves(Piece.WHITE);
+        Iterator<Move> legalMovesW = nB.legalMoves(Piece.WHITE);
         List<Move> allMovesW = new ArrayList<Move>();
 
         Iterator<Move> legalMovesB = nB.legalMoves(Piece.BLACK);
@@ -612,7 +625,7 @@ public class BoardTest {
 
     /** Adds all the squares in an iterator I to a list R.
      * Checks that r has size S after adding all the elements. */
-    <T> void addToList (List<T>r, Iterator<T>i, int s) {
+    <T> void addToList(List<T> r, Iterator<T> i, int s) {
         while (i.hasNext()) {
             r.add(i.next());
         }
