@@ -1,6 +1,8 @@
 package amazons;
 import java.util.ArrayList;
 import java.lang.Math.*;
+import java.util.Collections;
+import java.util.Collections.*;
 
 public class GameTree {
 
@@ -20,8 +22,8 @@ public class GameTree {
         }
     }
 
-    class Node {
-        public Node(Board b, boolean isMax) {
+    class Node implements Comparable<Node> {
+        public Node(Board b, boolean isMax)  {
             _b = b;
             _score = 0;
             _alpha = Integer.MIN_VALUE;
@@ -32,6 +34,28 @@ public class GameTree {
 
         void addNode(Node n) {
             this._childs.add(n);
+        }
+
+        void addScore() {
+            if (_maximizer) {
+                _score = Collections.min(_childs);
+            }
+        }
+
+        @Override
+        public int compareTo(Node n) {
+            if (n._score < _score) {
+                return -1;
+            } else if (n._score > _score) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+
+        /** Returns the score of this node. */
+        public int getScore() {
+            return _score;
         }
 
         /**
