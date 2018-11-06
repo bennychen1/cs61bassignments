@@ -154,7 +154,11 @@ class Board {
         }
 
         _boardArr[row][col] = p;
-        _winner = EMPTY; // FIXME
+
+        if (!legalMoves(_turn.opponent()).hasNext()) {
+            _winner = _turn;
+        }
+        // FIXME
     }
 
     /** Set square COL ROW to P. */
@@ -408,25 +412,16 @@ class Board {
 
         @Override
         public boolean hasNext() {
-            if (!_startingSquares.hasNext()
-                    && !_pieceMoves.hasNext() && !_spearThrows.hasNext()) {
+            if (_start == null && _nextSquare == null) {
                 return false;
             }
 
-            if (!_pieceMoves.hasNext()) {
-                toNext();
-                return hasNext();
-            }
-            if (get(_start) != _fromPiece) {
-                toNext();
-                return hasNext();
-            }
-
             if (!_spearThrows.hasNext()) {
-                toNext();
+                toNextPiece();
                 return hasNext();
             }
             return true;
+
             //FIXME
         }
 
@@ -445,9 +440,9 @@ class Board {
          *  _start-_nextSquare(sp), where sp is the next value of
          *  _spearThrows. */
         private void toNext() {
-            if (!_pieceMoves.hasNext()) {
-                if (_startingSquares.hasNext()) {
-                    _start = _startingSquares.next();
+            if (_startingSquares.hasNext()) {
+                _start = _startingSquares.next();
+                if (get(_start) == _fromPiece) {
                     _pieceMoves = reachableFrom(_start, null);
                     if (_pieceMoves.hasNext()) {
                         _nextSquare = _pieceMoves.next();
@@ -455,12 +450,26 @@ class Board {
                     } else {
                         toNext();
                     }
+                } else {
+                    toNext();
                 }
             } else {
-                _nextSquare = _pieceMoves.next();
-                _spearThrows = reachableFrom(_nextSquare, _start);
+                _start = null;
+                _nextSquare = null;
             }
             // FIXME
+        }
+
+        /** Advance only _nextSquare and set _spearThrows to be
+         * an iterator of valid spear moves over the new _nextSquare.
+         */
+        private void toNextPiece() {
+            if (_pieceMoves.hasNext()) {
+                _nextSquare = _pieceMoves.next();
+                _spearThrows = reachableFrom(_nextSquare, _start);
+            } else {
+                toNext();
+            }
         }
 
         /** Color of side whose moves we are iterating. */

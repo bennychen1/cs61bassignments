@@ -6,6 +6,9 @@ import static amazons.Piece.*;
 import static org.junit.Assert.*;
 import ucb.junit.textui;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /** The suite of all JUnit tests for the amazons package.
  *  @author
  */

@@ -317,7 +317,6 @@ public class BoardTest {
         Move move2 = Move.mv("a7-a6(a7)");
         nB.makeMove(move2);
         assertEquals("S", nB.get(0, 6).toString());
-
     }
 
     @Test
@@ -370,7 +369,6 @@ public class BoardTest {
 
         nB.undo();
         checkWithInitBoard(nB.getBoard());
-
     }
 
     @Test
@@ -520,15 +518,15 @@ public class BoardTest {
 
        putPiece(Piece.SPEAR);
 
-        nB.put(Piece.WHITE, 9, 3);
-        nB.put(Piece.EMPTY, 9, 2);
+        nB.put(Piece.WHITE, 0, 3);
+        nB.put(Piece.EMPTY, 0, 2);
         nB.put(Piece.BLACK, 6, 9);
 
         Iterator<Move>legalMovesW = nB.legalMoves(Piece.WHITE);
         Iterator<Move>legalMovesB = nB.legalMoves(Piece.BLACK);
 
         Move oneMove = legalMovesW.next();
-        Move expected = Move.mv("j4-j3(j4)");
+        Move expected = Move.mv("a4-a3(a4)");
         assertEquals(expected, oneMove);
         assertFalse(legalMovesB.hasNext());
     }
@@ -548,12 +546,35 @@ public class BoardTest {
 
         Iterator<Move>legalMovesW = nB.legalMoves(Piece.WHITE);
         List<Move>allMoves = new ArrayList<Move>();
-        addToList(allMoves, legalMovesW, 18);
+        addToList(allMoves, legalMovesW, 21);
 
         Move exampleMove = Move.mv("g1-g2(h1)");
         Move exampleMove2 = Move.mv("g1-h2(g1)");
+        Move exampleMove3 = Move.mv("g1-f1(h1)");
         assertTrue(allMoves.contains(exampleMove));
         assertTrue(allMoves.contains(exampleMove2));
+        assertTrue(allMoves.contains(exampleMove3));
+    }
+
+    @Test
+    public void testLegalFirstMoves() {
+        nB.init();
+        Iterator<Move>legalMovesW = nB.legalMoves(Piece.WHITE);
+        List<Move> allMovesW = new ArrayList<Move>();
+
+        Iterator<Move> legalMovesB = nB.legalMoves(Piece.BLACK);
+        List<Move> allMovesB = new ArrayList<Move>();
+
+        while (legalMovesW.hasNext()) {
+            allMovesW.add(legalMovesW.next());
+        }
+
+        while (legalMovesB.hasNext()) {
+            allMovesB.add(legalMovesB.next());
+        }
+
+        assertEquals(2176, allMovesW.size());
+        assertEquals(allMovesB.size(), allMovesW.size());
     }
 
 
@@ -582,8 +603,6 @@ public class BoardTest {
             nB.put(p, s);
         }
     }
-
-
 }
 
 // Put square already occupied (isLegal)
