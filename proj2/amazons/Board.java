@@ -43,6 +43,7 @@ class Board {
         _boardArr = model._boardArr;
         _initBoard = model._initBoard;
         _numMoves = model._numMoves;
+        _moves = model._moves;
         // FIXME
     }
 
@@ -317,6 +318,7 @@ class Board {
             put(Piece.EMPTY, spear);
         }
         _numMoves -= 1;
+        _turn = _turn.opponent();
     }
 
     /** Return an Iterator over the Squares that are reachable by an

@@ -51,11 +51,11 @@ class AI extends Player {
      *  is a move. */
     private Move findMove() {
         Board b = new Board(board());
-        if (_myPiece == WHITE) {
-            findMove(b, maxDepth(b), true, 1, -INFTY, INFTY);
-        } else {
-            findMove(b, maxDepth(b), true, -1, -INFTY, INFTY);
-        }
+        //if (_myPiece == _myPiece) {
+        findMove(b, maxDepth(b), true, 1, -INFTY, INFTY);
+       // } else {
+            //findMove(b, maxDepth(b), true, -1, -INFTY, INFTY);
+        //}
         return _lastFoundMove;
     }
 
@@ -87,10 +87,8 @@ class AI extends Player {
             }
 
             for (Move m : myMoves) {
-                Board b = new Board();
-                b.copy(board);
-                b.makeMove(m);
-                bestValue = Math.max(bestValue, findMove(b, maxDepth(b), false, -1 * sense, alpha, beta));
+                board.makeMove(m);
+                bestValue = Math.max(bestValue, findMove(board, maxDepth(board), false, -1 * sense, alpha, beta));
                 if (bestValue > beta) {
                     if (saveMove) {
                         _lastFoundMove = m;
@@ -102,6 +100,8 @@ class AI extends Player {
                 if (saveMove) {
                     _lastFoundMove = m;
                 }
+
+                board.undoAMove(m.from(), m.to(), m.spear());
             }
         } else {
             bestValue = Integer.MAX_VALUE;
@@ -162,9 +162,9 @@ class AI extends Player {
     /** Return a heuristic value for BOARD. */
     private int staticScore(Board board) {
         Piece winner = board.winner();
-        if (winner == BLACK) {
+        if (winner == _myPiece) {
             return -WINNING_VALUE;
-        } else if (winner == WHITE) {
+        } else if (winner == _myPiece.opponent()) {
             return WINNING_VALUE;
         }
 
