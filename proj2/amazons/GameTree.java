@@ -38,7 +38,7 @@ public class GameTree {
 
         void addScore() {
             if (_maximizer) {
-                _score = Collections.min(_childs);
+                ;
             }
         }
 

@@ -44,8 +44,7 @@ class AI extends Player {
     String myMove() {
         Move move = findMove();
         _controller.reportMove(move);
-        //return move.toString();
-        return "g10 g8 g10";
+        return move.toString();
     }
 
     /** Return a move for me from the current position, assuming there
@@ -76,14 +75,86 @@ class AI extends Player {
             return staticScore(board);
         }
 
+        int bestValue;
+
+        if (sense == 1) {
+            bestValue = Integer.MIN_VALUE;
+            ArrayList<Move> myMoves = new ArrayList<Move>();
+            Iterator<Move> legalMovesIter = board.legalMoves(_myPiece);
+
+            while (legalMovesIter.hasNext()) {
+                myMoves.add(legalMovesIter.next());
+            }
+
+            for (Move m : myMoves) {
+                Board b = new Board();
+                b.copy(board);
+                b.makeMove(m);
+                bestValue = Math.max(bestValue, findMove(b, maxDepth(b), false, -1 * sense, alpha, beta));
+                if (bestValue > beta) {
+                    if (saveMove) {
+                        _lastFoundMove = m;
+                    }
+                    return bestValue;
+                }
+
+                alpha = Math.max(alpha, bestValue);
+                if (saveMove) {
+                    _lastFoundMove = m;
+                }
+            }
+        } else {
+            bestValue = Integer.MAX_VALUE;
+            ArrayList<Move> minMoves = new ArrayList<Move>();
+            Iterator<Move> minLegalMoves = board.legalMoves(_myPiece.opponent());
+
+            while (minLegalMoves.hasNext()) {
+                minMoves.add(minLegalMoves.next());
+            }
+
+            for (Move m : minMoves) {
+                Board b = new Board();
+                b.copy(board);
+                b.makeMove(m);
+                bestValue = Math.min(bestValue, findMove(b, maxDepth(b), false, -1 * sense, alpha, beta));
+                if (bestValue < alpha) {
+                    if (saveMove) {
+                        _lastFoundMove = m;
+                    }
+
+                    return bestValue;
+                }
+
+                beta = Math.min(beta, bestValue);
+                if (saveMove) {
+                    _lastFoundMove = m;
+                }
+            }
+        }
+
+        return bestValue;
+
         // FIXME
-        return 0;
     }
 
     /** Return a heuristically determined maximum search depth
      *  based on characteristics of BOARD. */
     private int maxDepth(Board board) {
         int N = board.numMoves();
+
+        Iterator<Move>opponentMoves = board.legalMoves(_myPiece.opponent());
+
+        int numMovesOpponent = 0;
+        while (opponentMoves.hasNext()) {
+            if (numMovesOpponent > 20) {
+                break;
+            }
+            numMovesOpponent += 1;
+        }
+
+        if (numMovesOpponent < 30) {
+            return 0;
+        }
         return 2; // FIXME
     }
 
