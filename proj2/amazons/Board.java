@@ -264,6 +264,12 @@ class Board {
                 put(Piece.EMPTY, from);
             }
             _numMoves += 1;
+
+            Iterator<Move> checkWinO = legalMoves(_turn.opponent());
+            if (!checkWinO.hasNext()) {
+                _winner = _turn;
+            }
+
             _turn = _turn.opponent();
         } else {
             throw error("Piece is in between or square occupied");
@@ -278,10 +284,6 @@ class Board {
         Square spear = move.spear();
         makeMove(from, to, spear);
 
-        Iterator<Move> checkWinO = legalMoves(_turn.opponent());
-        if (!checkWinO.hasNext()) {
-            _winner = _turn;
-        }
         // FIXME
     }
 
@@ -319,6 +321,7 @@ class Board {
         }
         _numMoves -= 1;
         _turn = _turn.opponent();
+        _winner = null;
     }
 
     /** Return an Iterator over the Squares that are reachable by an

@@ -113,10 +113,8 @@ class AI extends Player {
             }
 
             for (Move m : minMoves) {
-                Board b = new Board();
-                b.copy(board);
-                b.makeMove(m);
-                bestValue = Math.min(bestValue, findMove(b, maxDepth(b), false, -1 * sense, alpha, beta));
+                board.makeMove(m);
+                bestValue = Math.min(bestValue, findMove(board, maxDepth(board), false, -1 * sense, alpha, beta));
                 if (bestValue < alpha) {
                     if (saveMove) {
                         _lastFoundMove = m;
@@ -129,6 +127,8 @@ class AI extends Player {
                 if (saveMove) {
                     _lastFoundMove = m;
                 }
+
+                board.undoAMove(m.from(), m.to(), m.spear());
             }
         }
 
@@ -142,20 +142,21 @@ class AI extends Player {
     private int maxDepth(Board board) {
         int N = board.numMoves();
 
-        Iterator<Move>opponentMoves = board.legalMoves(_myPiece.opponent());
+        Iterator<Move> myMovesIter = board.legalMoves(_myPiece);
+        ArrayList<Move> myMoves = new ArrayList<Move>();
 
-        int numMovesOpponent = 0;
-        while (opponentMoves.hasNext()) {
-            if (numMovesOpponent > 20) {
-                break;
+        int numMoves = 0;
+        while (myMovesIter.hasNext()) {
+            numMoves += 1;
+
+            if (numMoves > 10) {
+                return 5 - N;
             }
-            numMovesOpponent += 1;
         }
 
-        if (numMovesOpponent < 30) {
-            return 1;
-        }
-        return 2; // FIXME
+        return 5;
+
+       // return 5 - N; // FIXME
     }
 
 
@@ -163,9 +164,9 @@ class AI extends Player {
     private int staticScore(Board board) {
         Piece winner = board.winner();
         if (winner == _myPiece) {
-            return -WINNING_VALUE;
-        } else if (winner == _myPiece.opponent()) {
             return WINNING_VALUE;
+        } else if (winner == _myPiece.opponent()) {
+            return -WINNING_VALUE;
         }
 
         List<Move> myMoves = new ArrayList<Move>();
