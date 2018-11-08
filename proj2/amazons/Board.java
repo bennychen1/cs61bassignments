@@ -50,7 +50,7 @@ class Board {
     void init() {
         // FIXME
         _turn = WHITE;
-        _winner = EMPTY;
+        _winner = null;
         _initBoard = new Piece[SIZE][SIZE];
         _boardArr = new Piece[SIZE][SIZE];
 
@@ -154,10 +154,6 @@ class Board {
         }
 
         _boardArr[row][col] = p;
-
-        if (!legalMoves(_turn.opponent()).hasNext()) {
-            _winner = _turn;
-        }
         // FIXME
     }
 
@@ -280,6 +276,11 @@ class Board {
         Square to = move.to();
         Square spear = move.spear();
         makeMove(from, to, spear);
+
+        Iterator<Move> checkWinO = legalMoves(_turn.opponent());
+        if (!checkWinO.hasNext()) {
+            _winner = _turn;
+        }
         // FIXME
     }
 

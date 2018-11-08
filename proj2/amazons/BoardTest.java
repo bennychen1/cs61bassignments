@@ -613,6 +613,26 @@ public class BoardTest {
         assertEquals(allMovesB.size(), allMovesW.size());
     }
 
+    @Test
+    public void testOneLegalMove() {
+        nB.init();
+        putPiece(Piece.SPEAR);
+        nB.put(Piece.BLACK, 9, 6);
+        nB.put(Piece.EMPTY, 9, 5);
+        nB.put(Piece.EMPTY, 8, 7);
+        nB.put(Piece.WHITE, 9, 4);
+
+        System.out.print(nB.toString());
+
+        Iterator<Move> allLegalMoves = nB.legalMoves(Piece.BLACK);
+        ArrayList<Move> allMovesList = new ArrayList<Move>();
+
+        while (allLegalMoves.hasNext()) {
+            allMovesList.add(allLegalMoves.next());
+        }
+        assertEquals(2, allMovesList.size());
+    }
+
 
     /** Checks if the current board is the same as the initial board. */
     void checkWithInitBoard(Piece[][]b) {

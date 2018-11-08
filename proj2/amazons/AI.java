@@ -153,7 +153,7 @@ class AI extends Player {
         }
 
         if (numMovesOpponent < 30) {
-            return 0;
+            return 1;
         }
         return 2; // FIXME
     }
