@@ -10,6 +10,7 @@ import java.util.Formatter;
 import java.util.Stack;
 import java.util.NoSuchElementException;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 import static amazons.Utils.*;
 
@@ -515,6 +516,16 @@ class Board {
         }
 
         return numMoves;
+    }
+
+    /** Return an ArrayList of the legal moves
+     * from legal moves iterator I. */
+    public ArrayList<Move> listOfMoves(Iterator<Move> i) {
+        ArrayList<Move> movesList = new ArrayList<Move>();
+        while (i.hasNext()) {
+            movesList.add(i.next());
+        }
+        return movesList;
     }
 
     @Override
