@@ -633,6 +633,12 @@ public class BoardTest {
         assertEquals(2, allMovesList.size());
     }
 
+    @Test
+    public void testNumLegalMoves() {
+        nB.init();
+        assertEquals(2176, nB.numLegalMoves(Piece.WHITE));
+    }
+
 
     /** Checks if the current board is the same as the initial board. */
     void checkWithInitBoard(Piece[][]b) {

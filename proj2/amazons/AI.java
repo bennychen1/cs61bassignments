@@ -24,6 +24,9 @@ class AI extends Player {
     /** A magnitude greater than a normal value. */
     private static final int INFTY = Integer.MAX_VALUE;
 
+    /** The current depth of the search. */
+    private static int _depth = 1;
+
     /** A new AI with no piece or controller (intended to produce
      *  a template). */
     AI() {
@@ -52,6 +55,7 @@ class AI extends Player {
     private Move findMove() {
         Board b = new Board(board());
         //if (_myPiece == _myPiece) {
+        _depth = maxDepth(b);
         findMove(b, maxDepth(b), true, 1, -INFTY, INFTY);
        // } else {
             //findMove(b, maxDepth(b), true, -1, -INFTY, INFTY);
@@ -77,6 +81,8 @@ class AI extends Player {
 
         int bestValue;
 
+        _depth -= 1;
+
         if (sense == 1) {
             bestValue = Integer.MIN_VALUE;
             ArrayList<Move> myMoves = new ArrayList<Move>();
@@ -89,10 +95,12 @@ class AI extends Player {
             for (Move m : myMoves) {
                 board.makeMove(m);
                 bestValue = Math.max(bestValue, findMove(board, maxDepth(board), false, -1 * sense, alpha, beta));
+                board.undoASingleMove();
                 if (bestValue > beta) {
                     if (saveMove) {
                         _lastFoundMove = m;
                     }
+
                     return bestValue;
                 }
 
@@ -100,8 +108,6 @@ class AI extends Player {
                 if (saveMove) {
                     _lastFoundMove = m;
                 }
-
-                board.undoAMove(m.from(), m.to(), m.spear());
             }
         } else {
             bestValue = Integer.MAX_VALUE;
@@ -115,6 +121,7 @@ class AI extends Player {
             for (Move m : minMoves) {
                 board.makeMove(m);
                 bestValue = Math.min(bestValue, findMove(board, maxDepth(board), false, -1 * sense, alpha, beta));
+                board.undoASingleMove();
                 if (bestValue < alpha) {
                     if (saveMove) {
                         _lastFoundMove = m;
@@ -127,8 +134,6 @@ class AI extends Player {
                 if (saveMove) {
                     _lastFoundMove = m;
                 }
-
-                board.undoAMove(m.from(), m.to(), m.spear());
             }
         }
 
@@ -142,19 +147,17 @@ class AI extends Player {
     private int maxDepth(Board board) {
         int N = board.numMoves();
 
-        Iterator<Move> myMovesIter = board.legalMoves(_myPiece);
-        ArrayList<Move> myMoves = new ArrayList<Move>();
-
-        int numMoves = 0;
-        while (myMovesIter.hasNext()) {
-            numMoves += 1;
-
-            if (numMoves > 10) {
-                return 5 - N;
-            }
-        }
-
-        return 5;
+       if (N == 2) {
+           return 2;
+       } else if (N == 10) {
+           return 2;
+       } else if (N == 20) {
+           return 2;
+       } else if (N == 30) {
+           return 0;
+       } else {
+           return _depth;
+       }
 
        // return 5 - N; // FIXME
     }
@@ -167,26 +170,22 @@ class AI extends Player {
             return WINNING_VALUE;
         } else if (winner == _myPiece.opponent()) {
             return -WINNING_VALUE;
-        }
-
-        List<Move> myMoves = new ArrayList<Move>();
-        List<Move> opponentMoves = new ArrayList<Move>();
-
-        Iterator<Move> myLegalMoves = board.legalMoves(_myPiece);
-        Iterator<Move> opponentLM = board.legalMoves(_myPiece.opponent());
-
-        while (myLegalMoves.hasNext()) {
-            myMoves.add(myLegalMoves.next());
-        }
-
-        while (opponentLM.hasNext()) {
-            opponentMoves.add(opponentLM.next());
-        }
-
-        if (myMoves.size() > opponentMoves.size()) {
-            return 10;
         } else {
-            return 1;
+            Iterator<Move> myMoves = board.legalMoves(_myPiece);
+            int numMyMoves = 0;
+            while (myMoves.hasNext()) {
+                myMoves.next();
+                numMyMoves += 1;
+            }
+
+            Iterator<Move> oppMoves = board.legalMoves(_myPiece.opponent());
+            int numOppMoves = 0;
+            while (oppMoves.hasNext()) {
+                oppMoves.next();
+                numOppMoves += 1;
+            }
+
+            return numMyMoves - numOppMoves;
         }
         // FIXME
     }

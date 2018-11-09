@@ -324,6 +324,15 @@ class Board {
         _winner = null;
     }
 
+    void undoASingleMove() {
+        Move move1 = _moves.pop();
+        Square from1 = move1.from();
+        Square to1 = move1.to();
+        Square spear1 = move1.spear();
+        undoAMove(from1, to1, spear1);
+
+    }
+
     /** Return an Iterator over the Squares that are reachable by an
      *  unblocked queen move from FROM. Does not pay attention to what
      *  piece (if any) is on FROM, nor to whether the game is finished.
@@ -494,6 +503,18 @@ class Board {
         private Iterator<Square> _pieceMoves;
         /** Remaining spear throws from _piece to consider. */
         private Iterator<Square> _spearThrows;
+    }
+
+    /** Returns the number of legal moves that side P has. */
+    public int numLegalMoves(Piece p) {
+        Iterator<Move> legalMovesIter = legalMoves(p);
+        int numMoves = 0;
+        while (legalMovesIter.hasNext()) {
+            legalMovesIter.next();
+            numMoves += 1;
+        }
+
+        return numMoves;
     }
 
     @Override
