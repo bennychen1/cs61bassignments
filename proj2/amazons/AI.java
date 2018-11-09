@@ -105,6 +105,7 @@ class AI extends Player {
             for (Move m : minMoves) {
                 board.makeMove(m);
                 bestVal = Math.min(bestVal, findMove(board, depth - 1, false, -1 * sense, alpha, beta));
+                board.undoAMove(m.from(), m.to(), m.spear());
                 if (bestVal < alpha) {
                     if (saveMove) {
                         _lastFoundMove = m;
@@ -118,8 +119,6 @@ class AI extends Player {
             return bestVal;
         }
 
-
-
         // FIXME
         //return 0;
     }
@@ -129,7 +128,9 @@ class AI extends Player {
     private int maxDepth(Board board) {
         int N = board.numMoves();
 
-        if (N < 10) {
+        if (N < 5) {
+            return 1;
+        } else if (N < 20) {
             return 2;
         } else if (N < 30) {
             return 3;

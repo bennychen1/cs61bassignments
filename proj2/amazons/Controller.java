@@ -11,6 +11,8 @@ import static amazons.Utils.*;
 import static amazons.Piece.*;
 import static amazons.Square.sq;
 import static amazons.Square.SQ;
+import static amazons.Board.pat1;
+import static amazons.Board.pat2;
 
 /** The input/output and GUI controller for play of Amazons.
  *  @author */
@@ -146,7 +148,7 @@ final class Controller {
         new Command("new$", this::doNew),
         new Command("auto\\s+([Bb]lack|[Ww]hite)", this::doAuto),
         new Command("manual\\s([Bb]lack+|[Ww]hite)", this::doManaul),
-        new Command("([a-j]([1-9]|10))\\s+([a-j]([1-9]|10))\\s+([a-j]([1-9]|10))" , this::doMove)
+        new Command(pat1 + "|" + pat2 , this::doMove)
         // FIXME
     };
 
@@ -238,8 +240,16 @@ final class Controller {
             throw error("Bad move command: format should be a1 a2 a3");
         }
 
-        String moveString = mat.group(1) + "-" + mat.group(3)
-                + "(" + mat.group(5) + ")";
+        boolean first = pat1.matches(mat.group(0));
+        boolean second = pat2.matches(mat.group(0));
+
+        String moveString;
+        if (first) {
+            moveString = mat.group(1) + "-" + mat.group(3)
+                    + "(" + mat.group(5) + ")";
+        } else {
+            moveString = mat.group(0);
+        }
 
         Move m = Move.mv(moveString);
 

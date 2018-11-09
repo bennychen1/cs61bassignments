@@ -528,6 +528,16 @@ class Board {
         return movesList;
     }
 
+    public <T> int iteratorNexts(Iterator<T> i) {
+        int total = 0;
+        while (i.hasNext()) {
+            i.next();
+            total += 1;
+        }
+
+        return total;
+    }
+
     @Override
     public String toString() {
         String result = "";
@@ -576,4 +586,7 @@ class Board {
             { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1 },
             { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 }
     };
+
+    static final String pat1 = String.format("(%s)\\s+(%s)\\s+(%s)", Square.SQ, Square.SQ, Square.SQ);
+    static final String pat2 = String.format("%s-%s\\(%s\\)", Square.SQ, Square.SQ, Square.SQ);
 }
