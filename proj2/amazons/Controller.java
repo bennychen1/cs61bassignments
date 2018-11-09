@@ -146,7 +146,7 @@ final class Controller {
         new Command("new$", this::doNew),
         new Command("auto\\s+([Bb]lack|[Ww]hite)", this::doAuto),
         new Command("manual\\s([Bb]lack+|[Ww]hite)", this::doManaul),
-        new Command("([a-j]([1-9]|10))\\s+([a-j]([1-9]|10))\\s+([a-j]([1-9]|10))", this::doMove)
+        new Command("([a-j]([1-9]|10))\\s+([a-j]([1-9]|10))\\s+([a-j]([1-9]|10))" , this::doMove)
         // FIXME
     };
 
