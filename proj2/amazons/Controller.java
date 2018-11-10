@@ -253,6 +253,10 @@ final class Controller {
 
         Move m = Move.mv(moveString);
 
+        if (m == null) {
+            return;
+        }
+
         try {
             board().makeMove(m);
         } catch (IllegalArgumentException excp) {
@@ -260,6 +264,8 @@ final class Controller {
         } catch (NullPointerException e) {
             throw error("Move is not a valid direction");
         }
+
+        _winner = _board.winner();
     }
 
     /** The board. */

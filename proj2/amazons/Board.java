@@ -273,7 +273,7 @@ class Board {
 
             _turn = _turn.opponent();
         } else {
-            throw error("Piece is in between or square occupied");
+            System.out.println("Invalid move");
         }
         // FIXME
     }
@@ -523,7 +523,16 @@ class Board {
     public ArrayList<Move> listOfMoves(Iterator<Move> i) {
         ArrayList<Move> movesList = new ArrayList<Move>();
         while (i.hasNext()) {
-            movesList.add(i.next());
+            Move m = i.next();
+            if (_numMoves < 3) {
+                Square mTo = m.to();
+                int c = mTo.col();
+                int r = mTo.row();
+                if (c < 4 || c > 7 || r < 5 || r > 7) {
+                    continue;
+                }
+            }
+            movesList.add(m);
         }
         return movesList;
     }

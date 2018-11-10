@@ -49,12 +49,11 @@ class AI extends Player {
      *  is a move. */
     private Move findMove() {
         Board b = new Board(board());
-        findMove(b, maxDepth(b), true, 1, -INFTY, INFTY);
-        /**if (_myPiece == WHITE) {
+        if (_myPiece == WHITE) {
             findMove(b, maxDepth(b), true, 1, -INFTY, INFTY);
         } else {
             findMove(b, maxDepth(b), true, -1, -INFTY, INFTY);
-        } */
+        }
         return _lastFoundMove;
     }
 
@@ -76,12 +75,16 @@ class AI extends Player {
 
         if (sense == 1) {
             int bestVal = Integer.MIN_VALUE;
-            Iterator<Move> maxMovesIter = board.legalMoves(_myPiece);
-            ArrayList<Move> maxMoves = board.listOfMoves(maxMovesIter);
+            Iterator<Move> maxMovesIter;
+            ArrayList<Move> maxMoves;
+            maxMovesIter = board.legalMoves(Piece.WHITE);
+            maxMoves = board.listOfMoves(maxMovesIter);
+
             for (Move m : maxMoves) {
+                board.setTurn(Piece.WHITE);
                 board.makeMove(m);
                 bestVal = Math.max(bestVal, findMove(board, depth - 1, false,
-                        -1 * sense, alpha, beta));
+                        -1, alpha, beta));
                 board.undoAMove(m.from(), m.to(), m.spear());
                 if (bestVal > beta) {
                     if (saveMove) {
@@ -100,17 +103,22 @@ class AI extends Player {
             return bestVal;
         } else {
             int bestVal = Integer.MAX_VALUE;
-            Iterator<Move> minMovesIter = board.legalMoves(_myPiece.opponent());
+            Iterator<Move> minMovesIter = board.legalMoves(Piece.BLACK);
             ArrayList<Move> minMoves = board.listOfMoves(minMovesIter);
             for (Move m : minMoves) {
+                board.setTurn(Piece.BLACK);
                 board.makeMove(m);
-                bestVal = Math.min(bestVal, findMove(board, depth - 1, false, -1 * sense, alpha, beta));
+                bestVal = Math.min(bestVal, findMove(board, depth - 1, false, 1, alpha, beta));
                 board.undoAMove(m.from(), m.to(), m.spear());
                 if (bestVal < alpha) {
                     if (saveMove) {
                         _lastFoundMove = m;
                     }
                     return bestVal;
+                }
+
+                if (saveMove) {
+                    _lastFoundMove = m;
                 }
 
                 beta = Math.min(beta, bestVal);
@@ -128,12 +136,10 @@ class AI extends Player {
     private int maxDepth(Board board) {
         int N = board.numMoves();
 
-        if (N < 5) {
+        if (N < 20) {
             return 1;
-        } else if (N < 20) {
+        } else if (N >= 20 && N < 72) {
             return 2;
-        } else if (N < 30) {
-            return 3;
         } else {
             return 5;
         }
@@ -145,14 +151,30 @@ class AI extends Player {
     /** Return a heuristic value for BOARD. */
     private int staticScore(Board board) {
         Piece winner = board.winner();
-        if (winner == BLACK) {
-            return -WINNING_VALUE;
-        } else if (winner == WHITE) {
+        if (winner == WHITE) {
             return WINNING_VALUE;
+        } else if (winner == BLACK) {
+            return -WINNING_VALUE;
         } else {
-            int numMyMoves = board.numLegalMoves(_myPiece);
-            int numOpponentMoves = board.numLegalMoves(_myPiece.opponent());
-            return numMyMoves - 2 * numOpponentMoves;
+            if (board.numMoves() < 72) {
+                int numWhite = 0;
+                int numBlack = 0;
+                for (int i = 0; i < 100; i += 1) {
+                    if (board.get(Square.sq(i)) == WHITE) {
+                        Iterator<Square> wReach = board.reachableFrom(Square.sq(i), null);
+                        numWhite += board.iteratorNexts(wReach);
+
+                    } else if (board.get(Square.sq(i)) == BLACK) {
+                        Iterator<Square> bReach = board.reachableFrom(Square.sq(i), null);
+                        numBlack += board.iteratorNexts(bReach);
+                    }
+                }
+                return numWhite - numBlack;
+            } else {
+                int numMyMoves = board.numLegalMoves(WHITE);
+                int numOpponentMoves = board.numLegalMoves(BLACK);
+                return numMyMoves - numOpponentMoves;
+            }
         }
 
         // FIXME
