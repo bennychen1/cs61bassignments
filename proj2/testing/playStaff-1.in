@@ -1,4 +1,4 @@
-java -ea amazons.Main
+staff-amazons
 manual black
 * time 30 180
 auto white
