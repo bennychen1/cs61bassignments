@@ -164,7 +164,7 @@ class AI extends Player {
                         numBlack += board.iteratorNexts(bR);
                     }
                 }
-                return numWhite - numBlack;
+                return numWhite - (numBlack * numBlack);
             } else {
                 int numMyMoves = board.numLegalMoves(WHITE);
                 int numOpponentMoves = board.numLegalMoves(BLACK);
