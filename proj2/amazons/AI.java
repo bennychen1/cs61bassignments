@@ -149,7 +149,7 @@ class AI extends Player {
         } else if (winner == BLACK) {
             return -WINNING_VALUE;
         } else {
-            if (board.numMoves() < LARGE) {
+            if (board.numMoves() < LARGE - 10) {
                 int numWhite = 0;
                 int numBlack = 0;
                 for (int i = 0; i < 100; i += 1) {
