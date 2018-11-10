@@ -13,7 +13,7 @@ public class UnitTest {
      *  the arguments of runClasses to run other JUnit tests. */
     public static void main(String[] ignored) {
         textui.runClasses(UnitTest.class,
-                UnitTestCheckpoint.class, BoardTest.class);
+                UnitTestCheckpoint.class, BoardTest.class, SquareTest.class);
     }
 
     /** A dummy test as a placeholder for real ones. */
