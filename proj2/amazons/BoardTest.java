@@ -280,40 +280,6 @@ public class BoardTest {
         assertTrue(move2 == curMoves.pop());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testIllegalMove() {
-        nB.init();
-        Square from = Square.sq(6, 0);
-        Square toInvalDir = Square.sq(9, 1);
-        Square spearInvalDir = Square.sq(9, 0);
-
-        Move moveInvalDir = Move.mv(from, toInvalDir, spearInvalDir);
-
-        nB.makeMove(moveInvalDir);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testBlockedMove() {
-        nB.init();
-        Square from = Square.sq(6, 0);
-        Square to = Square.sq(8, 2);
-        Square spear = Square.sq(1, 9);
-
-        Move move1 = Move.mv(from, to, spear);
-
-        nB.makeMove(move1);
-
-        Square fromInval = Square.sq(9, 3);
-        Square toInval = Square.sq(7, 1);
-        Square spearInval = Square.sq(7, 2);
-
-        Move moveInval = Move.mv(fromInval, toInval, spearInval);
-
-        nB.makeMove(moveInval);
-
-    }
-
-
 
     @Test
     public void testMoveTen() {
@@ -622,8 +588,6 @@ public class BoardTest {
         nB.put(Piece.EMPTY, 8, 7);
         nB.put(Piece.WHITE, 9, 4);
 
-        System.out.print(nB.toString());
-
         Iterator<Move> allLegalMoves = nB.legalMoves(Piece.BLACK);
         ArrayList<Move> allMovesList = new ArrayList<Move>();
 
@@ -667,4 +631,3 @@ public class BoardTest {
     }
 }
 
-// Put square already occupied (isLegal)

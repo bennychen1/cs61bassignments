@@ -9,13 +9,11 @@ import java.util.function.Consumer;
 
 import static amazons.Utils.*;
 import static amazons.Piece.*;
-import static amazons.Square.sq;
-import static amazons.Square.SQ;
-import static amazons.Board.pat1;
-import static amazons.Board.pat2;
+import static amazons.Board.PAT1;
+import static amazons.Board.PAT2;
 
 /** The input/output and GUI controller for play of Amazons.
- *  @author */
+ *  @author Benny Chen */
 final class Controller {
 
     /** Controller for one or more games of Amazons, using
@@ -148,8 +146,7 @@ final class Controller {
         new Command("new$", this::doNew),
         new Command("auto\\s+([Bb]lack|[Ww]hite)", this::doAuto),
         new Command("manual\\s([Bb]lack+|[Ww]hite)", this::doManaul),
-        new Command(pat1 + "|" + pat2 , this::doMove)
-        // FIXME
+        new Command(PAT1 + "|" + PAT2 , this::doMove)
     };
 
     /** A Matcher whose Pattern matches comments. */
@@ -207,7 +204,7 @@ final class Controller {
     /** Command "auto C" where C is the first group of MAT. */
     private void doAuto(Matcher mat) {
         if (!mat.matches()) {
-            throw error ("Bad command: Need to be auto BLACK or auto White");
+            throw error("Bad command: Need to be auto BLACK or auto White");
         }
 
         String player = mat.group(1).toLowerCase();
@@ -222,8 +219,8 @@ final class Controller {
     /** Command "manual C" where C is the first group of MAT. */
     private void doManaul(Matcher mat) {
         if (!mat.matches()) {
-            throw error("The player to set as manual" +
-                    "must be either 'Black' or 'White'.");
+            throw error("The player to set as manual"
+                    + "must be either 'Black' or 'White'.");
         }
 
         String player = mat.group(1).toLowerCase();
@@ -235,13 +232,15 @@ final class Controller {
         }
     }
 
+    /** Command "a1 a2 a1" or command "a1-a2(a1)" where the move
+     * is the first group of MAT. */
     private void doMove(Matcher mat) {
         if (!mat.matches()) {
             throw error("Bad move command: format should be a1 a2 a3");
         }
 
-        boolean first = pat1.matches(mat.group(0));
-        boolean second = pat2.matches(mat.group(0));
+        boolean first = PAT1.matches(mat.group(0));
+        boolean second = PAT2.matches(mat.group(0));
 
         String moveString;
         if (first) {
@@ -266,6 +265,10 @@ final class Controller {
         }
 
         _winner = _board.winner();
+
+        if (_winner != null) {
+            _reporter.reportNote(_winner.toName() + " wins.");
+        }
     }
 
     /** The board. */

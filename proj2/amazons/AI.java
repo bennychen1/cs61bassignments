@@ -1,18 +1,13 @@
 package amazons;
 
-// NOTICE:
-// This file is a SUGGESTED skeleton.  NOTHING here or in any other source
-// file is sacred.  If any of it confuses you, throw it out and do it your way.
-
 import static java.lang.Math.*;
 
 import static amazons.Piece.*;
-import static amazons.Utils.iterable;
 import java.util.Iterator;
 import java.util.ArrayList;
 
 /** A Player that automatically generates moves.
- *  @author
+ *  @author Benny Chen
  */
 class AI extends Player {
 
@@ -21,6 +16,12 @@ class AI extends Player {
     private static final int WINNING_VALUE = Integer.MAX_VALUE - 1;
     /** A magnitude greater than a normal value. */
     private static final int INFTY = Integer.MAX_VALUE;
+
+    /** A magnitude representing a low number of moves. */
+    private static final int SMALL = 20;
+
+    /** A magnitude representing a large number of moves. */
+    private static final int LARGE = 72;
 
     /** A new AI with no piece or controller (intended to produce
      *  a template). */
@@ -72,14 +73,12 @@ class AI extends Player {
         if (depth == 0 || board.winner() != null) {
             return staticScore(board);
         }
-
         if (sense == 1) {
             int bestVal = Integer.MIN_VALUE;
             Iterator<Move> maxMovesIter;
             ArrayList<Move> maxMoves;
             maxMovesIter = board.legalMoves(Piece.WHITE);
             maxMoves = board.listOfMoves(maxMovesIter);
-
             for (Move m : maxMoves) {
                 board.setTurn(Piece.WHITE);
                 board.makeMove(m);
@@ -108,7 +107,8 @@ class AI extends Player {
             for (Move m : minMoves) {
                 board.setTurn(Piece.BLACK);
                 board.makeMove(m);
-                bestVal = Math.min(bestVal, findMove(board, depth - 1, false, 1, alpha, beta));
+                bestVal = Math.min(bestVal, findMove(board, depth - 1, false, 1,
+                        alpha, beta));
                 board.undoAMove(m.from(), m.to(), m.spear());
                 if (bestVal < alpha) {
                     if (saveMove) {
@@ -116,19 +116,14 @@ class AI extends Player {
                     }
                     return bestVal;
                 }
-
                 if (saveMove) {
                     _lastFoundMove = m;
                 }
-
                 beta = Math.min(beta, bestVal);
             }
 
             return bestVal;
         }
-
-        // FIXME
-        //return 0;
     }
 
     /** Return a heuristically determined maximum search depth
@@ -136,15 +131,13 @@ class AI extends Player {
     private int maxDepth(Board board) {
         int N = board.numMoves();
 
-        if (N < 20) {
+        if (N < SMALL) {
             return 1;
-        } else if (N >= 20 && N < 72) {
+        } else if (N >= SMALL && N < LARGE) {
             return 2;
         } else {
             return 5;
         }
-
-        //return 2; // FIXME
     }
 
 
@@ -156,17 +149,19 @@ class AI extends Player {
         } else if (winner == BLACK) {
             return -WINNING_VALUE;
         } else {
-            if (board.numMoves() < 72) {
+            if (board.numMoves() < LARGE) {
                 int numWhite = 0;
                 int numBlack = 0;
                 for (int i = 0; i < 100; i += 1) {
                     if (board.get(Square.sq(i)) == WHITE) {
-                        Iterator<Square> wReach = board.reachableFrom(Square.sq(i), null);
-                        numWhite += board.iteratorNexts(wReach);
+                        Iterator<Square> wR = board.reachableFrom(Square.sq(i),
+                                null);
+                        numWhite += board.iteratorNexts(wR);
 
                     } else if (board.get(Square.sq(i)) == BLACK) {
-                        Iterator<Square> bReach = board.reachableFrom(Square.sq(i), null);
-                        numBlack += board.iteratorNexts(bReach);
+                        Iterator<Square> bR = board.reachableFrom(Square.sq(i),
+                                null);
+                        numBlack += board.iteratorNexts(bR);
                     }
                 }
                 return numWhite - numBlack;
@@ -176,9 +171,6 @@ class AI extends Player {
                 return numMyMoves - numOpponentMoves;
             }
         }
-
-        // FIXME
-        //return 0;
     }
 
 

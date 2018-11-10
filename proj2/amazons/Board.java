@@ -1,22 +1,14 @@
 package amazons;
 
-// NOTICE:
-// This file is a SUGGESTED skeleton.  NOTHING here or in any other source
-// file is sacred.  If any of it confuses you, throw it out and do it your way.
-
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.Formatter;
 import java.util.Stack;
-import java.util.NoSuchElementException;
 import java.util.Arrays;
 import java.util.ArrayList;
 
 import static amazons.Utils.*;
 
 import static amazons.Piece.*;
-import static amazons.Move.mv;
-
 
 /** The state of an Amazons Game.
  *  @author Benny Chen
@@ -45,12 +37,10 @@ class Board {
         _initBoard = model._initBoard;
         _numMoves = model._numMoves;
         _moves = model._moves;
-        // FIXME
     }
 
     /** Clears the board to the initial position. */
     void init() {
-        // FIXME
         _turn = WHITE;
         _winner = null;
         _initBoard = new Piece[SIZE][SIZE];
@@ -103,14 +93,12 @@ class Board {
      *  board. */
     int numMoves() {
         return _numMoves;
-        // FIXME
     }
 
     /** Return the winner in the current position, or null if the game is
      *  not yet finished. */
     Piece winner() {
         return _winner;
-        // FIXME
     }
 
     /**Returns the current moves stack. */
@@ -123,7 +111,6 @@ class Board {
     /** Return the contents the square at S. */
     final Piece get(Square s) {
         return get(s.col(), s.row());
-        // FIXME
     }
 
     /** Return the contents of the square at (COL, ROW), where
@@ -134,7 +121,6 @@ class Board {
             return null;
         }
         return _boardArr[row][col];
-        // FIXME
     }
 
     /** Return the contents of the square at COL ROW. */
@@ -145,7 +131,6 @@ class Board {
     /** Set square S to P. */
     final void put(Piece p, Square s) {
         put(p, s.col(), s.row());
-        // FIXME
     }
 
     /** Set square (COL, ROW) to P. */
@@ -156,7 +141,6 @@ class Board {
         }
 
         _boardArr[row][col] = p;
-        // FIXME
     }
 
     /** Set square COL ROW to P. */
@@ -217,7 +201,6 @@ class Board {
     /** Return true iff FROM is a valid starting square for a move. */
     boolean isLegal(Square from) {
         return get(from).toString().equals(_turn.toString());
-        // FIXME
     }
 
     /** Return true iff FROM-TO is a valid first part of move, ignoring
@@ -228,7 +211,7 @@ class Board {
                 return true;
             }
         }
-        return false;  // FIXME
+        return false;
     }
 
     /** Return true iff FROM-TO(SPEAR) is a legal move in the current
@@ -240,7 +223,6 @@ class Board {
             }
         }
         return false;
-        // FIXME
     }
 
     /** Return true iff MOVE is a legal move in the current
@@ -250,7 +232,6 @@ class Board {
         Square to = move.to();
         Square spear = move.spear();
         return isLegal(from, to, spear);
-        // FIXME
     }
 
     /** Move FROM-TO(SPEAR), assuming this is a legal move. */
@@ -275,7 +256,6 @@ class Board {
         } else {
             System.out.println("Invalid move");
         }
-        // FIXME
     }
 
     /** Move according to MOVE, assuming it is a legal move. */
@@ -284,8 +264,6 @@ class Board {
         Square to = move.to();
         Square spear = move.spear();
         makeMove(from, to, spear);
-
-        // FIXME
     }
 
     /** Undo one move.  Has no effect on the initial board. */
@@ -306,7 +284,6 @@ class Board {
 
             undoAMove(from1, to1, spear1);
         }
-        // FIXME
     }
 
     /** Undoes a move by returning the piece at TO back to
@@ -323,15 +300,6 @@ class Board {
         _numMoves -= 1;
         _turn = _turn.opponent();
         _winner = null;
-    }
-
-    void undoASingleMove() {
-        Move move1 = _moves.pop();
-        Square from1 = move1.from();
-        Square to1 = move1.to();
-        Square spear1 = move1.spear();
-        undoAMove(from1, to1, spear1);
-
     }
 
     /** Return an Iterator over the Squares that are reachable by an
@@ -396,7 +364,6 @@ class Board {
                 return toReturn;
             } else {
                 throw error("No more reachable squares");
-                // FIXME
             }
         }
 
@@ -405,7 +372,6 @@ class Board {
         private void toNext() {
             _dir += 1;
             _steps = 1;
-            // FIXME
         }
 
         /** Starting square. */
@@ -441,8 +407,6 @@ class Board {
                 return hasNext();
             }
             return true;
-
-            //FIXME
         }
 
         @Override
@@ -453,7 +417,6 @@ class Board {
             } else {
                 throw error("No legal moves");
             }
-            // FIXME
         }
 
         /** Advance so that the next valid Move is
@@ -477,7 +440,6 @@ class Board {
                 _start = null;
                 _nextSquare = null;
             }
-            // FIXME
         }
 
         /** Advance only _nextSquare and set _spearThrows to be
@@ -537,6 +499,7 @@ class Board {
         return movesList;
     }
 
+    /** Returns the number of times Iterator I of type T can call next. */
     public <T> int iteratorNexts(Iterator<T> i) {
         int total = 0;
         while (i.hasNext()) {
@@ -563,7 +526,6 @@ class Board {
             }
         }
         return result;
-        // FIXME
     }
 
     /** An empty iterator for initialization. */
@@ -596,6 +558,11 @@ class Board {
             { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 }
     };
 
-    static final String pat1 = String.format("(%s)\\s+(%s)\\s+(%s)", Square.SQ, Square.SQ, Square.SQ);
-    static final String pat2 = String.format("%s-%s\\(%s\\)", Square.SQ, Square.SQ, Square.SQ);
+    /** Pattern for a move as a1 a2 a1. */
+    static final String PAT1 = String.format("(%s)\\s+(%s)\\s+(%s)",
+            Square.SQ, Square.SQ, Square.SQ);
+
+    /** Pattern for a move as a1-a2(a1). */
+    static final String PAT2 = String.format("%s-%s\\(%s\\)",
+            Square.SQ, Square.SQ, Square.SQ);
 }

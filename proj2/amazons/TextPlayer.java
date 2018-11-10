@@ -1,9 +1,8 @@
 package amazons;
 
-import static amazons.Move.mv;
 
 /** A Player that takes input as text commands from the standard input.
- *  @author
+ *  @author Benny Chen
  */
 class TextPlayer extends Player {
 
@@ -29,11 +28,11 @@ class TextPlayer extends Player {
             String line = _controller.readLine();
             if (line == null) {
                 return "quit";
-            } else if (false) {  // FIXME
+            } else if (false) {
                 _controller.reportError("Invalid move. "
                                         + "Please try again.");
                 continue;
-            } else { // FIXME
+            } else {
                 return line;
             }
         }

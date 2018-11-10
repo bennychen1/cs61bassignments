@@ -75,8 +75,8 @@ final class Square {
 
     /** Return the Square that is STEPS>0 squares away from me in direction
      *  DIR, or null if there is no such square.
-     *  DIR = 0 for north, 1 for northeast, 2 for east, etc., up to 7 for 
-     *  northwest. If DIR has another value, return null. Thus, unless the 
+     *  DIR = 0 for north, 1 for northeast, 2 for east, etc., up to 7 for
+     *  northwest. If DIR has another value, return null. Thus, unless the
      *  result is null the resulting square is a queen move away from me. */
     Square queenMove(int dir, int steps) {
         if (dir > 8 || dir < 0) {
@@ -94,14 +94,14 @@ final class Square {
             return null;
         }
 
-        return Square.sq(moveCol, moveRow);  // FIXME
+        return Square.sq(moveCol, moveRow);
     }
 
     /** Return the direction (an int as defined in the documentation
      *  for queenMove) of the queen move THIS-TO. */
     int direction(Square to) {
         assert isQueenMove(to);
-        return -1;  // FIXME
+        return -1;
     }
 
     @Override
@@ -119,7 +119,7 @@ final class Square {
         if (!exists(row, col)) {
             throw error("row or column out of bounds");
         }
-        return sq(row * 10 + col);  // FIXME
+        return sq(row * 10 + col);
     }
 
     /** Return the (unique) Square denoting the position with index INDEX. */
@@ -130,7 +130,7 @@ final class Square {
     /** Return the (unique) Square denoting the position COL ROW, where
      *  COL ROW is the standard text format for a square (e.g., a4). */
     static Square sq(String col, String row) {
-        return null; // FIXME
+        return null;
     }
 
     /** Return the (unique) Square denoting the position in POSN, in the
@@ -149,7 +149,7 @@ final class Square {
             char start = '0';
             row = posn.charAt(1) - start;
         }
-        return sq(col, row - 1);  // FIXME
+        return sq(col, row - 1);
     }
 
     /** Return an iterator over all Squares. */
@@ -160,11 +160,11 @@ final class Square {
     /** Return the Square with index INDEX. */
     private Square(int index) {
         _index = index;
-        _row = index / 10;  // FIXME
-        _col = index % 10;  // FIXME
+        _row = index / 10;
+        _col = index % 10;
         char charCol = (char) (_col + START);
         int rowPrint = _row + 1;
-        _str = String.format(charCol + Integer.toString(rowPrint));  // FIXME
+        _str = String.format(charCol + Integer.toString(rowPrint));
     }
 
     /** The cache of all created squares, by index. */

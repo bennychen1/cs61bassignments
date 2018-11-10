@@ -8,13 +8,9 @@ import java.util.regex.Pattern;
 
 import java.util.concurrent.ArrayBlockingQueue;
 
-// This skeleton provides a bit of suggested structure.   It's up to you to
-// discover what needs to be added.  You are NOT required to reproduce the
-// GUI of the staff program.
-
 
 /** The GUI controller for an Amazons board and buttons.
- *  @author
+ *  @author Benny Chen
  */
 class GUI extends TopLevel implements View, Reporter {
 

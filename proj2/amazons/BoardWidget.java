@@ -8,21 +8,16 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 import static amazons.Piece.*;
 import static amazons.Square.sq;
-import static amazons.Move.mv;
 
-// This skeleton provides a bit of suggested structure.   It's up to you to
-// discover what needs to be added.  You are NOT required to reproduce the
-// GUI of the staff program.
 
 /** A widget that displays an Amazons game.
- *  @author
+ *  @author Benny Chen
  */
 class BoardWidget extends Pad {
 
@@ -65,13 +60,11 @@ class BoardWidget extends Pad {
     private void drawGrid(Graphics2D g) {
         g.setColor(LIGHT_SQUARE_COLOR);
         g.fillRect(0, 0, BOARD_SIDE, BOARD_SIDE);
-        // FIXME
     }
 
     @Override
     public synchronized void paintComponent(Graphics2D g) {
         drawGrid(g);
-        // FIXME
     }
 
     /** Draw a queen for side PIECE at square S on G.  */
@@ -82,7 +75,6 @@ class BoardWidget extends Pad {
 
     /** Handle a click on S. */
     private void click(Square s) {
-        // FIXME
         repaint();
     }
 
