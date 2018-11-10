@@ -146,7 +146,7 @@ final class Controller {
         new Command("new$", this::doNew),
         new Command("auto\\s+([Bb]lack|[Ww]hite)", this::doAuto),
         new Command("manual\\s([Bb]lack+|[Ww]hite)", this::doManaul),
-        new Command(PAT1 + "|" + PAT2 , this::doMove)
+        new Command(PAT1 + "|" + PAT2, this::doMove)
     };
 
     /** A Matcher whose Pattern matches comments. */
