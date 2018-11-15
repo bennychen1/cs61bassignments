@@ -77,10 +77,10 @@ class AI extends Player {
             int bestVal = Integer.MIN_VALUE;
             Iterator<Move> maxMovesIter;
             ArrayList<Move> maxMoves;
+            board.setTurn(Piece.WHITE);
             maxMovesIter = board.legalMoves(Piece.WHITE);
             maxMoves = board.listOfMoves(maxMovesIter);
             for (Move m : maxMoves) {
-                board.setTurn(Piece.WHITE);
                 board.makeMove(m);
                 bestVal = Math.max(bestVal, findMove(board, depth - 1, false,
                         -1, alpha, beta));
@@ -98,17 +98,17 @@ class AI extends Player {
 
                 alpha = Math.max(bestVal, alpha);
             }
-
             return bestVal;
         } else {
             int bestVal = Integer.MAX_VALUE;
+            board.setTurn(Piece.BLACK);
             Iterator<Move> minMovesIter = board.legalMoves(Piece.BLACK);
             ArrayList<Move> minMoves = board.listOfMoves(minMovesIter);
             for (Move m : minMoves) {
-                board.setTurn(Piece.BLACK);
                 board.makeMove(m);
                 bestVal = Math.min(bestVal, findMove(board, depth - 1, false, 1,
                         alpha, beta));
+                System.out.println(m.toString() + bestVal);
                 board.undoAMove(m.from(), m.to(), m.spear());
                 if (bestVal < alpha) {
                     if (saveMove) {
@@ -149,7 +149,7 @@ class AI extends Player {
         } else if (winner == BLACK) {
             return -WINNING_VALUE;
         } else {
-            if (board.numMoves() < LARGE - 50) {
+            if (board.numMoves() < LARGE) {
                 int numWhite = 0;
                 int numBlack = 0;
                 for (int i = 0; i < 100; i += 1) {
@@ -164,7 +164,7 @@ class AI extends Player {
                         numBlack += board.iteratorNexts(bR);
                     }
                 }
-                return numWhite - (numBlack * numBlack);
+                return numBlack - numWhite;
             } else {
                 int numMyMoves = board.numLegalMoves(WHITE);
                 int numOpponentMoves = board.numLegalMoves(BLACK);
