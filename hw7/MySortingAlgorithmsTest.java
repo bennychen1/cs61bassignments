@@ -136,6 +136,14 @@ public class MySortingAlgorithmsTest {
         }
     }
 
+    @Test
+    public void testSortK() {
+        int[] toSort = new int[]{5, 30, 25, 22, 29, 16, 11, 15};
+        int[] sortK = new int[]{5, 22, 25, 29, 30};
+        algorithms[0].sort(toSort, 5);
+        assertArrayEquals(sortK, toSort);
+    }
+
     public static void main(String[] args) {
         System.exit(ucb.junit.textui.runClasses(MySortingAlgorithmsTest.class));
     }
