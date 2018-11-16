@@ -31,7 +31,11 @@ public class UndirectedGraph extends GraphObj {
     @Override
     public int inDegree(int v) {
         // FIXME
-        
+        return 0;
+    }
+
+    @Override
+    public int outDegree(int v) {
         return 0;
     }
 
@@ -42,6 +46,22 @@ public class UndirectedGraph extends GraphObj {
     }
 
     // FIXME
+
+    @Override
+    public int add(int u, int v) {
+        return 0;
+    }
+
+    @Override
+    public boolean contains(int u) {
+        return true;
+    }
+
+    @Override
+    public boolean contains(int u, int v) {
+        return true;
+    }
+
 
     private ArrayList<ArrayList<Integer>> adjList;
     private int _V;
