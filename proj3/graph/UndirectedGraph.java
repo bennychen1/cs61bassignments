@@ -1,5 +1,8 @@
 package graph;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /* See restrictions in Graph.java. */
 
 /** Represents an undirected graph.  Out edges and in edges are not
@@ -9,6 +12,17 @@ package graph;
  */
 public class UndirectedGraph extends GraphObj {
 
+    /** Instantiate and undirected graph with V vertices. */
+    public UndirectedGraph(int v) {
+        _V = v;
+
+        for (int i = 0; i < v; i += 1) {
+            adjList.add(new ArrayList<Integer>());
+        }
+
+
+    }
+
     @Override
     public boolean isDirected() {
         return false;
@@ -17,6 +31,7 @@ public class UndirectedGraph extends GraphObj {
     @Override
     public int inDegree(int v) {
         // FIXME
+        
         return 0;
     }
 
@@ -27,5 +42,8 @@ public class UndirectedGraph extends GraphObj {
     }
 
     // FIXME
+
+    private ArrayList<ArrayList<Integer>> adjList;
+    private int _V;
 
 }
