@@ -4,6 +4,8 @@ public class Graph {
 
     private LinkedList<Edge>[] adjLists;
     private int vertexCount;
+    private int[] distances;
+    private int[] back;
 
     // Initialize a graph with the given number of vertices and no edges.
     @SuppressWarnings("unchecked")
@@ -66,12 +68,62 @@ public class Graph {
     // to all other vertices.
     public int[] dijkstras(int startVertex) {
         // TODO: Your code here!
-        return null;
+
+        distances = new int[vertexCount];
+        back = new int[vertexCount];
+
+        for (int i = 0; i < vertexCount; i += 1) {
+            if (i == startVertex) {
+                distances[i] = 0;
+                back[i] = startVertex;
+            } else {
+                distances[i] = Integer.MAX_VALUE;
+                back[i] = i;
+            }
+        }
+
+        PriorityQueue<Integer> p = new PriorityQueue<Integer>(vertexCount, new PriorityComparator());
+
+        for (int i = 0; i  < vertexCount; i += 1) {
+            p.add(i);
+        }
+
+        while (!p.isEmpty()) {
+            int start = p.poll();
+            for (Edge e : adjLists[start]) {
+                back[e.to()] = start;
+                if (distances[start] + e.edgeWeight < distances[e.to()]) {
+                    distances[e.to()] = distances[start] + e.edgeWeight;
+                }
+            }
+        }
+
+        return distances;
+    }
+
+    class PriorityComparator implements Comparator<Integer> {
+
+        @Override
+        public int compare(Integer v1, Integer v2) {
+            if (distances[v1] < distances[v2]) {
+                return -1;
+            } else if (distances[v1] == distances[v2]) {
+                return 0;
+            } else {
+                return 1;
+            }
+
+        }
     }
 
     // Returns the Edge object corresponding to the listed vertices, v1 and v2.
     // You may find this helpful to implement!
     private Edge getEdge(int v1, int v2) {
+        for (Edge e : adjLists[v1]) {
+            if (e.to() == v2) {
+                return e;
+            }
+        }
         return null;
     }
 
