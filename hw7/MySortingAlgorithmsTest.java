@@ -13,7 +13,7 @@ public class MySortingAlgorithmsTest {
         new MySortingAlgorithms.MergeSort(),
         // new MySortingAlgorithms.DistributionSort(),
         // new MySortingAlgorithms.HeapSort(),
-        //new MySortingAlgorithms.QuickSort(),
+        new MySortingAlgorithms.QuickSort(),
         new MySortingAlgorithms.LSDSort()};
         //new MySortingAlgorithms.MSDSort()};
 
@@ -139,9 +139,31 @@ public class MySortingAlgorithmsTest {
     @Test
     public void testSortK() {
         int[] toSort = new int[]{5, 30, 25, 22, 29, 16, 11, 15};
-        int[] sortK = new int[]{5, 22, 25, 29, 30};
+        int[] toSortCopy = new int[]{5, 30, 25, 22, 29, 16, 11, 15};
+        int[] sortK = new int[]{5, 22, 25, 29, 30, 16, 11, 15};
         algorithms[0].sort(toSort, 5);
         assertArrayEquals(sortK, toSort);
+
+        System.arraycopy(toSortCopy, 0, toSort, 0, toSort.length);
+        algorithms[1].sort(toSort, 5);
+        assertArrayEquals(sortK, toSort);
+
+        System.arraycopy(toSortCopy, 0, toSort, 0, toSort.length);
+        algorithms[3].sort(toSort, 5);
+        assertArrayEquals(sortK, toSort);
+
+        System.arraycopy(toSortCopy, 0, toSort, 0, toSort.length);
+        algorithms[2].sort(toSort, 5);
+        assertArrayEquals(sortK, toSort);
+
+        System.arraycopy(toSortCopy, 0, toSort, 0, toSort.length);
+        algorithms[4].sort(toSort, 5);
+        assertArrayEquals(sortK, toSort);
+
+
+
+
+
     }
 
     public static void main(String[] args) {

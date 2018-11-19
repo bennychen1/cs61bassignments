@@ -9,6 +9,12 @@ import static org.junit.Assert.*;
 public class GraphTest {
 
     // Add tests.  Here's a sample.
+    @Test
+    public void testUDGraph() {
+        UndirectedGraph u = new UndirectedGraph(3);
+        u.add(1, 2);
+        assertEquals(1, u.inDegree(1));
+    }
 
     @Test
     public void emptyGraph() {

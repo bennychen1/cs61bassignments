@@ -14,11 +14,41 @@ public class BST {
     }
 
     /**
-     * Provide a descriptive comment for this method here.
+     * Build a BST node of size N from a sorted linkedList, with ITER iterating
+     * over th list.
      */
     private BSTNode linkedListToTree(Iterator iter, int n) {
+
+        if (n == 0) {
+            return null;
+        }
+
+        if (n == 1) {
+            BSTNode b = new BSTNode();
+            b.item = iter.next();
+            return b;
+        }
+
+        BSTNode b = new BSTNode();
+        LinkedList left = new LinkedList();
+        LinkedList right = new LinkedList();
+
+       for (int i = 0; i < (n/2); i += 1) {
+           left.add(iter.next());
+       }
+
+       b.item = iter.next();
+
+       while (iter.hasNext()) {
+           right.add(iter.next());
+       }
+
+       b.left = linkedListToTree(left.iterator(), left.size());
+       b.right = linkedListToTree(right.iterator(), right.size());
+       return b;
+
+
         // YOUR CODE HERE
-        return null;
     }
 
     /**
@@ -41,6 +71,11 @@ public class BST {
         print(node.right, d + 1);
     }
 
+    public Object getItem() {
+        return root.item;
+    }
+
+
     /**
      * Node for BST.
      */
@@ -54,5 +89,20 @@ public class BST {
 
         /** Right child. */
         protected BSTNode right;
+    }
+
+    public static void main(String[] args) {
+        LinkedList<Integer> nums = new LinkedList<Integer>();
+        nums.add(3);
+        nums.add(6);
+        nums.add(10);
+        nums.add(11);
+
+
+        Iterator<Integer> iter = nums.iterator();
+
+        BST b = new BST(nums);
+
+        b.print();
     }
 }

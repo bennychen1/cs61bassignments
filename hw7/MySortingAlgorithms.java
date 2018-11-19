@@ -38,6 +38,29 @@ public class MySortingAlgorithms {
     public static class InsertionSort implements SortingAlgorithm {
         @Override
         public void sort(int[] array, int k) {
+            int[] sortedArr = new int[k];
+
+            for (int i = 0; i < k; i += 1) {
+                sortedArr[i] = Integer.MAX_VALUE;
+            }
+
+            for (int i = 0; i < k; i += 1) {
+                sortedArr[k - 1] = array[i];
+                int start = k - 1;
+                int compareTo = start - 1;
+                while (compareTo >= 0) {
+                    if (sortedArr[compareTo] > array[i]) {
+                        int temp = sortedArr[compareTo];
+                        sortedArr[compareTo] = array[i];
+                        sortedArr[start] = temp;
+                        start -= 1;
+                        compareTo -= 1;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            System.arraycopy(sortedArr, 0, array, 0, k);
             // FIXME
         }
 
@@ -56,6 +79,17 @@ public class MySortingAlgorithms {
     public static class SelectionSort implements SortingAlgorithm {
         @Override
         public void sort(int[] array, int k) {
+            for (int i = k - 1; i > 0; i -= 1) {
+                int maxIndex = i;
+                for (int compareTo = i - 1; compareTo >= 0; compareTo -= 1) {
+                    if (array[compareTo] > array[maxIndex]) {
+                        maxIndex = compareTo;
+                    }
+                }
+                int temp = array[i];
+                array[i] = array[maxIndex];
+                array[maxIndex] = temp;
+            }
             // FIXME
         }
 
@@ -73,10 +107,70 @@ public class MySortingAlgorithms {
     public static class MergeSort implements SortingAlgorithm {
         @Override
         public void sort(int[] array, int k) {
+            if (array.length <= 1 || k <= 0) {
+                return ;
+            }
+
+            int[] toSort = new int[k];
+            System.arraycopy(array, 0, toSort, 0, k);
+
+            int midPoint = toSort.length / 2;
+
+            int[] left = new int[midPoint];
+            int[] right = new int[toSort.length - midPoint];
+
+            System.arraycopy(toSort, 0, left, 0, midPoint);
+            System.arraycopy(toSort, midPoint, right, 0, right.length);
+
+            sort(left, midPoint);
+            sort(right, right.length);
+
+            toSort = merge(left, right);
+
+            System.arraycopy(toSort, 0, array, 0, k);
             // FIXME
         }
 
         // may want to add additional methods
+
+        public int[] merge(int[] l, int[] r) {
+            if (l == null && r == null) {
+                return null;
+            }
+
+            if (l == null) {
+                return r;
+            }
+
+            if (r == null) {
+                return l;
+            }
+
+            int[] result = new int[l.length + r.length];
+
+            int leftIndex = 0;
+            int rightIndex = 0;
+            int resultIndex = 0;
+
+            while (leftIndex < l.length && rightIndex < r.length) {
+                if (l[leftIndex] < r[rightIndex]) {
+                    result[resultIndex] = l[leftIndex];
+                    leftIndex += 1;
+                } else {
+                    result[resultIndex] = r[rightIndex];
+                    rightIndex += 1;
+                }
+
+                resultIndex += 1;
+            }
+
+            if (leftIndex < l.length) {
+                System.arraycopy(l, leftIndex, result, resultIndex, l.length - leftIndex);
+            } else {
+                System.arraycopy(r, rightIndex, result, resultIndex, r.length - rightIndex);
+            }
+            return result;
+        }
 
         @Override
         public String toString() {
@@ -108,8 +202,15 @@ public class MySortingAlgorithms {
     public static class HeapSort implements SortingAlgorithm {
         @Override
         public void sort(int[] array, int k) {
+            int[] toSort = new int[k];
+            System.arraycopy(array, 0, toSort, 0, k);
+
+            int largest = 0;
+            int left = largest * 2;
+            int right = (largest * 2) + 1;
             // FIXME
         }
+
 
         @Override
         public String toString() {
@@ -122,6 +223,46 @@ public class MySortingAlgorithms {
     public static class QuickSort implements SortingAlgorithm {
         @Override
         public void sort(int[] array, int k) {
+
+            if (k <= 0) {
+                return ;
+            }
+
+            if (array.length <= 1) {
+                return ;
+            }
+            int[] toSort = new int[k];
+            System.arraycopy(array, 0, toSort, 0, k);
+
+            int pivot = toSort[0];
+            int stopPoint = 1;
+
+            for (int i = 1; i < toSort.length; i += 1) {
+                if (toSort[i] < pivot) {
+                    int temp = toSort[i];
+                    toSort[i] = toSort[stopPoint];
+                    toSort[stopPoint] = temp;
+                    stopPoint += 1;
+                }
+            }
+
+            int temp = toSort[0];
+            toSort[0] = toSort[stopPoint - 1];
+            toSort[stopPoint - 1] = temp;
+
+            int[] left = new int[stopPoint - 1];
+            int[] right = new int[toSort.length - stopPoint];
+
+            System.arraycopy(toSort, 0, left, 0, left.length);
+            System.arraycopy(toSort, stopPoint, right, 0, right.length);
+
+            sort(left, left.length);
+            sort(right, right.length);
+
+            System.arraycopy(left, 0, toSort, 0, left.length);
+            System.arraycopy(right, 0, toSort, stopPoint,  right.length);
+
+            System.arraycopy(toSort, 0, array, 0, k);
             // FIXME
         }
 
@@ -144,6 +285,37 @@ public class MySortingAlgorithms {
     public static class LSDSort implements SortingAlgorithm {
         @Override
         public void sort(int[] a, int k) {
+            int[] toSort = new int[k];
+            System.arraycopy(a, 0, toSort, 0, k);
+
+            for (int i = 0; i < 32; i += 2) {
+                int[] count = new int[4];
+                int[] ordered = new int[k];
+                int mask = 3 << i;
+                String m = Integer.toBinaryString(mask);
+                for (int j = 0; j < toSort.length; j += 1) {
+                    int countIndex = (toSort[j] & mask) >>> i;
+                    count[countIndex] += 1;
+                }
+                for (int index = 0; index < count.length; index += 1) {
+                    if (index == 0) {
+                        count[index] -= 1;
+                    } else {
+                        count[index] = count[index - 1] + count[index];
+                    }
+                }
+
+                for (int s = ordered.length - 1; s >= 0; s -= 1) {
+                    int toPut = toSort[s];
+                    int putIndex = count[(toPut & mask) >>> i];
+                    count[(toPut & mask) >>> i] -= 1;
+                    ordered[putIndex] = toPut;
+                }
+
+                System.arraycopy(ordered, 0, toSort, 0, toSort.length);
+            }
+
+            System.arraycopy(toSort, 0, a, 0, k);
             // FIXME
         }
 
@@ -152,7 +324,6 @@ public class MySortingAlgorithms {
             return "LSD Sort";
         }
     }
-
     /**
      * MSD Sort implementation.
      */
