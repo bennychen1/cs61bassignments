@@ -15,11 +15,11 @@ public class UndirectedGraph extends GraphObj {
     /** Instantiate and undirected graph with V vertices. */
     public UndirectedGraph(int v) {
         _V = v;
+        _adjList = new ArrayList<>();
 
         for (int i = 0; i < v; i += 1) {
-            adjList.add(new ArrayList<Integer>());
+            _adjList.add(new ArrayList<Integer>());
         }
-
 
     }
 
@@ -48,6 +48,17 @@ public class UndirectedGraph extends GraphObj {
     // FIXME
 
     @Override
+    public int vertexSize() {
+        return _adjList.size();
+    }
+
+    @Override
+    public int add() {
+        _adjList.add(new ArrayList<Integer>());
+        return _adjList.size() - 1;
+    }
+
+    @Override
     public int add(int u, int v) {
         return 0;
     }
@@ -63,7 +74,11 @@ public class UndirectedGraph extends GraphObj {
     }
 
 
-    private ArrayList<ArrayList<Integer>> adjList;
+    /** A List of the vertices and the out edges, which are
+     * also in edges. */
+    private ArrayList<ArrayList<Integer>> _adjList;
+
+    /** The number of vertices in the graph. */
     private int _V;
 
 }
