@@ -1,4 +1,6 @@
 package graph;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /* See restrictions in Graph.java. */
 
@@ -11,6 +13,9 @@ abstract class GraphObj extends Graph {
 
     /** A new, empty Graph. */
     GraphObj() {
+        _V = 0;
+        _adjList = new ArrayList<ArrayList<Integer>>();
+        _edges = new ArrayList<Edge>();
         // FIXME
     }
 
@@ -111,5 +116,33 @@ abstract class GraphObj extends Graph {
     }
 
     // FIXME
+
+    static class Edge {
+        Edge(int u, int v) {
+            _from = u - 1;
+            _to = v - 1;
+        }
+
+        int getFrom() {
+            return _from;
+        }
+
+        int getTo() {
+            return _to;
+        }
+
+        private int _from;
+        private int _to;
+    }
+
+    /** The number of vertices in the graph. */
+    protected int _V;
+
+    /** An ArrayList of ArrayList containing the
+     * adjacent vertices of all the vertices in the graph.*/
+    protected ArrayList<ArrayList<Integer>> _adjList;
+
+    /** An ArrayList containing the edges of the graph */
+    protected ArrayList<Edge> _edges;
 
 }

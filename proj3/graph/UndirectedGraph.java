@@ -14,15 +14,8 @@ import java.util.Iterator;
  */
 public class UndirectedGraph extends GraphObj {
 
-    /** Instantiate and undirected graph with V vertices. */
-    public UndirectedGraph(int v) {
-        _V = v;
-        _adjList = new ArrayList<>();
-        _edgeCount = 0;
-
-        for (int i = 0; i < v; i += 1) {
-            _adjList.add(new ArrayList<Integer>());
-        }
+    UndirectedGraph() {
+        super();
     }
 
     @Override
@@ -45,7 +38,7 @@ public class UndirectedGraph extends GraphObj {
 
     @Override
     public int edgeSize() {
-        return _edgeCount;
+        return _edges.size();
     }
 
     @Override
@@ -112,15 +105,5 @@ public class UndirectedGraph extends GraphObj {
     }
 
 
-    /** A List of the vertices and the out edges, which are
-     * also in edges. */
-    private ArrayList<ArrayList<Integer>> _adjList;
-
-    /** The number of vertices in the graph. */
-    private int _V;
-
-    /** The number to return if a new edge is added.
-     * Also the number of edges multiplied by 2. */
-    private int _edgeCount;
 
 }

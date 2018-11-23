@@ -11,10 +11,12 @@ public class GraphTest {
     // Add tests.  Here's a sample.
     @Test
     public void testUDSizes() {
-        UndirectedGraph u = new UndirectedGraph(2);
-        assertEquals(2, u.add());
+        UndirectedGraph u = new UndirectedGraph();
+        u.add();
+        u.add();
+        assertEquals(3, u.add());
         assertEquals(3, u.vertexSize());
-        assertEquals(2, u.maxVertex());
+        assertEquals(3, u.maxVertex());
         assertEquals(0, u.edgeSize());
 
         u.add(1, 2);
@@ -23,7 +25,10 @@ public class GraphTest {
 
     @Test
     public void testUDAdd() {
-        UndirectedGraph u = new UndirectedGraph(3);
+        UndirectedGraph u = new UndirectedGraph();
+        u.add();
+        u.add();
+        u.add();
         u.add(1, 2);
         u.add(1, 3);
         assertEquals(2, u.edgeSize());
