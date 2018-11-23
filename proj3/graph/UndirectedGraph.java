@@ -2,6 +2,8 @@ package graph;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /* See restrictions in Graph.java. */
 
@@ -16,11 +18,11 @@ public class UndirectedGraph extends GraphObj {
     public UndirectedGraph(int v) {
         _V = v;
         _adjList = new ArrayList<>();
+        _edgeCount = 0;
 
         for (int i = 0; i < v; i += 1) {
             _adjList.add(new ArrayList<Integer>());
         }
-
     }
 
     @Override
@@ -29,15 +31,40 @@ public class UndirectedGraph extends GraphObj {
     }
 
     @Override
+    public int vertexSize() {
+        return _V;
+    }
+
+    @Override
+    public int maxVertex() {
+        if (_V == 0) {
+            return 0;
+        }
+        return _adjList.size();
+    }
+
+    @Override
+    public int edgeSize() {
+        return _edgeCount;
+    }
+
+    @Override
     public int inDegree(int v) {
         // FIXME
-        return 0;
+        if (v == 0) {
+            return 0;
+        }
+        return _adjList.get(v - 1).size();
     }
 
     @Override
     public int outDegree(int v) {
-        return 0;
+        if (v == 0) {
+            return 0;
+        }
+        return _adjList.get(v - 1).size();
     }
+
 
     @Override
     public Iteration<Integer> predecessors(int v) {
@@ -48,19 +75,25 @@ public class UndirectedGraph extends GraphObj {
     // FIXME
 
     @Override
-    public int vertexSize() {
-        return _adjList.size();
-    }
-
-    @Override
     public int add() {
         _adjList.add(new ArrayList<Integer>());
-        return _adjList.size() - 1;
+        _V += 1;
+        return maxVertex();
     }
 
     @Override
     public int add(int u, int v) {
-        return 0;
+        ArrayList<Integer> verticesU = _adjList.get(u - 1);
+        ArrayList<Integer> verticesV = _adjList.get(v - 1);
+
+        if (verticesU.contains(v - 1)) {
+            return edgeId(u, v);
+        }
+
+        verticesU.add(v - 1);
+        verticesV.add(u - 1);
+
+        return edgeId(u, v);
     }
 
     @Override
@@ -73,6 +106,11 @@ public class UndirectedGraph extends GraphObj {
         return true;
     }
 
+    @Override
+    public int edgeId(int u, int v) {
+        return 0;
+    }
+
 
     /** A List of the vertices and the out edges, which are
      * also in edges. */
@@ -80,5 +118,9 @@ public class UndirectedGraph extends GraphObj {
 
     /** The number of vertices in the graph. */
     private int _V;
+
+    /** The number to return if a new edge is added.
+     * Also the number of edges multiplied by 2. */
+    private int _edgeCount;
 
 }
