@@ -20,7 +20,7 @@ public class GraphTest {
         assertEquals(0, u.edgeSize());
 
         u.add(1, 2);
-        assertEquals(1, u.edgeSize());
+        assertEquals(2, u.edgeSize());
     }
 
     @Test
@@ -31,9 +31,18 @@ public class GraphTest {
         u.add();
         u.add(1, 2);
         u.add(1, 3);
-        assertEquals(2, u.edgeSize());
+        assertEquals(4, u.edgeSize());
         assertEquals(2, u.inDegree(1));
         assertEquals(1, u.inDegree(2));
+
+        assertTrue(u.contains(3));
+        assertTrue(u.contains(1));
+
+        assertFalse(u.contains(4));
+        assertFalse(u.contains(0));
+
+        assertTrue(u.contains(1, 2));
+        assertTrue(u.contains(3, 1));
     }
 
     @Test

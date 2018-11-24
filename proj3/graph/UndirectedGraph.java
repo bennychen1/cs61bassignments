@@ -58,6 +58,30 @@ public class UndirectedGraph extends GraphObj {
         return _adjList.get(v - 1).size();
     }
 
+    @Override
+    public boolean contains(int v) {
+        int vertexIndex = v - 1;
+        if (vertexIndex >= 0 && vertexIndex < _adjList.size()) {
+            if (_adjList.get(vertexIndex) != null) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean contains(int u, int v) {
+        ArrayList<Integer> edgesU = _adjList.get(u - 1);
+        ArrayList<Integer>edgesV = _adjList.get(v - 1);
+        if (edgesU.contains(v - 1) || edgesV.contains(u - 1)) {
+            return true;
+        }
+
+        return false;
+
+    }
+
 
     @Override
     public Iteration<Integer> predecessors(int v) {
@@ -86,24 +110,19 @@ public class UndirectedGraph extends GraphObj {
         verticesU.add(v - 1);
         verticesV.add(u - 1);
 
+        Edge e = new Edge(u - 1, v - 1);
+        Edge eOther = new Edge(v -1, u - 1);
+        _edges.add(e);
+        _edges.add(eOther);
+
         return edgeId(u, v);
     }
 
-    @Override
-    public boolean contains(int u) {
-        return true;
-    }
 
-    @Override
-    public boolean contains(int u, int v) {
-        return true;
-    }
 
     @Override
     public int edgeId(int u, int v) {
         return 0;
     }
-
-
 
 }
