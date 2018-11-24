@@ -1,6 +1,7 @@
 package graph;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /* See restrictions in Graph.java. */
 
@@ -133,6 +134,24 @@ abstract class GraphObj extends Graph {
 
         private int _from;
         private int _to;
+    }
+
+    static class VertexIteration<Type> extends Iteration<Type>{
+        VertexIteration(Iterator<Type> iter) {
+            _iter = iter;
+        }
+
+        public boolean hasNext() {
+            return _iter.hasNext();
+        }
+
+        public Type next() {
+            return _iter.next();
+        }
+
+        private Iterator<Type> _iter;
+
+
     }
 
     /** The number of vertices in the graph. */

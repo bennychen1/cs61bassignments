@@ -74,6 +74,11 @@ public class UndirectedGraph extends GraphObj {
     public boolean contains(int u, int v) {
         ArrayList<Integer> edgesU = _adjList.get(u - 1);
         ArrayList<Integer>edgesV = _adjList.get(v - 1);
+
+        if (edgesU == null || edgesV == null) {
+            return false;
+        }
+
         if (edgesU.contains(v - 1) || edgesV.contains(u - 1)) {
             return true;
         }
@@ -100,6 +105,12 @@ public class UndirectedGraph extends GraphObj {
 
     @Override
     public int add(int u, int v) {
+
+        if (u == 0 || u > _adjList.size()
+                ||v == 0 || v > _adjList.size()) {
+            return -1;
+        }
+
         ArrayList<Integer> verticesU = _adjList.get(u - 1);
         ArrayList<Integer> verticesV = _adjList.get(v - 1);
 
@@ -110,19 +121,84 @@ public class UndirectedGraph extends GraphObj {
         verticesU.add(v - 1);
         verticesV.add(u - 1);
 
-        Edge e = new Edge(u - 1, v - 1);
-        Edge eOther = new Edge(v -1, u - 1);
+        Edge e = new Edge(u, v);
+        Edge eOther = new Edge(v, u);
         _edges.add(e);
         _edges.add(eOther);
 
         return edgeId(u, v);
     }
 
+    @Override
+    public void remove(int v) {
+        if (v == 0 || v > _adjList.size()) {
+            return ;
+        }
+
+        ArrayList<Integer> edgesV = _adjList.get(v - 1);
+
+        ArrayList<Integer> edgeNumbers = new ArrayList<Integer>();
+
+        edgeNumbers.addAll(edgesV);
+
+        for (int i : edgeNumbers) {
+            _adjList.get(i).remove(Integer.valueOf(v - 1));
+            remove(v, i + 1);
+        }
+
+        _adjList.set(v - 1, null);
+
+        _V -= 1;
+    }
+
+    @Override
+    public void remove(int v, int u) {
+        _edges.remove(edgeId(v, u));
+        _edges.remove(edgeId(u, v));
+
+        ArrayList<Integer> edgesV = _adjList.get(v - 1);
+        ArrayList<Integer> edgesU = _adjList.get(u - 1);
+
+        edgesV.remove(Integer.valueOf(u - 1));
+        edgesU.remove(Integer.valueOf(v - 1));
+    }
+
+    @Override
+    public Iteration<Integer> vertices() {
+        int[] verticesArray = new int[_V];
+
+        int index = 0;
+        int vertexNumber = 0;
+
+        for (int i = 0; i < _adjList.size(); i += 1) {
+            vertexNumber = i + 1;
+            if (_adjList.get(i) != null) {
+                verticesArray[index] = vertexNumber;
+                index += 1;
+            }
+        }
+
+        ArrayList<Integer> verticesArrayList = new ArrayList<Integer>();
+
+        for (int i : verticesArray) {
+            verticesArrayList.add(i);
+        }
+
+        return new VertexIteration(verticesArrayList.iterator());
+    }
+
 
 
     @Override
     public int edgeId(int u, int v) {
-        return 0;
-    }
+        int i = 0;
+        for (Edge e : _edges) {
+            if (e.getFrom() == u - 1 && e.getTo() == v - 1){
+                return i;
+            }
 
+            i += 1;
+        }
+        return -1;
+    }
 }

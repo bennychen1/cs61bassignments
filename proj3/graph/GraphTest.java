@@ -45,6 +45,99 @@ public class GraphTest {
         assertTrue(u.contains(3, 1));
     }
 
+
+    @Test
+    public void testRemvoeEdge() {
+        UndirectedGraph u = new UndirectedGraph();
+        u.add();
+        u.add();
+        u.add();
+
+        u.add(1, 2);
+        u.add(2, 3);
+
+        u.remove(1, 2);
+
+        assertEquals(2, u.edgeSize());
+        assertFalse(u.contains(1, 2));
+        assertFalse(u.contains(2, 1));
+    }
+
+    @Test
+    public void testRemove() {
+        UndirectedGraph u = new UndirectedGraph();
+        u.add();
+        u.add();
+
+        u.add(2, 1);
+
+        u.add();
+        u.add();
+        u.add();
+
+        u.add(2, 3);
+        u.add(2, 4);
+        u.add(1, 3);
+
+        u.remove(2);
+
+        assertEquals(4, u.vertexSize());
+        assertEquals(5, u.maxVertex());
+        assertEquals(2, u.edgeSize());
+        assertFalse(u.contains(2));
+        assertFalse(u.contains(2, 3));
+        assertFalse(u.contains(3, 2));
+        assertFalse(u.contains(2, 4));
+    }
+
+    @Test
+    public void testRemoveVertices() {
+        UndirectedGraph u = new UndirectedGraph();
+
+        for (int i = 0; i < 7; i += 1) {
+            u.add();
+        }
+
+        u.add(1, 2);
+        u.add(2, 4);
+        u.add(1, 3);
+        u.add(3, 6);
+        u.add(3, 5);
+
+        u.remove(5);
+        assertFalse(u.contains(5, 3));
+        assertEquals(7, u.maxVertex());
+
+        u.remove(7);
+        assertEquals(8, u.edgeSize());
+
+        u.remove(3, 1);
+        assertEquals(6, u.edgeSize());
+        assertTrue(u.contains(3, 6));
+        assertTrue(u.contains(1));
+    }
+
+    @Test
+    public void testVertices() {
+        UndirectedGraph u = new UndirectedGraph();
+
+        for (int i = 0; i < 7; i += 1) {
+            u.add();
+        }
+
+        u.remove(5);
+
+        int[] verticesArray = new int[6];
+
+        int index = 0;
+        for (int i : u.vertices()) {
+            verticesArray[index] = i;
+            index += 1;
+        }
+
+        assertArrayEquals(new int[]{1, 2, 3, 4, 6, 7}, verticesArray);
+    }
+
     @Test
     public void emptyGraph() {
         DirectedGraph g = new DirectedGraph();
