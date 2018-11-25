@@ -23,10 +23,6 @@ public class UndirectedGraph extends GraphObj {
         return false;
     }
 
-    @Override
-    public int edgeSize() {
-        return _edges.size();
-    }
 
     @Override
     public int inDegree(int v) {

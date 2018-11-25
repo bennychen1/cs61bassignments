@@ -44,7 +44,7 @@ abstract class GraphObj extends Graph {
     @Override
     public int edgeSize() {
         // FIXME
-        return 0;
+        return _edges.size();
     }
 
     @Override
