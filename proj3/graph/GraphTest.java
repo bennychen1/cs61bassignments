@@ -190,6 +190,19 @@ public class GraphTest {
         assertArrayEquals(expected, successorsArray);
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void testNoVertex() {
+        UndirectedGraph u = createUDGraph(5);
+        u.add(1, 6);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testRemovedVertex() {
+        UndirectedGraph u = createUDGraph(5);
+        u.remove(1);
+        u.add(1, 3);
+    }
+
 
     @Test
     public void emptyGraph() {

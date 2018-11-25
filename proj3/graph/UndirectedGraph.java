@@ -44,18 +44,16 @@ public class UndirectedGraph extends GraphObj {
     @Override
     public int inDegree(int v) {
         // FIXME
-        if (v == 0) {
+        if (!contains(v)) {
             return 0;
         }
+
         return _adjList.get(v - 1).size();
     }
 
     @Override
     public int outDegree(int v) {
-        if (v == 0) {
-            return 0;
-        }
-        return _adjList.get(v - 1).size();
+        return inDegree(v);
     }
 
     @Override
@@ -100,9 +98,9 @@ public class UndirectedGraph extends GraphObj {
     @Override
     public int add(int u, int v) {
 
-        if (u == 0 || u > _adjList.size()
-                ||v == 0 || v > _adjList.size()) {
-            return -1;
+        if (!contains(u) || !contains(v)) {
+            checkMyVertex(u);
+            checkMyVertex(v);
         }
 
         ArrayList<Integer> verticesU = _adjList.get(u - 1);
@@ -127,8 +125,8 @@ public class UndirectedGraph extends GraphObj {
 
     @Override
     public void remove(int v) {
-        if (v == 0 || v > _adjList.size()) {
-            return ;
+        if (!contains(v)) {
+            return;
         }
 
         ArrayList<Integer> edgesV = _adjList.get(v - 1);
@@ -149,6 +147,11 @@ public class UndirectedGraph extends GraphObj {
 
     @Override
     public void remove(int v, int u) {
+
+        if (!contains(v) || !contains(u)) {
+            return ;
+        }
+
         _edges.remove(edgeId(v, u));
         _edges.remove(edgeId(u, v));
 
@@ -219,6 +222,13 @@ public class UndirectedGraph extends GraphObj {
     @Override
     public Iteration<Integer> predecessors(int v) {
         return successors(v);
+    }
+
+    @Override
+    protected void checkMyVertex(int v) {
+        if (!contains(v)) {
+            throw new IllegalArgumentException("vertex not from Graph");
+        }
     }
 
 
