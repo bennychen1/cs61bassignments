@@ -165,15 +165,6 @@ public class UndirectedGraph extends GraphObj {
     }
 
     @Override
-    protected void checkMyVertex(int v) {
-        if (!contains(v)) {
-            throw new IllegalArgumentException("vertex not from Graph");
-        }
-    }
-
-
-
-    @Override
     public int edgeId(int u, int v) {
         int i = 0;
         for (Edge e : _edges) {

@@ -219,6 +219,12 @@ public class GraphTest {
         assertEquals(3, u.maxVertex());
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void testCheckMyVertex() {
+        UndirectedGraph u = createUDGraph(5);
+        u.checkMyVertex(6);
+    }
+
 
     @Test
     public void emptyGraph() {

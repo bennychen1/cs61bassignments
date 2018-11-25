@@ -144,6 +144,9 @@ abstract class GraphObj extends Graph {
     @Override
     protected void checkMyVertex(int v) {
         // FIXME
+        if (!contains(v)) {
+            throw new IllegalArgumentException("vertex not from Graph");
+        }
     }
 
     @Override
