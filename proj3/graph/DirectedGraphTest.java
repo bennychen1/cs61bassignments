@@ -111,10 +111,37 @@ public class DirectedGraphTest {
         d.remove(2);
 
         assertEquals(0, d.inDegree(2));
-
     }
 
-    
+    @Test
+    public void testOutDegree() {
+        DirectedGraph d = createDGraph(5);
+
+        d.add(2, 3);
+        d.add(2, 4);
+        d.add(5, 2);
+        d.add(1, 2);
+
+        assertEquals(3, d.outDegree(2));
+
+        d.remove(1, 2);
+        d.remove(2, 4);
+
+        assertEquals(2, d.outDegree(2));
+
+        d.remove(5);
+
+        assertEquals(1, d.outDegree(2));
+
+        d.remove(3, 2);
+        d.add(2, 2);
+        assertEquals(2, d.outDegree(2));
+
+        d.remove(2);
+        assertEquals(0, d.outDegree(2));
+    }
+
+
 
     private DirectedGraph createDGraph(int n) {
         DirectedGraph d = new DirectedGraph();
