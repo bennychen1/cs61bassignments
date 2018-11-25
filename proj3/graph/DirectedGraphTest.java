@@ -61,6 +61,15 @@ public class DirectedGraphTest {
         assertEquals(1, d.add(5, 7));
     }
 
+    @Test
+    public void testDirectedVertices() {
+        DirectedGraph d = createDGraph(7);
+        d.remove(7);
+        d.add();
+
+        assertEquals(7, d.maxVertex());
+    }
+
     private DirectedGraph createDGraph(int n) {
         DirectedGraph d = new DirectedGraph();
         for (int i = 0; i < n; i += 1) {
