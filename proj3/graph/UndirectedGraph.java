@@ -127,30 +127,6 @@ public class UndirectedGraph extends GraphObj {
     }
 
     @Override
-    public Iteration<Integer> vertices() {
-        int[] verticesArray = new int[_V];
-
-        int index = 0;
-        int vertexNumber = 0;
-
-        for (int i = 0; i < _adjList.size(); i += 1) {
-            vertexNumber = i + 1;
-            if (_adjList.get(i) != null) {
-                verticesArray[index] = vertexNumber;
-                index += 1;
-            }
-        }
-
-        ArrayList<Integer> verticesArrayList = new ArrayList<Integer>();
-
-        for (int i : verticesArray) {
-            verticesArrayList.add(i);
-        }
-
-        return new VertexIteration(verticesArrayList.iterator());
-    }
-
-    @Override
     public Iteration<int[]> edges() {
         ArrayList<int[]> edgePairs = new ArrayList<int[]>();
         for (Edge e : _edges) {
