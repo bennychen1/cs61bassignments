@@ -39,17 +39,6 @@ public class UndirectedGraph extends GraphObj {
         return inDegree(v);
     }
 
-    @Override
-    public boolean contains(int v) {
-        int vertexIndex = v - 1;
-        if (vertexIndex >= 0 && vertexIndex < _adjList.size()) {
-            if (_adjList.get(vertexIndex) != null) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     @Override
     public boolean contains(int u, int v) {

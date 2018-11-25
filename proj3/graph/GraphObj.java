@@ -61,6 +61,12 @@ abstract class GraphObj extends Graph {
 
     @Override
     public boolean contains(int u) {
+        int vertexIndex = u - 1;
+        if (vertexIndex >= 0 && vertexIndex < _adjList.size()) {
+            if (_adjList.get(vertexIndex) != null) {
+                return true;
+            }
+        }
         // FIXME
         return false;
     }
