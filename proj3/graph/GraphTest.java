@@ -139,6 +139,68 @@ public class GraphTest {
     }
 
     @Test
+    public void testEdgesIteration() {
+        UndirectedGraph u = new UndirectedGraph();
+        for (int i = 0; i < 5; i += 1) {
+            u.add();
+        }
+
+        u.add(1, 3);
+        u.add(2, 5);
+        u.add(4, 5);
+        u.add(3, 5);
+
+        u.remove(2, 5);
+
+
+        int[][] uEdges = new int[3][2];
+        int index = 0;
+        for (int[]e : u.edges()) {
+            uEdges[0] = e;
+        }
+
+        int[][] expectedEdges = new int[][]{new int[]{1, 3}, new int[]{4, 5},
+                new int[]{3, 5}};
+
+        assertArrayEquals(expectedEdges, uEdges);
+    }
+
+    @Test
+    public void testEdgesChange() {
+        UndirectedGraph u = new UndirectedGraph();
+
+        for (int i = 0; i < 3; i += 1) {
+            u.add();
+        }
+
+        u.add(1, 2);
+        u.add(1, 3);
+        u.add(2,3);
+
+        int[][] uEdges = new int[2][2];
+        int index = 0;
+        for (int[]e : u.edges()) {
+            if (index == 1) {
+                u.remove(1, 3);
+                index += 1;
+                continue;
+            }
+
+            if (index == 2) {
+                uEdges[1] = e;
+            }
+            uEdges[index] = e;
+            index += 1;
+        }
+
+        int[][] expected = new int[][]{new int[]{1, 2}, new int[]{2, 3}};
+
+        assertArrayEquals(expected, uEdges);
+
+
+    }
+
+    @Test
     public void emptyGraph() {
         DirectedGraph g = new DirectedGraph();
         assertEquals("Initial graph has vertices", 0, g.vertexSize());
