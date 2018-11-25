@@ -163,17 +163,4 @@ public class UndirectedGraph extends GraphObj {
     public Iteration<Integer> predecessors(int v) {
         return successors(v);
     }
-
-    @Override
-    public int edgeId(int u, int v) {
-        int i = 0;
-        for (Edge e : _edges) {
-            if (e.getFrom() == u - 1 && e.getTo() == v - 1){
-                return i;
-            }
-
-            i += 1;
-        }
-        return -1;
-    }
 }
