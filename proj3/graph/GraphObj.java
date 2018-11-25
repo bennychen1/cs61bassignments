@@ -151,7 +151,7 @@ abstract class GraphObj extends Graph {
 
     @Override
     protected int edgeId(int u, int v) {
-        // FIXME
+        // FIXME (Keep duplicate edges in undirected graphs separate)
         int i = 0;
         for (Edge e : _edges) {
             if (e.getFrom() == u - 1 && e.getTo() == v - 1){

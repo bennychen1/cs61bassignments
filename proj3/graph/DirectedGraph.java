@@ -28,4 +28,18 @@ public class DirectedGraph extends GraphObj {
 
     // FIXME
 
+    @Override
+    public int add(int v, int u) {
+        if (!contains(v) || !contains(u)) {
+            checkMyVertex(v);
+            checkMyVertex(u);
+        }
+
+        _adjList.get(v - 1).add(u - 1);
+
+        _edges.add(new Edge(u, v));
+
+        return edgeId(u, v);
+    }
+
 }
