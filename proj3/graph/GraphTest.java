@@ -203,6 +203,22 @@ public class GraphTest {
         u.add(1, 3);
     }
 
+    @Test
+    public void testRemovedLargestMaxVertex() {
+        UndirectedGraph u = createUDGraph(7);
+        u.remove(7);
+        assertEquals(6, u.maxVertex());
+    }
+
+    @Test
+    public void testRemovedLargestMaxVertex2() {
+        UndirectedGraph u = createUDGraph(5);
+        u.remove(2);
+        u.remove(4);
+        u.remove(5);
+        assertEquals(3, u.maxVertex());
+    }
+
 
     @Test
     public void emptyGraph() {

@@ -24,19 +24,6 @@ public class UndirectedGraph extends GraphObj {
     }
 
     @Override
-    public int vertexSize() {
-        return _V;
-    }
-
-    @Override
-    public int maxVertex() {
-        if (_V == 0) {
-            return 0;
-        }
-        return _adjList.size();
-    }
-
-    @Override
     public int edgeSize() {
         return _edges.size();
     }

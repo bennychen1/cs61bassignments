@@ -23,13 +23,22 @@ abstract class GraphObj extends Graph {
     @Override
     public int vertexSize() {
         // FIXME
-        return 0;
+        return _V;
     }
 
     @Override
     public int maxVertex() {
+        if (_V == 0) {
+            return 0;
+        }
+
+        int curIndex = _adjList.size() - 1;
+        while (_adjList.get(curIndex) == null) {
+            curIndex -= 1;
+        }
+
+        return curIndex + 1;
         // FIXME
-        return 0;
     }
 
     @Override
