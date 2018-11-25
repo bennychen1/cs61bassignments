@@ -89,6 +89,8 @@ public class DirectedGraph extends GraphObj {
             }
         }
 
+        _V -= 1;
+
         _adjList.set(v - 1, null);
     }
 

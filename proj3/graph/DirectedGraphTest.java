@@ -67,7 +67,20 @@ public class DirectedGraphTest {
         d.remove(7);
         d.add();
 
+        d.remove(5);
+
         assertEquals(7, d.maxVertex());
+
+        int[] verticesArray = new int[6];
+        int index = 0;
+        for (int v : d.vertices()) {
+            verticesArray[index] = v;
+            index += 1;
+        }
+
+        int[] expected = new int[]{1, 2, 3, 4, 6, 7};
+
+        assertArrayEquals(expected, verticesArray);
     }
 
     private DirectedGraph createDGraph(int n) {
