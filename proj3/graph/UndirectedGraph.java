@@ -88,12 +88,6 @@ public class UndirectedGraph extends GraphObj {
     }
 
 
-    @Override
-    public Iteration<Integer> predecessors(int v) {
-        // FIXME
-        return null;
-    }
-
     // FIXME
 
     @Override
@@ -119,7 +113,9 @@ public class UndirectedGraph extends GraphObj {
         }
 
         verticesU.add(v - 1);
-        verticesV.add(u - 1);
+        if (u != v) {
+            verticesV.add(u - 1);
+        }
 
         Edge e = new Edge(u, v);
         Edge eOther = new Edge(v, u);
@@ -185,6 +181,44 @@ public class UndirectedGraph extends GraphObj {
         }
 
         return new VertexIteration(verticesArrayList.iterator());
+    }
+
+    @Override
+    public Iteration<int[]> edges() {
+        ArrayList<int[]> edgePairs = new ArrayList<int[]>();
+        for (Edge e : _edges) {
+            edgePairs.add(new int[]{e.getFrom() + 1, e.getTo() + 1});
+        }
+
+        ArrayList<int[]> duplicates = new ArrayList<int[]>();
+
+        for (int i = 1; i < edgePairs.size(); i += 2) {
+            duplicates.add(edgePairs.get(i));
+        }
+
+        edgePairs.removeAll(duplicates);
+
+        return Iteration.iteration(edgePairs.iterator());
+    }
+
+    @Override
+    public Iteration<Integer> successors(int v) {
+        if (v == 0 || v > _adjList.size()) {
+            return Iteration.iteration(new ArrayList<Integer>().iterator());
+        }
+
+        ArrayList<Integer> outEdges = _adjList.get(v - 1);
+
+        for (int i = 0; i < outEdges.size(); i += 1) {
+            outEdges.set(i, outEdges.get(i) + 1);
+        }
+
+        return Iteration.iteration(outEdges.iterator());
+    }
+
+    @Override
+    public Iteration<Integer> predecessors(int v) {
+        return successors(v);
     }
 
 

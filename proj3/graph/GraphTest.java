@@ -11,9 +11,7 @@ public class GraphTest {
     // Add tests.  Here's a sample.
     @Test
     public void testUDSizes() {
-        UndirectedGraph u = new UndirectedGraph();
-        u.add();
-        u.add();
+        UndirectedGraph u = createUDGraph(2);
         assertEquals(3, u.add());
         assertEquals(3, u.vertexSize());
         assertEquals(3, u.maxVertex());
@@ -25,10 +23,7 @@ public class GraphTest {
 
     @Test
     public void testUDAdd() {
-        UndirectedGraph u = new UndirectedGraph();
-        u.add();
-        u.add();
-        u.add();
+        UndirectedGraph u = createUDGraph(3);
         u.add(1, 2);
         u.add(1, 3);
         assertEquals(4, u.edgeSize());
@@ -48,10 +43,7 @@ public class GraphTest {
 
     @Test
     public void testRemvoeEdge() {
-        UndirectedGraph u = new UndirectedGraph();
-        u.add();
-        u.add();
-        u.add();
+        UndirectedGraph u = createUDGraph(3);
 
         u.add(1, 2);
         u.add(2, 3);
@@ -65,16 +57,9 @@ public class GraphTest {
 
     @Test
     public void testRemove() {
-        UndirectedGraph u = new UndirectedGraph();
-        u.add();
-        u.add();
+        UndirectedGraph u = createUDGraph(5);
 
         u.add(2, 1);
-
-        u.add();
-        u.add();
-        u.add();
-
         u.add(2, 3);
         u.add(2, 4);
         u.add(1, 3);
@@ -92,11 +77,7 @@ public class GraphTest {
 
     @Test
     public void testRemoveVertices() {
-        UndirectedGraph u = new UndirectedGraph();
-
-        for (int i = 0; i < 7; i += 1) {
-            u.add();
-        }
+        UndirectedGraph u = createUDGraph(7);
 
         u.add(1, 2);
         u.add(2, 4);
@@ -119,11 +100,7 @@ public class GraphTest {
 
     @Test
     public void testVertices() {
-        UndirectedGraph u = new UndirectedGraph();
-
-        for (int i = 0; i < 7; i += 1) {
-            u.add();
-        }
+        UndirectedGraph u = createUDGraph(7);
 
         u.remove(5);
 
@@ -140,10 +117,7 @@ public class GraphTest {
 
     @Test
     public void testEdgesIteration() {
-        UndirectedGraph u = new UndirectedGraph();
-        for (int i = 0; i < 5; i += 1) {
-            u.add();
-        }
+        UndirectedGraph u = createUDGraph(5);
 
         u.add(1, 3);
         u.add(2, 5);
@@ -156,7 +130,8 @@ public class GraphTest {
         int[][] uEdges = new int[3][2];
         int index = 0;
         for (int[]e : u.edges()) {
-            uEdges[0] = e;
+            uEdges[index] = e;
+            index += 1;
         }
 
         int[][] expectedEdges = new int[][]{new int[]{1, 3}, new int[]{4, 5},
@@ -167,11 +142,7 @@ public class GraphTest {
 
     @Test
     public void testEdgesChange() {
-        UndirectedGraph u = new UndirectedGraph();
-
-        for (int i = 0; i < 3; i += 1) {
-            u.add();
-        }
+        UndirectedGraph u = createUDGraph(3);
 
         u.add(1, 2);
         u.add(1, 3);
@@ -188,6 +159,7 @@ public class GraphTest {
 
             if (index == 2) {
                 uEdges[1] = e;
+                break;
             }
             uEdges[index] = e;
             index += 1;
@@ -196,15 +168,43 @@ public class GraphTest {
         int[][] expected = new int[][]{new int[]{1, 2}, new int[]{2, 3}};
 
         assertArrayEquals(expected, uEdges);
-
-
     }
+
+    @Test
+    public void testSuccessorsIteration() {
+        UndirectedGraph u = createUDGraph(3);
+        u.add(1, 2);
+        u.add(3, 2);
+        u.add(2, 2);
+
+        int[] successorsArray = new int[3];
+        int index = 0;
+
+        for (int s : u.successors(2)) {
+            successorsArray[index] = s;
+            index += 1;
+        }
+
+        int[] expected = new int[]{1, 3, 2};
+
+        assertArrayEquals(expected, successorsArray);
+    }
+
 
     @Test
     public void emptyGraph() {
         DirectedGraph g = new DirectedGraph();
         assertEquals("Initial graph has vertices", 0, g.vertexSize());
         assertEquals("Initial graph has edges", 0, g.edgeSize());
+    }
+
+    private UndirectedGraph createUDGraph(int n) {
+        UndirectedGraph u = new UndirectedGraph();
+        for (int i = 0; i < n; i += 1) {
+            u.add();
+        }
+
+        return u;
     }
 
 }
