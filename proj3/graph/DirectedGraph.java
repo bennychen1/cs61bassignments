@@ -42,4 +42,17 @@ public class DirectedGraph extends GraphObj {
         return edgeId(u, v);
     }
 
+    @Override
+    public boolean contains(int v, int u) {
+        if (!contains(v)) {
+            return false;
+        }
+
+        if (_adjList.get(v - 1).contains(u - 1)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

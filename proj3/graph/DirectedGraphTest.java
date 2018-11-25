@@ -17,6 +17,22 @@ public class DirectedGraphTest {
         d.add(5, 1);
     }
 
+    @Test
+    public void testContainsEdge() {
+        DirectedGraph d = createDGraph(5);
+
+        d.add(2, 5);
+        d.add(1, 5);
+        d.add(2, 1);
+        d.add(4, 5);
+        d.add(3, 5);
+        d.add(1, 1);
+
+        assertTrue(d.contains(1, 5));
+        assertFalse(d.contains(5, 1));
+        assertTrue(d.contains(1, 1));
+    }
+
     private DirectedGraph createDGraph(int n) {
         DirectedGraph d = new DirectedGraph();
         for (int i = 0; i < n; i += 1) {
