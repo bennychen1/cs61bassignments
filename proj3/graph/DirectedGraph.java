@@ -20,7 +20,14 @@ public class DirectedGraph extends GraphObj {
     @Override
     public int inDegree(int v) {
         //FIXME
-        return 0;
+        int count = 0;
+
+        for (Edge e : _edges) {
+            if (e.getTo() == v - 1) {
+                count += 1;
+            }
+        }
+        return count;
     }
 
     @Override
@@ -112,4 +119,14 @@ public class DirectedGraph extends GraphObj {
             }
         }
     }
+
+    @Override
+    public int outDegree(int v) {
+        if (!contains(v)) {
+            return 0;
+        }
+
+        return _adjList.get(v - 1).size();
+    }
+
 }

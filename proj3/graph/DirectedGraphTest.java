@@ -17,6 +17,7 @@ public class DirectedGraphTest {
         d.add(5, 1);
 
         assertEquals(2, d.add(3, 6));
+        assertEquals(5, d.edgeSize());
     }
 
     @Test
@@ -82,6 +83,38 @@ public class DirectedGraphTest {
 
         assertArrayEquals(expected, verticesArray);
     }
+
+    @Test
+    public void testInDegree() {
+        DirectedGraph d = createDGraph(7);
+
+        d.add(7, 5);
+        d.add(6, 2);
+        d.add(5, 2);
+        d.add(1, 2);
+        d.add(7, 4);
+        d.add(3, 6);
+        d.add(4, 2);
+        d.add(7, 6);
+        d.add(2, 3);
+
+        assertEquals(4, d.inDegree(2));
+
+        d.remove(4, 2);
+
+        assertEquals(3, d.inDegree(2));
+
+        d.remove(5);
+
+        assertEquals(2, d.inDegree(2));
+
+        d.remove(2);
+
+        assertEquals(0, d.inDegree(2));
+
+    }
+
+    
 
     private DirectedGraph createDGraph(int n) {
         DirectedGraph d = new DirectedGraph();
