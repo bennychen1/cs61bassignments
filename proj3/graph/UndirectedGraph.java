@@ -57,15 +57,7 @@ public class UndirectedGraph extends GraphObj {
 
     }
 
-
     // FIXME
-
-    @Override
-    public int add() {
-        _adjList.add(new ArrayList<Integer>());
-        _V += 1;
-        return maxVertex();
-    }
 
     @Override
     public int add(int u, int v) {

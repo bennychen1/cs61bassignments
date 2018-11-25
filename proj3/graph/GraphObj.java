@@ -80,7 +80,9 @@ abstract class GraphObj extends Graph {
     @Override
     public int add() {
         // FIXME
-        return 0;
+        _adjList.add(new ArrayList<Integer>());
+        _V += 1;
+        return maxVertex();
     }
 
     @Override
