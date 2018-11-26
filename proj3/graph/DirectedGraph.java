@@ -1,5 +1,7 @@
 package graph;
 
+import org.apache.commons.collections.iterators.ArrayIterator;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -31,12 +33,6 @@ public class DirectedGraph extends GraphObj {
             }
         }
         return count;
-    }
-
-    @Override
-    public Iteration<Integer> predecessors(int v) {
-        // FIXME
-        return null;
     }
 
     // FIXME
@@ -130,6 +126,34 @@ public class DirectedGraph extends GraphObj {
         }
 
         return _adjList.get(v - 1).size();
+    }
+
+    @Override
+    public Iteration<Integer> predecessors(int v) {
+        if (!contains(v)) {
+            return Iteration.iteration(new ArrayList<Integer>().iterator());
+        }
+
+        ArrayList<Integer> p = new ArrayList<Integer>();
+
+        for (Edge e : _edges) {
+            if (e.getTo() == v - 1) {
+                p.add(e.getFrom() + 1);
+            }
+        }
+
+        return Iteration.iteration(p);
+    }
+
+    @Override
+    public Iteration<int[]> edges() {
+        ArrayList<int[]> edgePairs = new ArrayList<int[]>();
+
+        for (Edge e : _edges) {
+            edgePairs.add(new int[]{e.getFrom() + 1, e.getTo() + 1});
+        }
+
+        return Iteration.iteration(edgePairs.iterator());
     }
 
 }
