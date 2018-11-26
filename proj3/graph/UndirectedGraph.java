@@ -144,20 +144,6 @@ public class UndirectedGraph extends GraphObj {
         return Iteration.iteration(edgePairs.iterator());
     }
 
-    @Override
-    public Iteration<Integer> successors(int v) {
-        if (v == 0 || v > _adjList.size()) {
-            return Iteration.iteration(new ArrayList<Integer>().iterator());
-        }
-
-        ArrayList<Integer> outEdges = _adjList.get(v - 1);
-
-        for (int i = 0; i < outEdges.size(); i += 1) {
-            outEdges.set(i, outEdges.get(i) + 1);
-        }
-
-        return Iteration.iteration(outEdges.iterator());
-    }
 
     @Override
     public Iteration<Integer> predecessors(int v) {

@@ -108,6 +108,9 @@ public class DirectedGraphTest {
 
         assertEquals(2, d.inDegree(2));
 
+        d.add(2, 2);
+        assertEquals(3, d.inDegree(2));
+
         d.remove(2);
 
         assertEquals(0, d.inDegree(2));
@@ -119,7 +122,7 @@ public class DirectedGraphTest {
 
         d.add(2, 3);
         d.add(2, 4);
-        d.add(5, 2);
+        d.add(2, 5);
         d.add(1, 2);
 
         assertEquals(3, d.outDegree(2));
@@ -139,6 +142,40 @@ public class DirectedGraphTest {
 
         d.remove(2);
         assertEquals(0, d.outDegree(2));
+    }
+
+    @Test
+    public void testSuccessors() {
+        DirectedGraph d = createDGraph(7);
+
+        d.add(2, 3);
+        d.add(5, 7);
+        d.add(5, 6);
+        d.add(5, 2);
+        d.add(2, 4);
+        d.add(2, 1);
+
+        int[] successors5 = new int[3];
+        int index = 0;
+
+        for (int s : d.successors(5)) {
+            successors5[index] = s;
+            index += 1;
+        }
+
+        int[] successors2 = new int[3];
+        int index2 = 0;
+
+        for (int s : d.successors(2)) {
+            successors2[index2] = s;
+            index2 += 1;
+        }
+
+        int[] expected5 = new int[]{7, 6, 2};
+        int[] expected2 = new int[]{3, 4, 1};
+
+        assertArrayEquals(expected5, successors5);
+        assertArrayEquals(expected2, successors2);
     }
 
 

@@ -20,6 +20,9 @@ public class DirectedGraph extends GraphObj {
     @Override
     public int inDegree(int v) {
         //FIXME
+        if (!contains(v)) {
+            return 0;
+        }
         int count = 0;
 
         for (Edge e : _edges) {
