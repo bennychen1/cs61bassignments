@@ -159,11 +159,6 @@ public class MySortingAlgorithmsTest {
         System.arraycopy(toSortCopy, 0, toSort, 0, toSort.length);
         algorithms[4].sort(toSort, 5);
         assertArrayEquals(sortK, toSort);
-
-
-
-
-
     }
 
     public static void main(String[] args) {

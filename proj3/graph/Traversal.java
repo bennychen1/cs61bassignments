@@ -31,15 +31,21 @@ public abstract class Traversal {
     protected Traversal(Graph G, Queue<Integer> fringe) {
         _G = G;
         _fringe = fringe;
+        _marked = new boolean[G.vertexSize()];
+        clear();
     }
 
     /** Unmark all vertices in the graph. */
     public void clear() {
+        for (int i = 0; i < _marked.length; i += 1) {
+            _marked[i] = false;
+        }
         // FIXME
     }
 
     /** Initialize the fringe to V0 and perform a traversal. */
     public void traverse(Collection<Integer> V0) {
+        _fringe.addAll(V0);
         // FIXME
     }
 
@@ -50,12 +56,13 @@ public abstract class Traversal {
 
     /** Returns true iff V has been marked. */
     protected boolean marked(int v) {
+        return _marked[v - 1];
         // FIXME
-        return false;
     }
 
     /** Mark vertex V. */
     protected void mark(int v) {
+        _marked[v - 1]  = true;
         // FIXME
     }
 
@@ -94,5 +101,9 @@ public abstract class Traversal {
     /** The fringe. */
     protected final Queue<Integer> _fringe;
     // FIXME
+
+    /** Boolean array: if index i is true, then
+     * vertex v + 1 is marked. */
+    protected boolean[] _marked;
 
 }
