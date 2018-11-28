@@ -647,6 +647,48 @@ public class GraphTest {
         assertArrayEquals(expectedOrder, postOrder._visitOrder);
     }
 
+    @Test
+    public void test3Traversals() {
+        DirectedGraph d = createDGraph(15);
+
+        d.add(3, 3);
+        d.add(5, 6);
+        d.add(2, 1);
+        d.add(1, 7);
+        d.add(5, 4);
+        d.add(3, 5);
+        d.add(2, 3);
+
+        d.add(8, 9);
+        d.add(9, 2);
+        d.add(9, 10);
+
+        d.add(10, 15);
+        d.add(13, 2);
+        d.add(15, 14);
+        d.add(15, 13);
+
+        d.remove(9, 2);
+        d.remove(15);
+
+        BFTTest bft = new BFTTest(d);
+        DFTPreOrder preOrder = new DFTPreOrder(d);
+        DFTPostOrder postOrder = new DFTPostOrder(d);
+
+        ArrayList<Integer> startingVertices = new ArrayList<Integer>();
+        startingVertices.add(2);
+        startingVertices.add(8);
+
+        bft.traverse(startingVertices);
+        preOrder.traverse(startingVertices);
+        postOrder.traverse(startingVertices);
+
+        
+
+
+
+    }
+
 
 
 
