@@ -20,7 +20,6 @@ public class BreadthFirstTraversal extends Traversal {
 
     @Override
     protected boolean visit(int v) {
-        System.out.println(v);
         return super.visit(v);
     }
 

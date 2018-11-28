@@ -45,19 +45,24 @@ public abstract class Traversal {
 
     /** Initialize the fringe to V0 and perform a traversal. */
     public void traverse(Collection<Integer> V0) {
-        _fringe.addAll(V0);
+        for (int start : V0) {
+            clear();
+            _fringe.add(start);
 
-        while (!_fringe.isEmpty()) {
-            int vertex = _fringe.poll();
-            visit(vertex);
-                for (int s : _G.successors(vertex)) {
-                    if (processSuccessor(vertex, s)) {
-                        _fringe.add(s);
+            while (!_fringe.isEmpty()) {
+                int vertex = _fringe.poll();
+                if (!marked(vertex)) {
+                    visit(vertex);
+                    for (int s : _G.successors(vertex)) {
+                        if (processSuccessor(vertex, s + 1)) {
+                            _fringe.add(s + 1);
+                        }
+                    }
+
+                    if (shouldPostVisit(vertex)) {
+                        postVisit(vertex);
                     }
                 }
-
-                if (shouldPostVisit(vertex)) {
-                    postVisit(vertex);
             }
         }
         // FIXME

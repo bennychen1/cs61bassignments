@@ -1,6 +1,9 @@
 package graph;
 
 import org.junit.Test;
+
+import java.util.Collection;
+import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 /** Unit tests for the Graph class.
@@ -544,7 +547,7 @@ public class GraphTest {
 
 
     @Test
-    public void testBFT() {
+    public void testDirectedBFT() {
         DirectedGraph d = createDGraph(6);
 
         d.add(1, 6);
@@ -554,9 +557,52 @@ public class GraphTest {
         d.add(1, 3);
 
 
-        BreadthFirstTraversal bft = new BreadthFirstTraversal(d);
+        BFTTest bft = new BFTTest(d);
         bft.traverse(1);
+        int[] expectedOrder = new int[] {1, 6, 3, 5, 4, 2};
+
+        assertArrayEquals(expectedOrder, bft._visitOrder);
     }
+
+    @Test
+    public void testCycleDirectedBFT() {
+        DirectedGraph d = createDGraph(5);
+
+        d.add(1, 2);
+        d.add(3, 1);
+        d.add(2, 3);
+        d.add(5, 4);
+        d.add(1, 5);
+
+        BFTTest bft = new BFTTest(d);
+        bft.traverse(1);
+        int[] expectedOrder = new int[]{1, 2, 5, 3, 4};
+
+        assertArrayEquals(expectedOrder, bft._visitOrder);
+    }
+
+    @Test
+    public void testUDBFT() {
+        UndirectedGraph u = createUDGraph(6);
+        u.add(1, 3);
+        u.add(2, 1);
+        u.add(3, 2);
+        u.add(5, 4);
+        u.add(6, 1);
+
+        ArrayList<Integer> startVertices = new ArrayList<Integer>();
+        startVertices.add(1);
+        startVertices.add(5);
+
+        BFTTest bft = new BFTTest(u);
+        bft.traverse(startVertices);
+
+        int[] expectedOrder = new int[]{1, 3, 2, 6, 5, 4};
+
+        assertArrayEquals(expectedOrder, bft._visitOrder);
+    }
+
+
 
 
 
@@ -582,9 +628,40 @@ public class GraphTest {
     private class BFTTest extends BreadthFirstTraversal {
         BFTTest(Graph G) {
             super(G);
+            gr = G;
+            _visitOrder = new int[gr.vertexSize()];
         }
 
-        int[] _visitOrder;
+        private int[] _visitOrder;
+        private Graph gr;
+
+        @Override
+         public void traverse(Collection<Integer> V0) {
+            int index = 0;
+            for (int start : V0) {
+                _fringe.add(start);
+                while (!_fringe.isEmpty()) {
+                    int vertex = _fringe.poll();
+                    if (!marked(vertex)) {
+                        visit(vertex);
+                        _visitOrder[index] = vertex;
+                        index += 1;
+                        for (int s : gr.successors(vertex)) {
+                            if (processSuccessor(vertex, s)) {
+                                _fringe.add(s);
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+        @Override
+        protected boolean visit(int v) {
+            mark(v);
+            return true;
+        }
     }
 
 }
