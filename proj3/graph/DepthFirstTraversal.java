@@ -1,5 +1,6 @@
 package graph;
-
+import java.util.Collections;
+import java.util.ArrayDeque;
 /* See restrictions in Graph.java. */
 
 /** Implements a depth-first traversal of a graph.  Generally, the
@@ -11,7 +12,7 @@ public class DepthFirstTraversal extends Traversal {
 
     /** A depth-first Traversal of G. */
     protected DepthFirstTraversal(Graph G) {
-        super(G, null);
+        super(G, Collections.asLifoQueue(new ArrayDeque<>()));
         // FIXME
     }
 
@@ -24,6 +25,13 @@ public class DepthFirstTraversal extends Traversal {
     protected boolean postVisit(int v) {
         return super.postVisit(v);
     }
+
+    @Override
+    protected boolean shouldPostVisit(int v) {
+        return true;
+    }
+
+
 
     // FIXME
 
