@@ -47,7 +47,9 @@ public abstract class Traversal {
     public void traverse(Collection<Integer> V0) {
         for (int start : V0) {
             clear();
-            _fringe.add(start);
+            if (_G.contains(start)) {
+                _fringe.add(start);
+            }
 
             while (!_fringe.isEmpty()) {
                 int vertex = _fringe.peek();
@@ -61,6 +63,7 @@ public abstract class Traversal {
                     visit(vertex);
 
                     if (shouldPostVisit(vertex)) {
+                        _fringe.add(vertex);
                         postVisit(vertex);
                     }
                 }

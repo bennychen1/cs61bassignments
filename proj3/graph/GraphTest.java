@@ -603,7 +603,7 @@ public class GraphTest {
     }
 
     @Test
-    public void testDirectedDFSPreOrder() {
+    public void testDirectedDFTPreOrder() {
         DirectedGraph d = createDGraph(5);
 
         d.add(1, 2);
@@ -618,6 +618,33 @@ public class GraphTest {
         int[] expectedOrder = new int[]{1, 3, 4, 5, 2};
 
         assertArrayEquals(expectedOrder, preOrder._visitOrder);
+    }
+
+    @Test
+    public void testDirectedDFTPostOrder() {
+        DirectedGraph d = createDGraph(7);
+
+        d.add(2, 6);
+        d.add(7, 6);
+        d.add(1, 2);
+        d.add(5, 7);
+        d.add(4, 5);
+        d.add(3, 4);
+        d.add(1, 3);
+
+        d.remove(7);
+
+        ArrayList<Integer> startVertices = new ArrayList<Integer>();
+
+        startVertices.add(1);
+        startVertices.add(7);
+
+        DFTPostOrder postOrder = new DFTPostOrder(d);
+        postOrder.traverse(startVertices);
+
+        int[] expectedOrder = new int[]{6, 2, 5, 4, 3, 1};
+
+        assertArrayEquals(expectedOrder, postOrder._visitOrder);
     }
 
 
@@ -684,6 +711,32 @@ public class GraphTest {
         private Graph gr;
         private int[] _visitOrder;
         private int _index;
+    }
+
+    private class DFTPostOrder extends DepthFirstTraversal {
+        DFTPostOrder(Graph G) {
+            super(G);
+            _gr = G;
+            _visitOrder = new int[_gr.vertexSize()];
+            _index = _visitOrder.length - 1;
+        }
+
+        @Override
+        public boolean shouldPostVisit(int v) {
+            return true;
+        }
+
+        @Override
+        public boolean postVisit(int v) {
+            mark(v);
+            _visitOrder[_index] = v;
+            _index -= 1;
+            return true;
+        }
+
+        private Graph _gr;
+        private int _index;
+        private int[] _visitOrder;
     }
 
 }

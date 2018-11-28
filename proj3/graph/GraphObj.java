@@ -140,12 +140,14 @@ abstract class GraphObj extends Graph {
         }
 
         ArrayList<Integer> outEdges = _adjList.get(v - 1);
+        ArrayList<Integer> outEdgesPlusOne = new ArrayList<Integer>();
+        outEdgesPlusOne.addAll(outEdges);
 
-        for (int i = 0; i < outEdges.size(); i += 1) {
-            outEdges.set(i, outEdges.get(i) + 1);
+        for (int i = 0; i < outEdgesPlusOne.size(); i += 1) {
+            outEdgesPlusOne.set(i, outEdgesPlusOne.get(i) + 1);
         }
 
-        return Iteration.iteration(outEdges.iterator());
+        return Iteration.iteration(outEdgesPlusOne.iterator());
     }
 
     @Override
