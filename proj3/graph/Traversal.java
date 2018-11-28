@@ -50,19 +50,21 @@ public abstract class Traversal {
             _fringe.add(start);
 
             while (!_fringe.isEmpty()) {
-                int vertex = _fringe.poll();
+                int vertex = _fringe.peek();
                 if (!marked(vertex)) {
-                    visit(vertex);
                     for (int s : _G.successors(vertex)) {
-                        if (processSuccessor(vertex, s + 1)) {
-                            _fringe.add(s + 1);
+                        if (processSuccessor(vertex, s)) {
+                            _fringe.add(s);
                         }
                     }
 
                     if (shouldPostVisit(vertex)) {
                         postVisit(vertex);
+                    } else {
+                        visit(vertex);
                     }
                 }
+                _fringe.poll();
             }
         }
         // FIXME

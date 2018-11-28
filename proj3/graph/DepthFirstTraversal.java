@@ -26,13 +26,6 @@ public class DepthFirstTraversal extends Traversal {
         return super.postVisit(v);
     }
 
-    @Override
-    protected boolean shouldPostVisit(int v) {
-        return true;
-    }
-
-
-
     // FIXME
 
 }

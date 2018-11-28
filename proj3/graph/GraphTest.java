@@ -45,7 +45,7 @@ public class GraphTest {
 
 
     @Test
-    public void testRemvoeEdge() {
+    public void testRemoveEdge() {
         UndirectedGraph u = createUDGraph(3);
 
         u.add(1, 2);
@@ -602,6 +602,24 @@ public class GraphTest {
         assertArrayEquals(expectedOrder, bft._visitOrder);
     }
 
+    @Test
+    public void testDirectedDFSPreOrder() {
+        DirectedGraph d = createDGraph(5);
+
+        d.add(1, 2);
+        d.add(1, 3);
+        d.add(3, 4);
+        d.add(4, 5);
+
+        DFTPreOrder preOrder = new DFTPreOrder(d);
+
+        preOrder.traverse(1);
+
+        int[] expectedOrder = new int[]{1, 3, 4, 5, 2};
+
+        assertArrayEquals(expectedOrder, preOrder._visitOrder);
+    }
+
 
 
 
@@ -641,9 +659,8 @@ public class GraphTest {
             for (int start : V0) {
                 _fringe.add(start);
                 while (!_fringe.isEmpty()) {
-                    int vertex = _fringe.poll();
+                    int vertex = _fringe.peek();
                     if (!marked(vertex)) {
-                        visit(vertex);
                         _visitOrder[index] = vertex;
                         index += 1;
                         for (int s : gr.successors(vertex)) {
@@ -652,7 +669,21 @@ public class GraphTest {
                             }
                         }
 
+                        if (shouldPostVisit(vertex)) {
+                            postVisit(vertex);
+                        } else {
+                            visit(vertex);
+                        }
+
                     }
+
+                    if (shouldPostVisit(vertex)) {
+                        postVisit(vertex);
+                    } else {
+                        visit(vertex);
+                    }
+
+                    _fringe.poll();
                 }
             }
         }
@@ -662,6 +693,52 @@ public class GraphTest {
             mark(v);
             return true;
         }
+    }
+
+    private class DFTPreOrder extends DepthFirstTraversal {
+        DFTPreOrder(Graph G) {
+            super(G);
+            gr = G;
+            _visitOrder = new int[gr.vertexSize()];
+        }
+
+        @Override
+        public void traverse(Collection<Integer>V0) {
+            int index = 0;
+            for (int start : V0) {
+                clear();
+                _fringe.add(start);
+
+                while (!_fringe.isEmpty()) {
+                    int vertex = _fringe.peek();
+                    if (!marked(vertex)) {
+                        _visitOrder[index] = vertex;
+                        index += 1;
+                        _fringe.poll();
+                        for (int s : gr.successors(vertex)) {
+                            if (processSuccessor(vertex, s)) {
+                                _fringe.add(s);
+                            }
+                        }
+                    }
+
+                    if (shouldPostVisit(vertex)) {
+                        postVisit(vertex);
+                    } else {
+                        visit(vertex);
+                    }
+                }
+            }
+        }
+
+        @Override
+        public boolean visit(int v) {
+            mark(v);
+            return super.visit(v);
+        }
+
+        private Graph gr;
+        private int[] _visitOrder;
     }
 
 }
