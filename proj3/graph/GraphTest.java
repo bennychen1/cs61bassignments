@@ -646,51 +646,20 @@ public class GraphTest {
     private class BFTTest extends BreadthFirstTraversal {
         BFTTest(Graph G) {
             super(G);
-            gr = G;
-            _visitOrder = new int[gr.vertexSize()];
+            _gr = G;
+            _visitOrder = new int[_gr.vertexSize()];
+            _index = 0;
         }
 
         private int[] _visitOrder;
-        private Graph gr;
-
-        @Override
-         public void traverse(Collection<Integer> V0) {
-            int index = 0;
-            for (int start : V0) {
-                _fringe.add(start);
-                while (!_fringe.isEmpty()) {
-                    int vertex = _fringe.peek();
-                    if (!marked(vertex)) {
-                        _visitOrder[index] = vertex;
-                        index += 1;
-                        for (int s : gr.successors(vertex)) {
-                            if (processSuccessor(vertex, s)) {
-                                _fringe.add(s);
-                            }
-                        }
-
-                        if (shouldPostVisit(vertex)) {
-                            postVisit(vertex);
-                        } else {
-                            visit(vertex);
-                        }
-
-                    }
-
-                    if (shouldPostVisit(vertex)) {
-                        postVisit(vertex);
-                    } else {
-                        visit(vertex);
-                    }
-
-                    _fringe.poll();
-                }
-            }
-        }
+        private Graph _gr;
+        private int _index;
 
         @Override
         protected boolean visit(int v) {
             mark(v);
+            _visitOrder[_index] = v;
+            _index += 1;
             return true;
         }
     }
@@ -700,45 +669,21 @@ public class GraphTest {
             super(G);
             gr = G;
             _visitOrder = new int[gr.vertexSize()];
-        }
+            _index = 0;
 
-        @Override
-        public void traverse(Collection<Integer>V0) {
-            int index = 0;
-            for (int start : V0) {
-                clear();
-                _fringe.add(start);
-
-                while (!_fringe.isEmpty()) {
-                    int vertex = _fringe.peek();
-                    if (!marked(vertex)) {
-                        _visitOrder[index] = vertex;
-                        index += 1;
-                        _fringe.poll();
-                        for (int s : gr.successors(vertex)) {
-                            if (processSuccessor(vertex, s)) {
-                                _fringe.add(s);
-                            }
-                        }
-                    }
-
-                    if (shouldPostVisit(vertex)) {
-                        postVisit(vertex);
-                    } else {
-                        visit(vertex);
-                    }
-                }
-            }
         }
 
         @Override
         public boolean visit(int v) {
             mark(v);
+            _visitOrder[_index] = v;
+            _index += 1;
             return super.visit(v);
         }
 
         private Graph gr;
         private int[] _visitOrder;
+        private int _index;
     }
 
 }

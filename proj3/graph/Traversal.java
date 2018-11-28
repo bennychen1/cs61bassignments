@@ -58,10 +58,10 @@ public abstract class Traversal {
                         }
                     }
 
+                    visit(vertex);
+
                     if (shouldPostVisit(vertex)) {
                         postVisit(vertex);
-                    } else {
-                        visit(vertex);
                     }
                 }
                 _fringe.poll();
