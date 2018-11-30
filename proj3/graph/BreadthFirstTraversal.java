@@ -1,6 +1,6 @@
 package graph;
 
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.LinkedList;
 
 /* See restrictions in Graph.java. */
 
@@ -13,7 +13,7 @@ public class BreadthFirstTraversal extends Traversal {
 
     /** A breadth-first Traversal of G. */
     protected BreadthFirstTraversal(Graph G) {
-        super(G, new ArrayBlockingQueue<Integer>(G.vertexSize()));
+        super(G, new LinkedList<Integer>());
         // FIXME
     }
 

@@ -27,22 +27,24 @@ public abstract class SimpleShortestPaths extends ShortestPaths {
     @Override
     public double getWeight(int v) {
         // FIXME
-        return 0.0;
+        return _dist[v - 1];
     }
 
     @Override
     protected void setWeight(int v, double w) {
+        _dist[v - 1] = w;
         // FIXME
     }
 
     @Override
     public int getPredecessor(int v) {
         // FIXME
-        return 0;
+        return _edgeTo[v - 1];
     }
 
     @Override
     protected void setPredecessor(int v, int u) {
+        _edgeTo[v - 1] = u - 1;
         // FIXME
     }
 

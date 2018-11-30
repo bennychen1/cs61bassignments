@@ -11,6 +11,7 @@ import java.util.TreeSet;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.Comparator;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /** The shortest paths through an edge-weighted graph.
  *  By overrriding methods getWeight, setWeight, getPredecessor, and
@@ -34,7 +35,7 @@ public abstract class ShortestPaths {
         // FIXME
         _edgeTo = new int[G.vertexSize()];
 
-        _dist = new int[G.vertexSize()];
+        _dist = new double[G.vertexSize()];
 
         for (int i = 0; i < _dist.length; i += 1) {
             _dist[i] = Integer.MAX_VALUE;
@@ -96,7 +97,7 @@ public abstract class ShortestPaths {
      *  destination vertex other than V. */
     public List<Integer> pathTo(int v) {
         // FIXME
-        if (v != _dest) {
+        if (_dest != 0 && v != _dest) {
             return null;
         }
         return _path;
@@ -117,11 +118,11 @@ public abstract class ShortestPaths {
     /** The target vertex. */
     private final int _dest;
     // FIXME
-    private int[] _edgeTo;
+    int[] _edgeTo;
 
-    private int[] _dist;
+    double[] _dist;
 
-    private ArrayList<Integer> _path;
+    ArrayList<Integer> _path;
 
     private class BFT extends Traversal {
         BFT(Graph G) {
@@ -135,7 +136,7 @@ public abstract class ShortestPaths {
         }
     }
 
-    private class TreeSetQueue extends LinkedBlockingQueue<Integer> {
+    private class TreeSetQueue extends LinkedList<Integer> {
         TreeSetQueue() {
             _treeSet = new TreeSet<Integer>(new VertexComp());
         }
