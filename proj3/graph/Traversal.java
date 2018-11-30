@@ -53,17 +53,24 @@ public abstract class Traversal {
 
             while (!_fringe.isEmpty()) {
                 int vertex = _fringe.peek();
+                boolean hasChild = false;
                 if (!marked(vertex)) {
                     for (int s : _G.successors(vertex)) {
                         if (processSuccessor(vertex, s)) {
+                            if (!hasChild) {
+                                hasChild = true;
+                            }
                             _fringe.add(s);
                         }
                     }
 
                     visit(vertex);
+                }
 
-                    if (shouldPostVisit(vertex)) {
+                if (shouldPostVisit(vertex)) {
+                    if (hasChild) {
                         _fringe.add(vertex);
+                    } else {
                         postVisit(vertex);
                     }
                 }

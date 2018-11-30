@@ -642,10 +642,38 @@ public class GraphTest {
         DFTPostOrder postOrder = new DFTPostOrder(d);
         postOrder.traverse(startVertices);
 
-        int[] expectedOrder = new int[]{6, 2, 5, 4, 3, 1};
+        int[] expectedOrder = new int[]{5, 4, 3, 6, 2, 1};
 
         assertArrayEquals(expectedOrder, postOrder._visitOrder);
     }
+
+    @Test
+    public void testDFTUD() {
+        UndirectedGraph u = createUDGraph(7);
+
+        u.add(2, 6);
+        u.add(4, 5);
+        u.add(1, 3);
+        u.add(2, 1);
+        u.add(6, 7);
+        u.add(7, 5);
+        u.add(3, 4);
+
+        u.remove(7);
+
+        DFTPreOrder preOrder = new DFTPreOrder(u);
+        DFTPostOrder postOrder = new DFTPostOrder(u);
+
+        preOrder.traverse(1);
+        postOrder.traverse(1);
+
+        int[] expectedPreOrder = new int[]{1, 2, 6, 3, 4, 5};
+        int[] expectedPostOrder = new int[]{6, 2, 5, 4, 3, 1};
+
+        assertArrayEquals(expectedPreOrder, preOrder._visitOrder);
+        assertArrayEquals(expectedPostOrder, postOrder._visitOrder);
+    }
+
 
     @Test
     public void test3Traversals() {
@@ -682,11 +710,6 @@ public class GraphTest {
         bft.traverse(startingVertices);
         preOrder.traverse(startingVertices);
         postOrder.traverse(startingVertices);
-
-        
-
-
-
     }
 
 
@@ -760,7 +783,7 @@ public class GraphTest {
             super(G);
             _gr = G;
             _visitOrder = new int[_gr.vertexSize()];
-            _index = _visitOrder.length - 1;
+            _index = 0;
         }
 
         @Override
@@ -769,10 +792,16 @@ public class GraphTest {
         }
 
         @Override
+        public boolean visit(int v) {
+            mark(v);
+            return super.visit(v);
+        }
+
+        @Override
         public boolean postVisit(int v) {
             mark(v);
             _visitOrder[_index] = v;
-            _index -= 1;
+            _index += 1;
             return true;
         }
 

@@ -2,7 +2,15 @@ package graph;
 
 /* See restrictions in Graph.java. */
 
+import org.antlr.v4.runtime.tree.Tree;
+
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.TreeSet;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.Comparator;
+import java.util.ArrayList;
 
 /** The shortest paths through an edge-weighted graph.
  *  By overrriding methods getWeight, setWeight, getPredecessor, and
@@ -24,24 +32,38 @@ public abstract class ShortestPaths {
         _source = source;
         _dest = dest;
         // FIXME
+        _edgeTo = new int[G.vertexSize()];
+
+        _dist = new int[G.vertexSize()];
+
+        for (int i = 0; i < _dist.length; i += 1) {
+            _dist[i] = Integer.MAX_VALUE;
+        }
+
+        _dist[source] = 0;
+        _edgeTo[source] = source;
+
+        _path = new ArrayList<Integer>();
     }
 
     /** Initialize the shortest paths.  Must be called before using
      *  getWeight, getPredecessor, and pathTo. */
     public void setPaths() {
+        BFT bftShortestPaths = new BFT(_G);
+        bftShortestPaths.traverse(_source);
         // FIXME
     }
 
     /** Returns the starting vertex. */
     public int getSource() {
         // FIXME
-        return 0;
+        return _source;
     }
 
     /** Returns the target vertex, or 0 if there is none. */
     public int getDest() {
         // FIXME
-        return 0;
+        return _dest;
     }
 
     /** Returns the current weight of vertex V in the graph.  If V is
@@ -74,7 +96,10 @@ public abstract class ShortestPaths {
      *  destination vertex other than V. */
     public List<Integer> pathTo(int v) {
         // FIXME
-        return null;
+        if (v != _dest) {
+            return null;
+        }
+        return _path;
     }
 
     /** Returns a list of vertices starting at the source and ending at the
@@ -92,5 +117,59 @@ public abstract class ShortestPaths {
     /** The target vertex. */
     private final int _dest;
     // FIXME
+    private int[] _edgeTo;
 
+    private int[] _dist;
+
+    private ArrayList<Integer> _path;
+
+    private class BFT extends Traversal {
+        BFT(Graph G) {
+            super(G, new TreeSetQueue());
+        }
+
+        @Override
+        public boolean visit(int v) {
+
+            return true;
+        }
+    }
+
+    private class TreeSetQueue extends LinkedBlockingQueue<Integer> {
+        TreeSetQueue() {
+            _treeSet = new TreeSet<Integer>(new VertexComp());
+        }
+
+        @Override
+        public boolean add(Integer v) {
+            _treeSet.add(v);
+            return true;
+        }
+
+        @Override
+        public Integer peek() {
+            int firstElement = _treeSet.pollFirst();
+            _treeSet.add(firstElement);
+            return firstElement;
+        }
+
+        @Override
+        public Integer poll() {
+            return _treeSet.pollFirst();
+        }
+
+
+        private TreeSet<Integer> _treeSet;
+    }
+
+    private class VertexComp implements Comparator<Integer> {
+        @Override
+        public int compare(Integer v1, Integer v2) {
+            if (_dist[v1 - 1] < _dist[v2 - 1]) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
 }
