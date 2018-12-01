@@ -44,14 +44,23 @@ public abstract class ShortestPaths {
         _dist[source] = 0;
         _edgeTo[source] = source;
 
-        _path = new ArrayList<Integer>();
+        _paths = new ArrayList<ArrayList<Integer>>();
     }
 
     /** Initialize the shortest paths.  Must be called before using
      *  getWeight, getPredecessor, and pathTo. */
     public void setPaths() {
-        BFT bftShortestPaths = new BFT(_G);
-        bftShortestPaths.traverse(_source);
+        ArrayList<Integer> sourcesPath = new ArrayList<Integer>();
+        sourcesPath.add(getSource() - 1);
+
+        if (getDest() == 0) {
+            for (int i = 0; i < _paths.size(); i += 1) {
+                _paths.add(new ArrayList<Integer>());
+            }
+            _paths.set(getSource() - 1, sourcesPath);
+        } else {
+            _paths.set(getSource() - 1, sourcesPath);
+        }
         // FIXME
     }
 
@@ -100,7 +109,7 @@ public abstract class ShortestPaths {
         if (_dest != 0 && v != _dest) {
             return null;
         }
-        return _path;
+        return _paths.get(v - 1);
     }
 
     /** Returns a list of vertices starting at the source and ending at the
@@ -122,10 +131,10 @@ public abstract class ShortestPaths {
 
     double[] _dist;
 
-    ArrayList<Integer> _path;
+    ArrayList<ArrayList<Integer>> _paths;
 
-    private class BFT extends Traversal {
-        BFT(Graph G) {
+    private class BFTAll extends Traversal {
+        BFTAll(Graph G) {
             super(G, new TreeSetQueue());
         }
 
