@@ -61,7 +61,7 @@ public abstract class ShortestPaths {
             _paths.set(getSource() - 1, sourcesPath);
             BFTAll bft = new BFTAll(_G);
             bft.traverse(_source);
-            
+
 
         } else {
             _paths.set(getSource() - 1, sourcesPath);
