@@ -38,7 +38,7 @@ public abstract class ShortestPaths {
         _dist = new double[G.vertexSize()];
 
         for (int i = 0; i < _dist.length; i += 1) {
-            _dist[i] = Integer.MAX_VALUE;
+            _dist[i] = Double.MAX_VALUE;
         }
 
         _dist[source] = 0;
@@ -64,7 +64,9 @@ public abstract class ShortestPaths {
 
 
         } else {
-            _paths.set(getSource() - 1, sourcesPath);
+            _paths.set(getSource() - 1, new ArrayList<Integer>());
+            BFTTarget bftTarg = new BFTTarget(_G);
+            bftTarg.traverse(_source);
         }
         // FIXME
     }
@@ -166,10 +168,11 @@ public abstract class ShortestPaths {
                 int vertex = v - 1;
                 int curVertex = u - 1;
 
-                double curDistance = _dist[curVertex] + getWeight(u, v);
-                if (_dist[curVertex] + getWeight(u, v) < _dist[vertex]) {
+                double curDistance = _dist[curVertex] + getWeight(u, v) + estimatedDistance(v);
+                if (curDistance < _dist[vertex]) {
                     _dist[vertex] = curDistance;
-                    _edgeTo[vertex] = curVertex + 1;
+                    _edgeTo[vertex] = u;
+                    _fringe.add(v);
                 }
 
                 return true;
@@ -182,6 +185,33 @@ public abstract class ShortestPaths {
     private class BFTTarget extends Traversal {
         BFTTarget(Graph G) {
             super(G, new TreeSetQueue());
+        }
+
+        @Override
+        public boolean visit(int v) {
+            mark(v);
+            int closestVertex = _fringe.peek() - 1;
+            _paths.get(_source - 1).add(closestVertex + 1);
+            return closestVertex + 1 == getDest();
+        }
+
+        @Override
+        public boolean processSuccessor(int u, int v) {
+            if (!marked(v)) {
+                int vertex = v -1;
+                int prevVertex = u - 1;
+
+                double curDistance = _dist[prevVertex] + getWeight(u, v) + estimatedDistance(v);
+                if (curDistance < _dist[vertex]) {
+                    _dist[vertex] = curDistance;
+                    _edgeTo[vertex] = u;
+                    _fringe.add(v);
+                }
+
+                return true;
+            }
+
+            return false;
         }
     }
 
