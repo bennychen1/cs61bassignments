@@ -129,13 +129,13 @@ abstract class GraphObj extends Graph {
             verticesArrayList.add(i);
         }
 
-        return new VertexIteration(verticesArrayList.iterator());
+        return new VertexIteration<Integer>(verticesArrayList.iterator());
     }
 
     @Override
     public Iteration<Integer> successors(int v) {
         // FIXME
-        if (v == 0 || v > _adjList.size()) {
+        if (!contains(v)) {
             return Iteration.iteration(new ArrayList<Integer>().iterator());
         }
 
