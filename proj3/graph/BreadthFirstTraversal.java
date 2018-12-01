@@ -17,7 +17,6 @@ public class BreadthFirstTraversal extends Traversal {
         // FIXME
     }
 
-
     @Override
     protected boolean visit(int v) {
         return super.visit(v);

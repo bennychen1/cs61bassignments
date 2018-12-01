@@ -226,7 +226,7 @@ abstract class GraphObj extends Graph {
      * adjacent vertices of all the vertices in the graph.*/
     protected ArrayList<ArrayList<Integer>> _adjList;
 
-    /** An ArrayList containing the edges of the graph */
+    /** An ArrayList of Edges representing the edges of the graph */
     protected ArrayList<Edge> _edges;
 
 }
