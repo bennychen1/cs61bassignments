@@ -27,11 +27,17 @@ public abstract class SimpleShortestPaths extends ShortestPaths {
     @Override
     public double getWeight(int v) {
         // FIXME
+        if (!_G.contains(v)) {
+            return Double.MAX_VALUE;
+        }
         return _dist[v - 1];
     }
 
     @Override
     protected void setWeight(int v, double w) {
+        if (!_G.contains(v)) {
+            return ;
+        }
         _dist[v - 1] = w;
         // FIXME
     }
@@ -39,11 +45,17 @@ public abstract class SimpleShortestPaths extends ShortestPaths {
     @Override
     public int getPredecessor(int v) {
         // FIXME
+        if (!_G.contains(v) || _edgeTo[v - 1] == 0) {
+            return 0;
+        }
         return _edgeTo[v - 1];
     }
 
     @Override
     protected void setPredecessor(int v, int u) {
+        if (!_G.contains(v)) {
+            return ;
+        }
         _edgeTo[v - 1] = u - 1;
         // FIXME
     }
