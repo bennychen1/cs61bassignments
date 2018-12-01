@@ -57,7 +57,12 @@ public abstract class ShortestPaths {
             for (int i = 0; i < _paths.size(); i += 1) {
                 _paths.add(new ArrayList<Integer>());
             }
+
             _paths.set(getSource() - 1, sourcesPath);
+            BFTAll bft = new BFTAll(_G);
+            bft.traverse(_source);
+            
+
         } else {
             _paths.set(getSource() - 1, sourcesPath);
         }
@@ -153,6 +158,24 @@ public abstract class ShortestPaths {
                 _paths.get(closestVertex).add(closestVertex + 1);
             }
             return true;
+        }
+
+        @Override
+        public boolean processSuccessor(int u, int v) {
+            if (!marked(v)) {
+                int vertex = v - 1;
+                int curVertex = u - 1;
+
+                double curDistance = _dist[curVertex] + getWeight(u, v);
+                if (_dist[curVertex] + getWeight(u, v) < _dist[vertex]) {
+                    _dist[vertex] = curDistance;
+                    _edgeTo[vertex] = curVertex + 1;
+                }
+
+                return true;
+            }
+
+            return false;
         }
     }
 
