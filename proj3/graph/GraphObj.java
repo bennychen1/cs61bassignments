@@ -80,15 +80,22 @@ abstract class GraphObj extends Graph {
     @Override
     public int add() {
         // FIXME
+        _V += 1;
         if (_adjList.size() == 0) {
             _adjList.add(new ArrayList<Integer>());
-        } else if (_adjList.get(_adjList.size() - 1) == null) {
-            _adjList.set(_adjList.size() - 1, new ArrayList<Integer>());
+            return maxVertex();
         } else {
+            for (int i = 0; i < _adjList.size(); i += 1) {
+                ArrayList<Integer> curList = _adjList.get(i);
+                if (curList == null) {
+                    _adjList.set(i, new ArrayList<Integer>());
+                    return i + 1;
+                }
+            }
+
             _adjList.add(new ArrayList<Integer>());
+            return maxVertex();
         }
-        _V += 1;
-        return maxVertex();
     }
 
     @Override

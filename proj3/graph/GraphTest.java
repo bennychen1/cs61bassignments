@@ -92,6 +92,12 @@ public class GraphTest {
         assertEquals(10, u.maxVertex());
         assertEquals(10, d.maxVertex());
 
+        u.remove(2);
+        d.remove(2);
+
+        assertEquals(2, u.add());
+        assertEquals(2, d.add());
+
     }
 
     @Test
@@ -320,10 +326,10 @@ public class GraphTest {
 
         d.add();
 
-        assertEquals(7, d.maxVertex());
-        assertFalse(d.contains(2));
+        assertEquals(6, d.maxVertex());
+        assertTrue(d.contains(2));
 
-        assertEquals(2, d.add(5, 7));
+        assertEquals(2, d.add(5, 6));
     }
 
     @Test
@@ -547,7 +553,7 @@ public class GraphTest {
         d.remove(4);
         d.remove(5);
         d.add();
-        d.add(5, 1);
+        d.add(4, 1);
         d.remove(1, 2);
 
         int[][] edgesArray = new int[3][2];
@@ -558,7 +564,7 @@ public class GraphTest {
             index += 1;
         }
 
-        int[][] expected = new int[][]{{3, 2}, {2, 3}, {5, 1}};
+        int[][] expected = new int[][]{{3, 2}, {2, 3}, {4, 1}};
     }
 
 
