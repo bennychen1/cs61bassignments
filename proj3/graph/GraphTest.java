@@ -679,7 +679,6 @@ public class GraphTest {
     public void test3Traversals() {
         DirectedGraph d = createDGraph(15);
 
-        d.add(3, 3);
         d.add(5, 6);
         d.add(2, 1);
         d.add(1, 7);
@@ -710,6 +709,15 @@ public class GraphTest {
         bft.traverse(startingVertices);
         preOrder.traverse(startingVertices);
         postOrder.traverse(startingVertices);
+
+        int[]expectedPreOrder = new int[]{2, 3, 5, 4, 6, 1, 7, 8, 9, 10, 0, 0, 0, 0};
+        int[] expectedPostOrder = new int[]{4, 6, 5, 3, 7, 1, 2, 10, 9, 8, 0, 0, 0, 0};
+        int[] expectedBFT = new int[]{2, 1, 3, 7, 5, 6, 4, 8, 9, 10, 0, 0, 0, 0};
+
+        assertArrayEquals(expectedPreOrder, preOrder._visitOrder);
+        assertArrayEquals(expectedPostOrder, postOrder._visitOrder);
+        assertArrayEquals(expectedBFT, bft._visitOrder);
+
     }
 
 
