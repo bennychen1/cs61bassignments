@@ -64,14 +64,22 @@ public abstract class Traversal {
                         }
                     }
 
-                    visit(vertex);
+                    if (visit(vertex)) {
+                        visit(vertex);
+                    } else {
+                        return;
+                    }
                 }
 
                 if (shouldPostVisit(vertex)) {
                     if (hasChild) {
                         _fringe.add(vertex);
                     } else {
-                        postVisit(vertex);
+                        if (postVisit(vertex)) {
+                            postVisit(vertex);
+                        } else {
+                            return ;
+                        }
                     }
                 }
                 _fringe.poll();
