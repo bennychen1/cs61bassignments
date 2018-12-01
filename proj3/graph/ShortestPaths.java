@@ -179,6 +179,12 @@ public abstract class ShortestPaths {
         }
     }
 
+    private class BFTTarget extends Traversal {
+        BFTTarget(Graph G) {
+            super(G, new TreeSetQueue());
+        }
+    }
+
     private class TreeSetQueue extends LinkedList<Integer> {
         TreeSetQueue() {
             _treeSet = new TreeSet<Integer>(new VertexComp());

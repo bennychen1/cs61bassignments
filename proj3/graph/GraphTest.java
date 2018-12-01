@@ -79,6 +79,22 @@ public class GraphTest {
     }
 
     @Test
+    public void testRemoveAndMax() {
+        UndirectedGraph u = createUDGraph(10);
+        DirectedGraph d = createDGraph(10);
+
+        u.remove(10);
+        d.remove(10);
+
+        u.add();
+        d.add();
+
+        assertEquals(10, u.maxVertex());
+        assertEquals(10, d.maxVertex());
+
+    }
+
+    @Test
     public void testRemoveVertices() {
         UndirectedGraph u = createUDGraph(7);
 
