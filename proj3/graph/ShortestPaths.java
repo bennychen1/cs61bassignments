@@ -149,7 +149,7 @@ public abstract class ShortestPaths {
         public boolean visit(int v) {
             mark(v);
             int closestVertex = _fringe.peek() - 1;
-            int vertexPredecessor = _edgeTo[closestVertex] - 1;
+            int vertexPredecessor = getPredecessor(v);
             if (vertexPredecessor != closestVertex) {
                 ArrayList<Integer> leadUp = _paths.get(vertexPredecessor);
                 ArrayList<Integer> curPath = _paths.get(closestVertex);
@@ -165,13 +165,10 @@ public abstract class ShortestPaths {
         @Override
         public boolean processSuccessor(int u, int v) {
             if (!marked(v)) {
-                int vertex = v - 1;
-                int curVertex = u - 1;
-
-                double curDistance = _dist[curVertex] + getWeight(u, v) + estimatedDistance(v);
-                if (curDistance < _dist[vertex]) {
-                    _dist[vertex] = curDistance;
-                    _edgeTo[vertex] = u;
+                double curDistance = getWeight(u) + getWeight(u, v) + estimatedDistance(v);
+                if (curDistance < getWeight(v)) {
+                    setWeight(v, curDistance);
+                    setPredecessor(v, u);
                     _fringe.add(v);
                 }
 
@@ -201,11 +198,11 @@ public abstract class ShortestPaths {
                 int vertex = v -1;
                 int prevVertex = u - 1;
 
-                double curDistance = _dist[prevVertex] + getWeight(u, v) + estimatedDistance(v);
-                if (curDistance < _dist[vertex]) {
-                    _dist[vertex] = curDistance;
-                    _edgeTo[vertex] = u;
-                    _fringe.add(v);
+                double curDistance = getWeight(u) + getWeight(u, v) + estimatedDistance(v);
+                if (curDistance < getWeight(v)) {
+                   setWeight(v, curDistance);
+                   setPredecessor(v, u);
+                   _fringe.add(v);
                 }
 
                 return true;
