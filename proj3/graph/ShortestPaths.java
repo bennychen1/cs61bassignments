@@ -140,7 +140,18 @@ public abstract class ShortestPaths {
 
         @Override
         public boolean visit(int v) {
+            mark(v);
+            int closestVertex = _fringe.peek() - 1;
+            int vertexPredecessor = _edgeTo[closestVertex] - 1;
+            if (vertexPredecessor != closestVertex) {
+                ArrayList<Integer> leadUp = _paths.get(vertexPredecessor);
+                ArrayList<Integer> curPath = _paths.get(closestVertex);
 
+                curPath.addAll(leadUp);
+                curPath.add(vertexPredecessor + 1);
+            } else {
+                _paths.get(closestVertex).add(closestVertex + 1);
+            }
             return true;
         }
     }
