@@ -116,8 +116,8 @@ public class UndirectedGraph extends GraphObj {
             return ;
         }
 
-        _edges.remove(edgeId(v, u));
-        _edges.remove(edgeId(u, v));
+        _edges.remove(edgeId(v, u) - 1);
+        _edges.remove(edgeId(u, v) - 1);
 
         ArrayList<Integer> edgesV = _adjList.get(v - 1);
         ArrayList<Integer> edgesU = _adjList.get(u - 1);

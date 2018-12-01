@@ -45,6 +45,7 @@ public abstract class Traversal {
 
     /** Initialize the fringe to V0 and perform a traversal. */
     public void traverse(Collection<Integer> V0) {
+        boolean finishTraversal = false;
         for (int start : V0) {
             clear();
             if (_G.contains(start)) {
@@ -64,21 +65,22 @@ public abstract class Traversal {
                         }
                     }
 
-                    if (visit(vertex)) {
-                        visit(vertex);
-                    } else {
-                        return;
+                    visit(vertex);
+
+                    if (finishTraversal) {
+                        return ;
                     }
+
                 }
 
                 if (shouldPostVisit(vertex)) {
                     if (hasChild) {
                         _fringe.add(vertex);
                     } else {
-                        if (postVisit(vertex)) {
-                            postVisit(vertex);
-                        } else {
-                            return ;
+                        postVisit(vertex);
+
+                        if (finishTraversal) {
+                            return;
                         }
                     }
                 }

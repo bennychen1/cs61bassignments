@@ -203,11 +203,11 @@ public class GraphTest {
 
         u.remove(3);
 
-        assertEquals(0, u.edgeId(5, 6));
+        assertEquals(1, u.edgeId(5, 6));
 
         u.remove(6,5);
 
-        assertEquals(0, u.edgeId(1, 2));
+        assertEquals(1, u.edgeId(1, 2));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -259,12 +259,12 @@ public class GraphTest {
         d.add();
 
         d.add(1, 6);
-        assertEquals(1, d.add(3, 2));
+        assertEquals(2, d.add(3, 2));
         d.add(3, 6);
         d.add(4, 5);
         d.add(5, 1);
 
-        assertEquals(2, d.add(3, 6));
+        assertEquals(3, d.add(3, 6));
         assertEquals(5, d.edgeSize());
     }
 
@@ -307,7 +307,7 @@ public class GraphTest {
         assertEquals(7, d.maxVertex());
         assertFalse(d.contains(2));
 
-        assertEquals(1, d.add(5, 7));
+        assertEquals(2, d.add(5, 7));
     }
 
     @Test

@@ -129,13 +129,13 @@ abstract class GraphObj extends Graph {
             verticesArrayList.add(i);
         }
 
-        return new VertexIteration<Integer>(verticesArrayList.iterator());
+        return new VertexIteration(verticesArrayList.iterator());
     }
 
     @Override
     public Iteration<Integer> successors(int v) {
         // FIXME
-        if (!contains(v)) {
+        if (v == 0 || v > _adjList.size()) {
             return Iteration.iteration(new ArrayList<Integer>().iterator());
         }
 
@@ -184,15 +184,9 @@ abstract class GraphObj extends Graph {
     // FIXME
 
     static class Edge {
-
         Edge(int u, int v) {
-            this(u, v, 0);
-        }
-
-        Edge(int u, int v, int w) {
             _from = u - 1;
             _to = v - 1;
-            _weight = w;
         }
 
         int getFrom() {
@@ -205,7 +199,6 @@ abstract class GraphObj extends Graph {
 
         private int _from;
         private int _to;
-        private int _weight;
     }
 
     static class VertexIteration<Type> extends Iteration<Type>{
@@ -227,13 +220,13 @@ abstract class GraphObj extends Graph {
     }
 
     /** The number of vertices in the graph. */
-    int _V;
+    protected int _V;
 
     /** An ArrayList of ArrayList containing the
      * adjacent vertices of all the vertices in the graph.*/
-    ArrayList<ArrayList<Integer>> _adjList;
+    protected ArrayList<ArrayList<Integer>> _adjList;
 
     /** An ArrayList of Edges representing the edges of the graph */
-    ArrayList<Edge> _edges;
+    protected ArrayList<Edge> _edges;
 
 }
