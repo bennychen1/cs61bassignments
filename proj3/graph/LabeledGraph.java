@@ -66,6 +66,10 @@ public class LabeledGraph<VL, EL> extends GraphFilter {
             expand(_elabel, e + 1);
             _elabel.set(e, lab);
         }
+
+        if (edgeId(v, u) != 0) {
+            setLabel(v, u, lab);
+        }
     }
 
     /** Returns a new vertex labeled LAB, and adds it to me with no

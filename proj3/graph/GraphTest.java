@@ -2,6 +2,7 @@ package graph;
 
 import org.junit.Test;
 
+import java.awt.*;
 import java.util.Collection;
 import java.util.ArrayList;
 import static org.junit.Assert.*;
@@ -769,7 +770,32 @@ public class GraphTest {
         shortestPath.add(5);
 
         assertEquals(shortestPath, s.pathTo(5));
+    }
 
+    @Test
+    public void testMulitpleSP() {
+        UndirectedGraph u = createUDGraph(6);
+
+        u.add(3, 5);
+        u.add(5, 4);
+        u.add(3, 2);
+        u.add(2, 1);
+        u.add(6, 1);
+        u.add(5, 6);
+        u.add(1, 3);
+
+        LabeledGraph<Double, Double> g = new LabeledGraph<Double, Double>(u);
+
+        g.setLabel(2, 1, 1.0);
+        g.setLabel(1, 6, 25.0);
+        g.setLabel(5, 4, 1.0);
+        g.setLabel(2, 3, 1.0);
+        g.setLabel(3, 1, 6.0);
+        g.setLabel(3, 5, 2.0);
+        g.setLabel(5, 6, 3.0);
+
+        TestShortestPaths s = new TestShortestPaths(g, 1, 0);
+        s.setPaths();
     }
 
 
