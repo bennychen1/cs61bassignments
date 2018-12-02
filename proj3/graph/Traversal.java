@@ -32,6 +32,7 @@ public abstract class Traversal {
         _G = G;
         _fringe = fringe;
         _marked = new boolean[G.vertexSize()];
+        _finishTraversal = false;
         clear();
     }
 
@@ -45,8 +46,8 @@ public abstract class Traversal {
 
     /** Initialize the fringe to V0 and perform a traversal. */
     public void traverse(Collection<Integer> V0) {
-        boolean finishTraversal = false;
         for (int start : V0) {
+            _finishTraversal = false;
             clear();
             if (_G.contains(start)) {
                 _fringe.add(start);
@@ -56,6 +57,10 @@ public abstract class Traversal {
                 int vertex = _fringe.peek();
                 boolean hasChild = false;
                 if (!marked(vertex)) {
+                    visit(vertex);
+                    if (_finishTraversal) {
+                        return ;
+                    }
                     for (int s : _G.successors(vertex)) {
                         if (processSuccessor(vertex, s)) {
                             if (!hasChild) {
@@ -65,9 +70,7 @@ public abstract class Traversal {
                         }
                     }
 
-                    visit(vertex);
-
-                    if (finishTraversal) {
+                    if (_finishTraversal) {
                         return ;
                     }
 
@@ -79,7 +82,7 @@ public abstract class Traversal {
                     } else {
                         postVisit(vertex);
 
-                        if (finishTraversal) {
+                        if (_finishTraversal) {
                             return;
                         }
                     }
@@ -145,6 +148,8 @@ public abstract class Traversal {
 
     /** Boolean array: if index i is true, then
      * vertex v + 1 is marked. */
-    protected boolean[] _marked;
+    boolean[] _marked;
+
+    boolean _finishTraversal;
 
 }

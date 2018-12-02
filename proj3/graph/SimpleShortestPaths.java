@@ -17,6 +17,7 @@ public abstract class SimpleShortestPaths extends ShortestPaths {
     /** A shortest path in G from SOURCE to DEST. */
     public SimpleShortestPaths(Graph G, int source, int dest) {
         super(G, source, dest);  // FIXME?
+        _labeled = new LabeledGraph<Double, Double>(G);
     }
 
     /** Returns the current weight of edge (U, V) in the graph.  If (U, V) is
@@ -61,5 +62,6 @@ public abstract class SimpleShortestPaths extends ShortestPaths {
     }
 
     // FIXME
+    LabeledGraph<Double, Double> _labeled;
 
 }

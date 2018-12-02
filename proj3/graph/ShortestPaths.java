@@ -64,7 +64,7 @@ public abstract class ShortestPaths {
 
 
         } else {
-            _paths.set(getSource() - 1, new ArrayList<Integer>());
+            _paths.add(new ArrayList<Integer>());
             BFTTarget bftTarg = new BFTTarget(_G);
             bftTarg.traverse(_source);
         }
@@ -115,6 +115,10 @@ public abstract class ShortestPaths {
         // FIXME
         if (_dest != 0 && v != _dest) {
             return null;
+        }
+
+        if (_dest == v) {
+            return _paths.get(getSource() - 1);
         }
         return _paths.get(v - 1);
     }
@@ -188,15 +192,26 @@ public abstract class ShortestPaths {
         public boolean visit(int v) {
             mark(v);
             int closestVertex = _fringe.peek() - 1;
-            _paths.get(_source - 1).add(closestVertex + 1);
-            return closestVertex + 1 == getDest();
+
+            if (closestVertex + 1 == _dest) {
+                _paths.get(_source - 1).add(closestVertex + 1);
+                _finishTraversal = true;
+            } else {
+                _paths.get(_source - 1).add(closestVertex + 1);
+                return closestVertex + 1 == getDest();
+            }
+            return true;
         }
 
         @Override
         public boolean processSuccessor(int u, int v) {
             if (!marked(v)) {
-                int vertex = v -1;
-                int prevVertex = u - 1;
+
+                if (v == _dest) {
+                    _paths.get(getSource() - 1).add(v);
+                    _finishTraversal = true;
+                    return false;
+                }
 
                 double curDistance = getWeight(u) + getWeight(u, v) + estimatedDistance(v);
                 if (curDistance < getWeight(v)) {
@@ -233,6 +248,11 @@ public abstract class ShortestPaths {
         @Override
         public Integer poll() {
             return _treeSet.pollFirst();
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return _treeSet.isEmpty();
         }
 
 

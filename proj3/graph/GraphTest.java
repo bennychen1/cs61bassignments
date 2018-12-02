@@ -742,6 +742,36 @@ public class GraphTest {
 
     }
 
+    @Test
+    public void testShortestPaths() {
+        DirectedGraph d = createDGraph(5);
+        d.add(1, 3);
+        d.add(3, 2);
+        d.add(2, 4);
+        d.add(4, 5);
+        d.add(2, 5);
+        d.add(1, 5);
+
+        LabeledGraph<Integer, Double> g = new LabeledGraph<Integer, Double>(d);
+
+        g.setLabel(1, 3, 2.0);
+        g.setLabel(3, 2, 3.0);
+        g.setLabel(1, 5, 5.0);
+        g.setLabel(2, 4, 5.0);
+        g.setLabel(2, 5, 6.0);
+        g.setLabel(4,5 ,7.0);
+
+        TestShortestPaths s = new TestShortestPaths(g, 1, 5);
+        s.setPaths();
+
+        ArrayList<Integer> shortestPath = new ArrayList<Integer>();
+        shortestPath.add(1);
+        shortestPath.add(5);
+
+        assertEquals(shortestPath, s.pathTo(5));
+
+    }
+
 
 
 
@@ -838,6 +868,20 @@ public class GraphTest {
         private Graph _gr;
         private int _index;
         private int[] _visitOrder;
+    }
+
+    private class TestShortestPaths extends SimpleShortestPaths {
+        TestShortestPaths(LabeledGraph G, int source, int dest) {
+            super(G, source, dest);
+            _labeled = G;
+        }
+
+        @Override
+        public double getWeight(int v, int u) {
+            return _labeled.getLabel(v, u);
+        }
+
+        LabeledGraph<Double, Double> _labeled;
     }
 
 }
