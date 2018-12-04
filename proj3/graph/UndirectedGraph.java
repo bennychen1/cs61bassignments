@@ -14,10 +14,6 @@ import java.util.Iterator;
  */
 public class UndirectedGraph extends GraphObj {
 
-    UndirectedGraph() {
-        super();
-    }
-
     @Override
     public boolean isDirected() {
         return false;
@@ -80,9 +76,8 @@ public class UndirectedGraph extends GraphObj {
         }
 
         Edge e = new Edge(u, v);
-        Edge eOther = new Edge(v, u);
+
         _edges.add(e);
-        _edges.add(eOther);
 
         return edgeId(u, v);
     }
@@ -116,8 +111,14 @@ public class UndirectedGraph extends GraphObj {
             return ;
         }
 
-        _edges.remove(edgeId(v, u) - 1);
-        _edges.remove(edgeId(u, v) - 1);
+        int e = edgeId(v, u);
+        int e2 = edgeId(u, v);
+
+        if (e != 0) {
+            _edges.remove(e - 1);
+        } else if (e2 != 0) {
+            _edges.remove(e2 - 1);
+        }
 
         ArrayList<Integer> edgesV = _adjList.get(v - 1);
         ArrayList<Integer> edgesU = _adjList.get(u - 1);
@@ -132,14 +133,6 @@ public class UndirectedGraph extends GraphObj {
         for (Edge e : _edges) {
             edgePairs.add(new int[]{e.getFrom() + 1, e.getTo() + 1});
         }
-
-        ArrayList<int[]> duplicates = new ArrayList<int[]>();
-
-        for (int i = 1; i < edgePairs.size(); i += 2) {
-            duplicates.add(edgePairs.get(i));
-        }
-
-        edgePairs.removeAll(duplicates);
 
         return Iteration.iteration(edgePairs.iterator());
     }

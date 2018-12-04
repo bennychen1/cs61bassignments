@@ -22,7 +22,7 @@ public class GraphTest {
         assertEquals(0, u.edgeSize());
 
         u.add(1, 2);
-        assertEquals(2, u.edgeSize());
+        assertEquals(1, u.edgeSize());
     }
 
     @Test
@@ -30,7 +30,7 @@ public class GraphTest {
         UndirectedGraph u = createUDGraph(3);
         u.add(1, 2);
         u.add(1, 3);
-        assertEquals(4, u.edgeSize());
+        assertEquals(2, u.edgeSize());
         assertEquals(2, u.inDegree(1));
         assertEquals(1, u.inDegree(2));
 
@@ -54,7 +54,7 @@ public class GraphTest {
 
         u.remove(1, 2);
 
-        assertEquals(2, u.edgeSize());
+        assertEquals(1, u.edgeSize());
         assertFalse(u.contains(1, 2));
         assertFalse(u.contains(2, 1));
     }
@@ -72,7 +72,7 @@ public class GraphTest {
 
         assertEquals(4, u.vertexSize());
         assertEquals(5, u.maxVertex());
-        assertEquals(2, u.edgeSize());
+        assertEquals(1, u.edgeSize());
         assertFalse(u.contains(2));
         assertFalse(u.contains(2, 3));
         assertFalse(u.contains(3, 2));
@@ -116,10 +116,10 @@ public class GraphTest {
         assertEquals(7, u.maxVertex());
 
         u.remove(7);
-        assertEquals(8, u.edgeSize());
+        assertEquals(4, u.edgeSize());
 
         u.remove(3, 1);
-        assertEquals(6, u.edgeSize());
+        assertEquals(3, u.edgeSize());
         assertTrue(u.contains(3, 6));
         assertTrue(u.contains(1));
     }
@@ -787,7 +787,7 @@ public class GraphTest {
         LabeledGraph<Double, Double> g = new LabeledGraph<Double, Double>(u);
 
         g.setLabel(2, 1, 1.0);
-        g.setLabel(1, 6, 25.0);
+        g.setLabel(1, 6, 2.0);
         g.setLabel(5, 4, 1.0);
         g.setLabel(2, 3, 1.0);
         g.setLabel(3, 1, 6.0);
@@ -796,6 +796,19 @@ public class GraphTest {
 
         TestShortestPaths s = new TestShortestPaths(g, 1, 0);
         s.setPaths();
+
+        ArrayList<Integer> expected5 = new ArrayList<Integer>();
+        expected5.add(1);
+        expected5.add(2);
+        expected5.add(3);
+        expected5.add(5);
+
+        ArrayList<Integer> expected6 = new ArrayList<Integer>();
+        expected6.add(1);
+        expected6.add(6);
+
+        assertEquals(expected5, s.pathTo(5));
+        assertEquals(expected6, s.pathTo(6));
     }
 
 

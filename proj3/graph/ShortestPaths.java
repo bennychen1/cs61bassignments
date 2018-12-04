@@ -41,8 +41,8 @@ public abstract class ShortestPaths {
             _dist[i] = Double.MAX_VALUE;
         }
 
-        _dist[source] = 0;
-        _edgeTo[source] = source;
+        _dist[source - 1] = 0;
+        _edgeTo[source - 1] = source;
 
         _paths = new ArrayList<ArrayList<Integer>>();
     }
@@ -51,10 +51,10 @@ public abstract class ShortestPaths {
      *  getWeight, getPredecessor, and pathTo. */
     public void setPaths() {
         ArrayList<Integer> sourcesPath = new ArrayList<Integer>();
-        sourcesPath.add(getSource() - 1);
+        sourcesPath.add(getSource());
 
         if (getDest() == 0) {
-            for (int i = 0; i < _paths.size(); i += 1) {
+            for (int i = 0; i < _G.vertexSize(); i += 1) {
                 _paths.add(new ArrayList<Integer>());
             }
 
@@ -151,17 +151,16 @@ public abstract class ShortestPaths {
 
         @Override
         public boolean visit(int v) {
-            mark(v);
+
             int closestVertex = _fringe.peek() - 1;
-            int vertexPredecessor = getPredecessor(v);
-            if (vertexPredecessor != closestVertex) {
+
+            int vertexPredecessor = getPredecessor(closestVertex + 1) - 1;
+            if (vertexPredecessor != closestVertex && _paths.get(closestVertex).size() == 0) {
                 ArrayList<Integer> leadUp = _paths.get(vertexPredecessor);
                 ArrayList<Integer> curPath = _paths.get(closestVertex);
 
                 curPath.addAll(leadUp);
-                curPath.add(vertexPredecessor + 1);
-            } else {
-                _paths.get(closestVertex).add(closestVertex + 1);
+                curPath.add(closestVertex + 1);
             }
             return true;
         }
@@ -173,7 +172,6 @@ public abstract class ShortestPaths {
                 if (curDistance < getWeight(v)) {
                     setWeight(v, curDistance);
                     setPredecessor(v, u);
-                    _fringe.add(v);
                 }
 
                 return true;
@@ -240,9 +238,7 @@ public abstract class ShortestPaths {
 
         @Override
         public Integer peek() {
-            int firstElement = _treeSet.pollFirst();
-            _treeSet.add(firstElement);
-            return firstElement;
+            return _treeSet.first();
         }
 
         @Override

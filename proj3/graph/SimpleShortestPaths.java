@@ -57,7 +57,7 @@ public abstract class SimpleShortestPaths extends ShortestPaths {
         if (!_G.contains(v)) {
             return ;
         }
-        _edgeTo[v - 1] = u - 1;
+        _edgeTo[v - 1] = u;
         // FIXME
     }
 

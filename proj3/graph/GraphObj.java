@@ -179,7 +179,8 @@ abstract class GraphObj extends Graph {
         // FIXME (Keep duplicate edges in undirected graphs separate)
         int i = 0;
         for (Edge e : _edges) {
-            if (e.getFrom() == u - 1 && e.getTo() == v - 1){
+            if ((e.getFrom() == u - 1 && e.getTo() == v - 1)
+                    || (e.getFrom() == v - 1 && e.getTo() == u - 1)){
                 return i + 1;
             }
 
