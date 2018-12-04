@@ -53,21 +53,13 @@ public abstract class ShortestPaths {
         ArrayList<Integer> sourcesPath = new ArrayList<Integer>();
         sourcesPath.add(getSource());
 
-        if (getDest() == 0) {
-            for (int i = 0; i < _G.vertexSize(); i += 1) {
-                _paths.add(new ArrayList<Integer>());
-            }
-
-            _paths.set(getSource() - 1, sourcesPath);
-            BFTAll bft = new BFTAll(_G);
-            bft.traverse(_source);
-
-
-        } else {
+        for (int i = 0; i < _G.vertexSize(); i += 1) {
             _paths.add(new ArrayList<Integer>());
-            BFTTarget bftTarg = new BFTTarget(_G);
-            bftTarg.traverse(_source);
         }
+
+        _paths.set(getSource() - 1, sourcesPath);
+        BFTAll bft = new BFTAll(_G);
+        bft.traverse(_source);
         // FIXME
     }
 

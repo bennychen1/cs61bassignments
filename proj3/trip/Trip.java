@@ -4,6 +4,7 @@ import graph.DirectedGraph;
 import graph.LabeledGraph;
 import graph.SimpleShortestPaths;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,7 +28,7 @@ class Trip {
         int n;
         n = 0;
         try {
-            Scanner inp = null; // REPLACE WITH SOLUTION
+            Scanner inp = new Scanner(new FileReader(name)); // REPLACE WITH SOLUTION
             while (inp.hasNext()) {
                 n += 1;
                 switch (inp.next()) {
@@ -43,7 +44,7 @@ class Trip {
                     break;
                 }
             }
-        } catch (NullPointerException excp) { // REPLACE WITH PROPER catch
+        } catch (FileNotFoundException excp) { // REPLACE WITH PROPER catch
             error(excp.getMessage());
         } catch (InputMismatchException excp) {
             error("bad entry #%d", n);
@@ -95,7 +96,41 @@ class Trip {
      *  */
     int reportSegment(int seq, int from, List<Integer> segment) {
         // FILL THIS IN
-        return seq;
+        StringBuilder s = new StringBuilder();
+
+        int stepNumber = 1;
+        Road curRoad = null;
+        Direction curDirection = null;
+        double length = 0;
+        for (int i = 0; i < segment.size() - 1; i += 1) {
+
+            Road newRoad = _map.getLabel(segment.get(i), segment.get(i + 1));
+            Direction thisDirection = newRoad.direction();
+            Double roadLength = newRoad.length();
+
+            if (i == 0) {
+                curRoad = newRoad;
+                curDirection = thisDirection;
+                length = roadLength;
+                continue;
+            }
+
+            if (newRoad == curRoad && thisDirection.equals(curDirection)) {
+                length += roadLength;
+            } else {
+                s.append(stepNumber + ". Take " + newRoad.toString() + " " + thisDirection.toString()
+                        + " for " + length + " miles.\n" );
+                stepNumber += 1;
+
+                curRoad = newRoad;
+                curDirection = thisDirection;
+                length = roadLength;
+            }
+        }
+
+
+
+        return seq + 1;
     }
 
     /** Add a new location named NAME at (X, Y). */
@@ -122,6 +157,9 @@ class Trip {
             error("location %s not defined", to);
         }
 
+        _map.add(v0, v1, new Road(name, dir, length));
+        _map.add(v1, v0, new Road(name, dir.reverse(), length));
+
         // FILL THIS IN TO CREATE TWO EDGES LABELED WITH ROADS FROM V0 to V1
         // AND BACK.
     }
@@ -137,8 +175,10 @@ class Trip {
         /** An empty RoadMap. */
         RoadMap() {
             // REPLACE WITH SOLUTION
-            super(null);
+            super(new DirectedGraph());
         }
+
+
     }
 
     /** Paths in _map from a given location. */
@@ -152,13 +192,15 @@ class Trip {
         @Override
         protected double getWeight(int u, int v) {
             // REPLACE WITH SOLUTION
-            return 0.0;
+            Road r = _map.getLabel(u, v);
+            return r.length();
         }
 
         @Override
         protected double estimatedDistance(int v) {
             // REPLACE WITH SOLUTION
-            return 0.0;
+            Location l = _map.getLabel(v);
+            return _finalLocation.dist(l);
         }
 
         /** Location of the destination. */
