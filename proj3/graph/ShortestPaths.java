@@ -152,6 +152,8 @@ public abstract class ShortestPaths {
         @Override
         public boolean visit(int v) {
 
+            mark(v);
+
             int closestVertex = _fringe.peek() - 1;
 
             int vertexPredecessor = getPredecessor(closestVertex + 1) - 1;
