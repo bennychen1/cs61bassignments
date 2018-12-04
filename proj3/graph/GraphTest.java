@@ -809,6 +809,16 @@ public class GraphTest {
 
         assertEquals(expected5, s.pathTo(5));
         assertEquals(expected6, s.pathTo(6));
+
+        TestShortestPaths s2 = new TestShortestPaths(g, 2, 0);
+        s2.setPaths();
+
+        ArrayList<Integer> expectedTwoToSix = new ArrayList<Integer>();
+        expectedTwoToSix.add(2);
+        expectedTwoToSix.add(1);
+        expectedTwoToSix.add(6);
+
+        assertEquals(expectedTwoToSix, s2.pathTo(6));
     }
 
 
