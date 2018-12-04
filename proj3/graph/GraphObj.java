@@ -136,7 +136,7 @@ abstract class GraphObj extends Graph {
             verticesArrayList.add(i);
         }
 
-        return new VertexIteration(verticesArrayList.iterator());
+        return new VertexIteration<Integer>(verticesArrayList.iterator());
     }
 
     @Override
