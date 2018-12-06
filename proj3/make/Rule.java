@@ -23,6 +23,9 @@ class Rule {
     /** Add the target of DEPENDENT to my dependencies. */
     void addDependency(Rule dependent) {
         // FILL IN
+        _depends.add(dependent);
+        _depends.add(_vertex, dependent._vertex);
+
     }
 
     /** Add COMMANDS to my command set.  Signals IllegalStateException if
@@ -30,6 +33,13 @@ class Rule {
      */
     void addCommands(List<String> commands) {
         // FILL IN
+
+        if (!_commands.isEmpty() && commands.size() != 0) {
+            throw new IllegalStateException("already have a command set");
+        }
+
+        _commands.addAll(commands);
+
     }
 
     /** Return the vertex representing me. */
@@ -55,6 +65,13 @@ class Rule {
     /** Check that dependencies are in fact built before it's time to rebuild
      *  a node. */
     private void checkFinishedDependencies() {
+        for (Integer v : _depends.successors(_vertex)) {
+            if (_depends.getLabel(v).isUnfinished()) {
+                error("unbuilt dependencies");
+            }
+
+            _depends.getLabel(v).checkFinishedDependencies();
+        }
         // FILL IN
     }
 
@@ -63,6 +80,11 @@ class Rule {
      *  successfully rebuilt. */
     private boolean outOfDate() {
         // FILL IN
+
+        if (_time == null || _time > _maker.getCurrentTime()) {
+            return true;
+        }
+
         return false;
     }
 
@@ -77,6 +99,12 @@ class Rule {
                       _target);
             }
             // FILL IN
+            _depends.getLabel(_vertex)._time = _maker.getCurrentTime();
+
+            for (String s : _commands) {
+                System.out.print(s + " ");
+            }
+
         }
         _finished = true;
     }

@@ -156,4 +156,18 @@ public class DirectedGraph extends GraphObj {
         return Iteration.iteration(edgePairs.iterator());
     }
 
+    @Override
+    public int edgeId(int v, int u) {
+        int i = 0;
+        for (int[] e : edges()) {
+            if (e[0] == v && e[1] == u) {
+                return i + 1;
+            }
+
+            i += 1;
+        }
+
+        return 0;
+    }
+
 }

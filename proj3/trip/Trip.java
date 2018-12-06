@@ -96,13 +96,13 @@ class Trip {
      *  */
     int reportSegment(int seq, int from, List<Integer> segment) {
         // FILL THIS IN
-        StringBuilder s = new StringBuilder();
-
-        int stepNumber = 1;
+        int stepNumber = seq;
         Road curRoad = null;
         Direction curDirection = null;
-        double length = 0;
-        for (int i = 0; i < segment.size() - 1; i += 1) {
+        double length = 0.0;
+
+        int i = 0;
+        for (; i < segment.size() - 1; i += 1) {
 
             Road newRoad = _map.getLabel(segment.get(i), segment.get(i + 1));
             Direction thisDirection = newRoad.direction();
@@ -115,11 +115,19 @@ class Trip {
                 continue;
             }
 
-            if (newRoad == curRoad && thisDirection.equals(curDirection)) {
+            boolean c = newRoad.equals(curRoad);
+
+            if (newRoad.toString().equals(curRoad.toString()) && thisDirection.equals(curDirection)) {
                 length += roadLength;
+
             } else {
-                s.append(stepNumber + ". Take " + newRoad.toString() + " " + thisDirection.toString()
-                        + " for " + length + " miles.\n" );
+                System.out.print(stepNumber + ". Take " + curRoad.toString() + " " + curDirection.fullName()
+                        + " for ");
+
+                System.out.printf("%.1f", length);
+
+                System.out.print(" miles.\n");
+
                 stepNumber += 1;
 
                 curRoad = newRoad;
@@ -128,9 +136,12 @@ class Trip {
             }
         }
 
+        System.out.print(stepNumber + ". Take " + curRoad.toString() + " " + curDirection.fullName()
+                + " for ");
+        System.out.printf("%.1f miles ", length);
+        System.out.printf("to %s.\n", _map.getLabel(segment.get(i)));
 
-
-        return seq + 1;
+        return stepNumber;
     }
 
     /** Add a new location named NAME at (X, Y). */

@@ -1,5 +1,6 @@
 package make;
 
+import graph.DirectedGraph;
 import graph.LabeledGraph;
 
 /** A directed, labeled subtype of Graph that describes dependencies between
@@ -11,6 +12,6 @@ class Depends extends LabeledGraph<Rule, Integer> {
     // REPLACE WITH SOLUTION
     /** An empty dependency graph. */
     Depends() {
-        super(null);
+        super(new DirectedGraph());
     }
 }

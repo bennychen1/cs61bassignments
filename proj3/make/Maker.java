@@ -193,7 +193,16 @@ class Maker {
         protected boolean postVisit(int v0) {
             // FILL IN
            Rule r = _depends.getLabel(v0);
+
+           boolean o = r.getTime() == _currentTime;
+
            _targets.get(r.getTarget()).rebuild();
+            return true;
+        }
+
+        @Override
+        protected boolean visit(int v0) {
+            mark(v0);
             return true;
         }
     }

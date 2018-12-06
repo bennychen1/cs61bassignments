@@ -851,7 +851,7 @@ public class GraphTest {
 
         assertEquals(expected, s.pathTo());
     }
-    
+
     private DirectedGraph createDGraph(int n) {
         DirectedGraph d = new DirectedGraph();
         for (int i = 0; i < n; i += 1) {
