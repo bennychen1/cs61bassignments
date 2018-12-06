@@ -110,7 +110,7 @@ public abstract class ShortestPaths {
         }
 
         if (_dest == v) {
-            return _paths.get(getSource() - 1);
+            return _paths.get(getDest() - 1);
         }
         return _paths.get(v - 1);
     }
