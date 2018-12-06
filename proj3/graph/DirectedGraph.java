@@ -1,7 +1,5 @@
 package graph;
 
-import org.apache.commons.collections.iterators.ArrayIterator;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -10,7 +8,7 @@ import java.util.Iterator;
 /** Represents a general unlabeled directed graph whose vertices are denoted by
  *  positive integers. Graphs may have self edges.
  *
- *  @author
+ *  @author Benny Chen
  */
 public class DirectedGraph extends GraphObj {
 
@@ -21,7 +19,6 @@ public class DirectedGraph extends GraphObj {
 
     @Override
     public int inDegree(int v) {
-        //FIXME
         if (!contains(v)) {
             return 0;
         }
@@ -34,8 +31,6 @@ public class DirectedGraph extends GraphObj {
         }
         return count;
     }
-
-    // FIXME
 
     @Override
     public int add(int v, int u) {
@@ -63,17 +58,13 @@ public class DirectedGraph extends GraphObj {
             return false;
         }
 
-        if (_adjList.get(v - 1).contains(u - 1)) {
-            return true;
-        } else {
-            return false;
-        }
+        return _adjList.get(v - 1).contains(u - 1);
     }
 
     @Override
     public void remove(int v) {
         if (!contains(v)) {
-            return ;
+            return;
         }
 
         ArrayList<Integer> outEdges = _adjList.get(v - 1);

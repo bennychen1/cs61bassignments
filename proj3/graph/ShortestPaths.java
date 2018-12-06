@@ -2,13 +2,8 @@ package graph;
 
 /* See restrictions in Graph.java. */
 
-import org.antlr.v4.runtime.tree.Tree;
-
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.TreeSet;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -18,7 +13,7 @@ import java.util.LinkedList;
  *  setPredecessor, the client can determine how to represent the weighting
  *  and the search results.  By overriding estimatedDistance, clients
  *  can search for paths to specific destinations using A* search.
- *  @author
+ *  @author Benny Chen
  */
 public abstract class ShortestPaths {
 
@@ -32,7 +27,6 @@ public abstract class ShortestPaths {
         _G = G;
         _source = source;
         _dest = dest;
-        // FIXME
         _edgeTo = new int[G.vertexSize()];
 
         _dist = new double[G.vertexSize()];
@@ -60,18 +54,15 @@ public abstract class ShortestPaths {
         _paths.set(getSource() - 1, sourcesPath);
         BFTAll bft = new BFTAll(_G);
         bft.traverse(_source);
-        // FIXME
     }
 
     /** Returns the starting vertex. */
     public int getSource() {
-        // FIXME
         return _source;
     }
 
     /** Returns the target vertex, or 0 if there is none. */
     public int getDest() {
-        // FIXME
         return _dest;
     }
 
@@ -104,7 +95,6 @@ public abstract class ShortestPaths {
      *  at V that represents a shortest path to V.  Invalid if there is a
      *  destination vertex other than V. */
     public List<Integer> pathTo(int v) {
-        // FIXME
         if (_dest != 0 && v != _dest) {
             return null;
         }
@@ -121,22 +111,27 @@ public abstract class ShortestPaths {
         return pathTo(getDest());
     }
 
-    // FIXME
-
     /** The graph being searched. */
     protected final Graph _G;
     /** The starting vertex. */
     private final int _source;
     /** The target vertex. */
     private final int _dest;
-    // FIXME
-    int[] _edgeTo;
 
-    double[] _dist;
+    /** An array of predecessor vertices. */
+    private int[] _edgeTo;
 
-    ArrayList<ArrayList<Integer>> _paths;
+    /** The weight of each vertex from the source.  */
+    private double[] _dist;
 
+    /** The paths from the source to each vertex. */
+    private ArrayList<ArrayList<Integer>> _paths;
+
+    /** A breadth-first traversal of a graph to all vertices.*/
     private class BFTAll extends Traversal {
+
+        /** A breadth-first traversal of a graph G starting
+         * from SOURCE to all of its vertices. */
         BFTAll(Graph G) {
             super(G, new TreeSetQueue());
         }
@@ -149,11 +144,12 @@ public abstract class ShortestPaths {
             int closestVertex = _fringe.peek() - 1;
 
             if (closestVertex + 1 == getDest()) {
-                _finishTraversal = true;
+                setFinishTraversal(true);
             }
 
             int vertexPredecessor = getPredecessor(closestVertex + 1) - 1;
-            if (vertexPredecessor != closestVertex && _paths.get(closestVertex).size() == 0) {
+            if (vertexPredecessor != closestVertex
+                    && _paths.get(closestVertex).size() == 0) {
                 ArrayList<Integer> leadUp = _paths.get(vertexPredecessor);
                 ArrayList<Integer> curPath = _paths.get(closestVertex);
 
@@ -166,7 +162,8 @@ public abstract class ShortestPaths {
         @Override
         public boolean processSuccessor(int u, int v) {
             if (!marked(v)) {
-                double curDistance = getWeight(u) + getWeight(u, v) + estimatedDistance(v);
+                double curDistance = getWeight(u) + getWeight(u, v)
+                        + estimatedDistance(v);
                 if (curDistance < getWeight(v)) {
                     setWeight(v, curDistance);
                     setPredecessor(v, u);
@@ -179,51 +176,10 @@ public abstract class ShortestPaths {
         }
     }
 
-    private class BFTTarget extends Traversal {
-        BFTTarget(Graph G) {
-            super(G, new TreeSetQueue());
-        }
-
-        @Override
-        public boolean visit(int v) {
-            mark(v);
-            int closestVertex = _fringe.peek() - 1;
-
-            if (closestVertex + 1 == _dest) {
-                _paths.get(_source - 1).add(closestVertex + 1);
-                _finishTraversal = true;
-            } else {
-                _paths.get(_source - 1).add(closestVertex + 1);
-                return closestVertex + 1 == getDest();
-            }
-            return true;
-        }
-
-        @Override
-        public boolean processSuccessor(int u, int v) {
-            if (!marked(v)) {
-
-                if (v == _dest) {
-                    _paths.get(getSource() - 1).add(v);
-                    _finishTraversal = true;
-                    return false;
-                }
-
-                double curDistance = getWeight(u) + getWeight(u, v) + estimatedDistance(v);
-                if (curDistance < getWeight(v)) {
-                   setWeight(v, curDistance);
-                   setPredecessor(v, u);
-                   _fringe.add(v);
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-    }
-
+    /** A queue that uses a treeSet as its structure. */
     private class TreeSetQueue extends LinkedList<Integer> {
+
+        /** A treeSet queue.*/
         TreeSetQueue() {
             _treeSet = new TreeSet<Integer>(new VertexComp());
         }
@@ -249,10 +205,12 @@ public abstract class ShortestPaths {
             return _treeSet.isEmpty();
         }
 
-
+        /** The treeSet. */
         private TreeSet<Integer> _treeSet;
     }
 
+    /** A Comparator that compares vertices based on their current
+     * distance (weight) from the source. */
     private class VertexComp implements Comparator<Integer> {
         @Override
         public int compare(Integer v1, Integer v2) {

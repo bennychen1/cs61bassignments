@@ -1,5 +1,4 @@
 package graph;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -8,7 +7,7 @@ import java.util.Iterator;
 /** A partial implementation of Graph containing elements common to
  *  directed and undirected graphs.
  *
- *  @author
+ *  @author Benny Chen
  */
 abstract class GraphObj extends Graph {
 
@@ -17,12 +16,10 @@ abstract class GraphObj extends Graph {
         _V = 0;
         _adjList = new ArrayList<ArrayList<Integer>>();
         _edges = new ArrayList<Edge>();
-        // FIXME
     }
 
     @Override
     public int vertexSize() {
-        // FIXME
         return _V;
     }
 
@@ -36,14 +33,11 @@ abstract class GraphObj extends Graph {
         while (_adjList.get(curIndex) == null) {
             curIndex -= 1;
         }
-
         return curIndex + 1;
-        // FIXME
     }
 
     @Override
     public int edgeSize() {
-        // FIXME
         return _edges.size();
     }
 
@@ -52,7 +46,6 @@ abstract class GraphObj extends Graph {
 
     @Override
     public int outDegree(int v) {
-        // FIXME
         return 0;
     }
 
@@ -67,19 +60,16 @@ abstract class GraphObj extends Graph {
                 return true;
             }
         }
-        // FIXME
         return false;
     }
 
     @Override
     public boolean contains(int u, int v) {
-        // FIXME
         return false;
     }
 
     @Override
     public int add() {
-        // FIXME
         _V += 1;
         if (_adjList.size() == 0) {
             _adjList.add(new ArrayList<Integer>());
@@ -92,7 +82,6 @@ abstract class GraphObj extends Graph {
                     return i + 1;
                 }
             }
-
             _adjList.add(new ArrayList<Integer>());
             return maxVertex();
         }
@@ -100,23 +89,19 @@ abstract class GraphObj extends Graph {
 
     @Override
     public int add(int u, int v) {
-        // FIXME
         return 0;
     }
 
     @Override
     public void remove(int v) {
-        // FIXME
     }
 
     @Override
     public void remove(int u, int v) {
-        // FIXME
     }
 
     @Override
     public Iteration<Integer> vertices() {
-        // FIXME
         int[] verticesArray = new int[_V];
 
         int index = 0;
@@ -141,7 +126,6 @@ abstract class GraphObj extends Graph {
 
     @Override
     public Iteration<Integer> successors(int v) {
-        // FIXME
         if (v == 0 || v > _adjList.size()) {
             return Iteration.iteration(new ArrayList<Integer>().iterator());
         }
@@ -162,13 +146,11 @@ abstract class GraphObj extends Graph {
 
     @Override
     public Iteration<int[]> edges() {
-        // FIXME
         return null;
     }
 
     @Override
     protected void checkMyVertex(int v) {
-        // FIXME
         if (!contains(v)) {
             throw new IllegalArgumentException("vertex not from Graph");
         }
@@ -176,11 +158,10 @@ abstract class GraphObj extends Graph {
 
     @Override
     protected int edgeId(int u, int v) {
-        // FIXME (Keep duplicate edges in undirected graphs separate)
         int i = 0;
         for (Edge e : _edges) {
             if ((e.getFrom() == u - 1 && e.getTo() == v - 1)
-                    || (e.getFrom() == v - 1 && e.getTo() == u - 1)){
+                    || (e.getFrom() == v - 1 && e.getTo() == u - 1)) {
                 return i + 1;
             }
 
@@ -189,39 +170,52 @@ abstract class GraphObj extends Graph {
         return 0;
     }
 
-    // FIXME
-
+    /** A class that represents an edge in a graph. */
     static class Edge {
+
+        /** An edge object through vertex U and vertex V. */
         Edge(int u, int v) {
             _from = u - 1;
             _to = v - 1;
         }
 
+        /** Returns the vertex that this edge starts from. */
         int getFrom() {
             return _from;
         }
 
+        /** Returns the vertex that this edge ends at. */
         int getTo() {
             return _to;
         }
 
+        /** The vertex that this edge starts from. */
         private int _from;
+
+        /** The vertex that this edge ends at. */
         private int _to;
     }
 
-    static class VertexIteration<Type> extends Iteration<Type>{
+    /** An iterator that iterates through the vertices in the graph. */
+    static class VertexIteration<Type> extends Iteration<Type> {
+
+        /** An iterator object to iterate through the vertices, using
+         * ITER. */
         VertexIteration(Iterator<Type> iter) {
             _iter = iter;
         }
 
+        /** Returns true if there is at least one more vertex in the graph. */
         public boolean hasNext() {
             return _iter.hasNext();
         }
 
+        /** Returns the next vertex in the graph. */
         public Type next() {
             return _iter.next();
         }
 
+        /** The iterator of this vertex iteration. */
         private Iterator<Type> _iter;
 
 
@@ -234,7 +228,7 @@ abstract class GraphObj extends Graph {
      * adjacent vertices of all the vertices in the graph.*/
     protected ArrayList<ArrayList<Integer>> _adjList;
 
-    /** An ArrayList of Edges representing the edges of the graph */
+    /** An ArrayList of Edges representing the edges of the graph. */
     protected ArrayList<Edge> _edges;
 
 }

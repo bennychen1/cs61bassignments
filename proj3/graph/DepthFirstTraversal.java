@@ -6,14 +6,13 @@ import java.util.ArrayDeque;
 /** Implements a depth-first traversal of a graph.  Generally, the
  *  client will extend this class, overriding the visit and
  *  postVisit methods, as desired (by default, they do nothing).
- *  @author
+ *  @author Benny Chen
  */
 public class DepthFirstTraversal extends Traversal {
 
     /** A depth-first Traversal of G. */
     protected DepthFirstTraversal(Graph G) {
         super(G, Collections.asLifoQueue(new ArrayDeque<>()));
-        // FIXME
     }
 
     @Override
@@ -25,8 +24,6 @@ public class DepthFirstTraversal extends Traversal {
     protected boolean postVisit(int v) {
         return super.postVisit(v);
     }
-
-    // FIXME
 
     @Override
     protected boolean shouldPostVisit(int v) {

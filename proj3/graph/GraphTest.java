@@ -2,8 +2,6 @@ package graph;
 
 import org.junit.Test;
 
-import java.awt.*;
-import java.util.Collection;
 import java.util.ArrayList;
 import static org.junit.Assert.*;
 
@@ -12,7 +10,6 @@ import static org.junit.Assert.*;
  */
 public class GraphTest {
 
-    // Add tests.  Here's a sample.
     @Test
     public void testUDSizes() {
         UndirectedGraph u = createUDGraph(2);
@@ -161,7 +158,7 @@ public class GraphTest {
         }
 
         int[][] expectedEdges = new int[][]{new int[]{1, 3}, new int[]{4, 5},
-                new int[]{3, 5}};
+                                            new int[]{3, 5}};
 
         assertArrayEquals(expectedEdges, uEdges);
     }
@@ -172,7 +169,7 @@ public class GraphTest {
 
         u.add(1, 2);
         u.add(1, 3);
-        u.add(2,3);
+        u.add(2, 3);
 
         int[][] uEdges = new int[2][2];
         int index = 0;
@@ -228,18 +225,18 @@ public class GraphTest {
 
         assertEquals(1, u.edgeId(5, 6));
 
-        u.remove(6,5);
+        u.remove(6, 5);
 
         assertEquals(1, u.edgeId(1, 2));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNoVertex() {
         UndirectedGraph u = createUDGraph(5);
         u.add(1, 6);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testRemovedVertex() {
         UndirectedGraph u = createUDGraph(5);
         u.remove(1);
@@ -262,7 +259,7 @@ public class GraphTest {
         assertEquals(3, u.maxVertex());
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testCheckMyVertex() {
         UndirectedGraph u = createUDGraph(5);
         u.checkMyVertex(6);
@@ -534,7 +531,7 @@ public class GraphTest {
         }
 
         int[][] expected = new int[][]{{6, 5}, {1, 1}, {1, 2},
-                {5, 2}, {5, 4}, {2, 3}, {1, 3}};
+                                       {5, 2}, {5, 4}, {2, 3}, {1, 3}};
 
         assertArrayEquals(expected, edgeArray);
     }
@@ -733,9 +730,12 @@ public class GraphTest {
         preOrder.traverse(startingVertices);
         postOrder.traverse(startingVertices);
 
-        int[]expectedPreOrder = new int[]{2, 3, 5, 4, 6, 1, 7, 8, 9, 10, 0, 0, 0, 0};
-        int[] expectedPostOrder = new int[]{4, 6, 5, 3, 7, 1, 2, 10, 9, 8, 0, 0, 0, 0};
-        int[] expectedBFT = new int[]{2, 1, 3, 7, 5, 6, 4, 8, 9, 10, 0, 0, 0, 0};
+        int[]expectedPreOrder = new int[]{2, 3, 5, 4, 6, 1, 7, 8, 9,
+                                          10, 0, 0, 0, 0};
+        int[] expectedPostOrder = new int[]{4, 6, 5, 3, 7, 1, 2, 10,
+                                            9, 8, 0, 0, 0, 0};
+        int[] expectedBFT = new int[]{2, 1, 3, 7, 5, 6, 4, 8, 9,
+                                      10, 0, 0, 0, 0};
 
         assertArrayEquals(expectedPreOrder, preOrder._visitOrder);
         assertArrayEquals(expectedPostOrder, postOrder._visitOrder);
@@ -760,7 +760,7 @@ public class GraphTest {
         g.setLabel(1, 5, 5.0);
         g.setLabel(2, 4, 5.0);
         g.setLabel(2, 5, 6.0);
-        g.setLabel(4,5 ,7.0);
+        g.setLabel(4, 5, 7.0);
 
         TestShortestPaths s = new TestShortestPaths(g, 1, 5);
         s.setPaths();

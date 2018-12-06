@@ -23,7 +23,7 @@ import java.util.Queue;
  *
  *  Traversals may be interrupted or restarted, remembering the previously
  *  marked vertices.
- *  @author
+ *  @author Benny Chen
  */
 public abstract class Traversal {
 
@@ -41,7 +41,6 @@ public abstract class Traversal {
         for (int i = 0; i < _marked.length; i += 1) {
             _marked[i] = false;
         }
-        // FIXME
     }
 
     /** Initialize the fringe to V0 and perform a traversal. */
@@ -59,7 +58,7 @@ public abstract class Traversal {
                 if (!marked(vertex)) {
                     visit(vertex);
                     if (_finishTraversal) {
-                        return ;
+                        return;
                     }
                     for (int s : _G.successors(vertex)) {
                         if (processSuccessor(vertex, s)) {
@@ -71,7 +70,7 @@ public abstract class Traversal {
                     }
 
                     if (_finishTraversal) {
-                        return ;
+                        return;
                     }
 
                 }
@@ -91,7 +90,6 @@ public abstract class Traversal {
             }
         }
 
-        // FIXME
     }
 
     /** Initialize the fringe to { V0 } and perform a traversal. */
@@ -102,13 +100,11 @@ public abstract class Traversal {
     /** Returns true iff V has been marked. */
     protected boolean marked(int v) {
         return _marked[v - 1];
-        // FIXME
     }
 
     /** Mark vertex V. */
     protected void mark(int v) {
         _marked[v - 1]  = true;
-        // FIXME
     }
 
     /** Perform a visit on vertex V.  Returns false iff the traversal is to
@@ -156,12 +152,18 @@ public abstract class Traversal {
     private final Graph _G;
     /** The fringe. */
     protected final Queue<Integer> _fringe;
-    // FIXME
 
     /** Boolean array: if index i is true, then
      * vertex v + 1 is marked. */
-    boolean[] _marked;
+    private boolean[] _marked;
 
-    boolean _finishTraversal;
+    /** A boolean value that is true if there is a
+     * target and it is found. */
+    private boolean _finishTraversal;
+
+    /** Set the finishTraversal boolean to boolean B. */
+    void setFinishTraversal(boolean b) {
+        _finishTraversal = b;
+    }
 
 }

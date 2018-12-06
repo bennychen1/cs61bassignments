@@ -4,13 +4,11 @@ import graph.DepthFirstTraversal;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Scanner;
@@ -41,13 +39,12 @@ class Maker {
         String name;
         name = "<unknown>";
         try {
-            Scanner inp = new Scanner(new FileReader(fileInfoName)); // FIXME
+            Scanner inp = new Scanner(new FileReader(fileInfoName));
             _currentTime = inp.nextInt();
             while (inp.hasNext()) {
                 String line = inp.nextLine();
-                // FILL IN
                 Pattern targetName = Pattern.compile("([A-za-z.]+)\\s+(\\d+)");
-                Matcher m =targetName.matcher(line);
+                Matcher m = targetName.matcher(line);
                 if (m.matches()) {
                     _ages.put(m.group(1), Integer.parseInt(m.group(2)));
                 }
@@ -56,7 +53,6 @@ class Maker {
         } catch (FileNotFoundException excp) {
             error("Near entry for %s: %s", name, excp.getMessage());
         }
-        // FIXME?
     }
 
     /** Read make rules from the file named MAKEFILENAME and form the dependence
@@ -71,9 +67,8 @@ class Maker {
         dependencies = null;
         commands = null;
         try {
-            inp = new Scanner(new FileReader(makefileName));  // FIXME
-        } catch (FileNotFoundException excp) { // REPLACE WITH PROPER catch
-            // FILL IN
+            inp = new Scanner(new FileReader(makefileName));
+        } catch (FileNotFoundException excp) {
             error("Could not find makefile: %s", makefileName);
             return;
         }
@@ -191,12 +186,8 @@ class Maker {
 
         @Override
         protected boolean postVisit(int v0) {
-            // FILL IN
-           Rule r = _depends.getLabel(v0);
-
-           boolean o = r.getTime() == _currentTime;
-
-           _targets.get(r.getTarget()).rebuild();
+            Rule r = _depends.getLabel(v0);
+            _targets.get(r.getTarget()).rebuild();
             return true;
         }
 

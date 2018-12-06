@@ -1,16 +1,14 @@
 package graph;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
+
 
 /* See restrictions in Graph.java. */
 
 /** Represents an undirected graph.  Out edges and in edges are not
  *  distinguished.  Likewise for successors and predecessors.
  *
- *  @author
+ *  @author Benny Chen
  */
 public class UndirectedGraph extends GraphObj {
 
@@ -22,7 +20,7 @@ public class UndirectedGraph extends GraphObj {
 
     @Override
     public int inDegree(int v) {
-        // FIXME
+
         if (!contains(v)) {
             return 0;
         }
@@ -39,7 +37,7 @@ public class UndirectedGraph extends GraphObj {
     @Override
     public boolean contains(int u, int v) {
         ArrayList<Integer> edgesU = _adjList.get(u - 1);
-        ArrayList<Integer>edgesV = _adjList.get(v - 1);
+        ArrayList<Integer> edgesV = _adjList.get(v - 1);
 
         if (edgesU == null || edgesV == null) {
             return false;
@@ -53,7 +51,6 @@ public class UndirectedGraph extends GraphObj {
 
     }
 
-    // FIXME
 
     @Override
     public int add(int u, int v) {
@@ -108,7 +105,7 @@ public class UndirectedGraph extends GraphObj {
     public void remove(int v, int u) {
 
         if (!contains(v) || !contains(u)) {
-            return ;
+            return;
         }
 
         int e = edgeId(v, u);

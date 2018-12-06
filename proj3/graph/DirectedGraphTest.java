@@ -262,8 +262,8 @@ public class DirectedGraphTest {
             index += 1;
         }
 
-        int[][] expected = new int[][]{{6, 5}, {1, 1}, {1, 2},
-                {5, 2}, {5, 4}, {2, 3}, {1, 3}};
+        int[][] expected = new int[][]{{6, 5}, {1, 1}, {1, 2}, {5, 2},
+                                       {5, 4}, {2, 3}, {1, 3}};
 
         assertArrayEquals(expected, edgeArray);
     }

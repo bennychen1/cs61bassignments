@@ -7,14 +7,13 @@ import java.util.LinkedList;
 /** Implements a breadth-first traversal of a graph.  Generally, the
  *  client will extend this class, overriding the visit method as desired
  *  (by default, it does nothing).
- *  @author
+ *  @author Benny Chen
  */
 public class BreadthFirstTraversal extends Traversal {
 
     /** A breadth-first Traversal of G. */
     protected BreadthFirstTraversal(Graph G) {
         super(G, new LinkedList<Integer>());
-        // FIXME
     }
 
     @Override
