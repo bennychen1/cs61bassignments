@@ -821,10 +821,37 @@ public class GraphTest {
         assertEquals(expectedTwoToSix, s2.pathTo(6));
     }
 
+    @Test
+    public void testSP() {
+        DirectedGraph d = createDGraph(6);
 
+        d.add(2, 5);
+        d.add(5, 4);
+        d.add(2, 3);
+        d.add(3, 1);
+        d.add(1, 6);
+        d.add(5, 6);
 
+        LabeledGraph<Double, Double> g = new LabeledGraph<Double, Double>(d);
 
+        g.setLabel(2, 3, 1.0);
+        g.setLabel(5, 4, 1.0);
+        g.setLabel(2, 5, 9.0);
+        g.setLabel(3, 1, 1.0);
+        g.setLabel(1, 6, 20.0);
+        g.setLabel(5, 6, 3.0);
 
+        TestShortestPaths s = new TestShortestPaths(g, 2, 6);
+        s.setPaths();
+
+        ArrayList<Integer> expected = new ArrayList<Integer>();
+        expected.add(2);
+        expected.add(5);
+        expected.add(6);
+
+        assertEquals(expected, s.pathTo());
+    }
+    
     private DirectedGraph createDGraph(int n) {
         DirectedGraph d = new DirectedGraph();
         for (int i = 0; i < n; i += 1) {

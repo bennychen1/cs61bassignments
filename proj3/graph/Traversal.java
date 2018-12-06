@@ -90,7 +90,7 @@ public abstract class Traversal {
                 _fringe.poll();
             }
         }
-        
+
         // FIXME
     }
 

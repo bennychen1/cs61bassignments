@@ -148,6 +148,10 @@ public abstract class ShortestPaths {
 
             int closestVertex = _fringe.peek() - 1;
 
+            if (closestVertex + 1 == getDest()) {
+                _finishTraversal = true;
+            }
+
             int vertexPredecessor = getPredecessor(closestVertex + 1) - 1;
             if (vertexPredecessor != closestVertex && _paths.get(closestVertex).size() == 0) {
                 ArrayList<Integer> leadUp = _paths.get(vertexPredecessor);
