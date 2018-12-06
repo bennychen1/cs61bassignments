@@ -2,6 +2,7 @@ package make;
 
 import graph.DepthFirstTraversal;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -40,13 +41,19 @@ class Maker {
         String name;
         name = "<unknown>";
         try {
-            Scanner inp = null; // FIXME
+            Scanner inp = new Scanner(new FileReader(fileInfoName)); // FIXME
             _currentTime = inp.nextInt();
             while (inp.hasNext()) {
+                String line = inp.nextLine();
                 // FILL IN
+                Pattern targetName = Pattern.compile("([A-za-z.]+)\\s+(\\d+)");
+                Matcher m =targetName.matcher(line);
+                if (m.matches()) {
+                    _ages.put(m.group(1), Integer.parseInt(m.group(2)));
+                }
             }
             inp.close();
-        } catch (NoSuchElementException excp) {
+        } catch (FileNotFoundException excp) {
             error("Near entry for %s: %s", name, excp.getMessage());
         }
         // FIXME?
@@ -64,8 +71,8 @@ class Maker {
         dependencies = null;
         commands = null;
         try {
-            inp = null;  // FIXME
-        } catch (NullPointerException excp) { // REPLACE WITH PROPER catch
+            inp = new Scanner(new FileReader(makefileName));  // FIXME
+        } catch (FileNotFoundException excp) { // REPLACE WITH PROPER catch
             // FILL IN
             error("Could not find makefile: %s", makefileName);
             return;
@@ -185,6 +192,8 @@ class Maker {
         @Override
         protected boolean postVisit(int v0) {
             // FILL IN
+           Rule r = _depends.getLabel(v0);
+           _targets.get(r.getTarget()).rebuild();
             return true;
         }
     }
