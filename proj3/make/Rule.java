@@ -86,7 +86,7 @@ class Rule {
             return false;
         }
 
-        if (_time == null || _time < _maker.getCurrentTime()) {
+        if (_time == null || _time <= _maker.getCurrentTime()) {
             return true;
         }
 
