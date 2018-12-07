@@ -132,7 +132,7 @@ abstract class GraphObj extends Graph {
 
         ArrayList<Integer> outEdges = _adjList.get(v - 1);
 
-        if (outEdges.size() == 0) {
+        if (outEdges == null) {
             return Iteration.iteration(new ArrayList<Integer>().iterator());
         }
         ArrayList<Integer> outEdgesPlusOne = new ArrayList<Integer>();
