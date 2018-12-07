@@ -185,6 +185,11 @@ class Maker {
         }
 
         @Override
+        protected boolean shouldPostVisit(int v) {
+            return true;
+        }
+
+        @Override
         protected boolean postVisit(int v0) {
             Rule r = _depends.getLabel(v0);
             _targets.get(r.getTarget()).rebuild();
