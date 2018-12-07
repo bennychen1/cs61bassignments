@@ -18,6 +18,7 @@ public class BreadthFirstTraversal extends Traversal {
 
     @Override
     protected boolean visit(int v) {
+        mark(v);
         return super.visit(v);
     }
 
