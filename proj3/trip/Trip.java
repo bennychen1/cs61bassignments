@@ -141,7 +141,7 @@ class Trip {
         System.out.printf("%.1f miles ", length);
         System.out.printf("to %s.\n", _map.getLabel(segment.get(i)));
 
-        return stepNumber;
+        return stepNumber + 1;
     }
 
     /** Add a new location named NAME at (X, Y). */
