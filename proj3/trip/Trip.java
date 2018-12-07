@@ -6,8 +6,6 @@ import graph.SimpleShortestPaths;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.IOException;
 
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -19,7 +17,7 @@ import static trip.Main.error;
 
 /** Encapsulates a map containing sites, positions, and road distances between
  *  them.
- *  @author
+ *  @author Benny Chen
  */
 class Trip {
 
@@ -28,7 +26,7 @@ class Trip {
         int n;
         n = 0;
         try {
-            Scanner inp = new Scanner(new FileReader(name)); // REPLACE WITH SOLUTION
+            Scanner inp = new Scanner(new FileReader(name));
             while (inp.hasNext()) {
                 n += 1;
                 switch (inp.next()) {
@@ -44,7 +42,7 @@ class Trip {
                     break;
                 }
             }
-        } catch (FileNotFoundException excp) { // REPLACE WITH PROPER catch
+        } catch (FileNotFoundException excp) {
             error(excp.getMessage());
         } catch (InputMismatchException excp) {
             error("bad entry #%d", n);
@@ -95,7 +93,6 @@ class Trip {
      *  Adjacent roads with the same name and direction are combined.
      *  */
     int reportSegment(int seq, int from, List<Integer> segment) {
-        // FILL THIS IN
         int stepNumber = seq;
         Road curRoad = null;
         Direction curDirection = null;
@@ -117,11 +114,13 @@ class Trip {
 
             boolean c = newRoad.equals(curRoad);
 
-            if (newRoad.toString().equals(curRoad.toString()) && thisDirection.equals(curDirection)) {
+            if (newRoad.toString().equals(curRoad.toString())
+                    && thisDirection.equals(curDirection)) {
                 length += roadLength;
 
             } else {
-                System.out.print(stepNumber + ". Take " + curRoad.toString() + " " + curDirection.fullName()
+                System.out.print(stepNumber + ". Take " + curRoad.toString()
+                        + " " + curDirection.fullName()
                         + " for ");
 
                 System.out.printf("%.1f", length);
@@ -136,7 +135,8 @@ class Trip {
             }
         }
 
-        System.out.print(stepNumber + ". Take " + curRoad.toString() + " " + curDirection.fullName()
+        System.out.print(stepNumber + ". Take " + curRoad.toString()
+                + " " + curDirection.fullName()
                 + " for ");
         System.out.printf("%.1f miles ", length);
         System.out.printf("to %s.\n", _map.getLabel(segment.get(i)));
@@ -170,9 +170,6 @@ class Trip {
 
         _map.add(v0, v1, new Road(name, dir, length));
         _map.add(v1, v0, new Road(name, dir.reverse(), length));
-
-        // FILL THIS IN TO CREATE TWO EDGES LABELED WITH ROADS FROM V0 to V1
-        // AND BACK.
     }
 
     /** Represents the network of Locations and Roads. */
@@ -185,11 +182,8 @@ class Trip {
     private static class RoadMap extends LabeledGraph<Location, Road> {
         /** An empty RoadMap. */
         RoadMap() {
-            // REPLACE WITH SOLUTION
             super(new DirectedGraph());
         }
-
-
     }
 
     /** Paths in _map from a given location. */
@@ -202,21 +196,17 @@ class Trip {
 
         @Override
         protected double getWeight(int u, int v) {
-            // REPLACE WITH SOLUTION
             Road r = _map.getLabel(u, v);
             return r.length();
         }
 
         @Override
         protected double estimatedDistance(int v) {
-            // REPLACE WITH SOLUTION
             Location l = _map.getLabel(v);
             return _finalLocation.dist(l);
         }
 
         /** Location of the destination. */
         private final Location _finalLocation;
-
     }
-
 }
