@@ -5,7 +5,6 @@ package graph;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Queue;
-import java.util.Stack;
 
 /** Implements a generalized traversal of a graph.  At any given time,
  *  there is a particular collection of untraversed vertices---the "fringe."
@@ -157,7 +156,7 @@ public abstract class Traversal {
      * target and it is found. */
     private boolean _finishTraversal;
 
-    /** An array indicating if the vertex + 1 should be post-visited */
+    /** An array indicating if the vertex + 1 should be post-visited. */
     protected final int[] _toPostVisit;
 
     /** Set the finishTraversal boolean to boolean B. */
