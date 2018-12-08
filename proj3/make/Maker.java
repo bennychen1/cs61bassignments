@@ -205,15 +205,6 @@ class Maker {
             }
 
             return false;
-        }
-
-        @Override
-        protected void processSuccessors(int u) {
-            for (int s : _depends.successors(u)) {
-                if (processSuccessor(s, u)) {
-                    _fringe.add(s);
-                }
-            }
 
         }
 
