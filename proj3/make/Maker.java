@@ -197,10 +197,16 @@ class Maker {
         }
 
         @Override
-        protected boolean visit(int v0) {
-            mark(v0);
-            return true;
+        protected boolean processSuccessor(int v, int u) {
+            if (marked(v) && _toPostVisit[v - 1] == 1) {
+                error("Circularity");
+            } else {
+                return super.processSuccessor(v, u);
+            }
+
+            return false;
         }
+
     }
 
 }

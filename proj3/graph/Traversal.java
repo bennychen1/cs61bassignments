@@ -5,6 +5,7 @@ package graph;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Queue;
+import java.util.Stack;
 
 /** Implements a generalized traversal of a graph.  At any given time,
  *  there is a particular collection of untraversed vertices---the "fringe."
@@ -33,6 +34,7 @@ public abstract class Traversal {
         _fringe = fringe;
         _marked = new boolean[G.vertexSize()];
         _finishTraversal = false;
+        _toPostVisit = new int[G.vertexSize()];
         clear();
     }
 
@@ -47,49 +49,44 @@ public abstract class Traversal {
     public void traverse(Collection<Integer> V0) {
         for (int start : V0) {
             _finishTraversal = false;
-            clear();
+
             if (_G.contains(start)) {
                 _fringe.add(start);
             }
 
+            int[] toPostVisit = new int[_G.vertexSize()];
+
             while (!_fringe.isEmpty()) {
                 int vertex = _fringe.peek();
-                boolean hasChild = false;
+
+                if (toPostVisit[vertex - 1] == 1) {
+                    postVisit(vertex);
+                    toPostVisit[vertex - 1] = 0;
+                }
+
                 if (!marked(vertex)) {
+                    mark(vertex);
                     visit(vertex);
-                    if (_finishTraversal) {
-                        return;
-                    }
-                    for (int s : _G.successors(vertex)) {
-                        if (processSuccessor(vertex, s)) {
-                            if (!hasChild) {
-                                hasChild = true;
-                            }
-                            _fringe.add(s);
-                        }
-                    }
 
                     if (_finishTraversal) {
                         return;
                     }
 
-                }
+                    processSuccessors(vertex);
 
-                if (shouldPostVisit(vertex)) {
-                    if (hasChild) {
+                    if (_finishTraversal) {
+                        return;
+                    }
+
+                    if (shouldPostVisit(vertex)) {
+                        toPostVisit[vertex - 1] = 1;
                         _fringe.add(vertex);
-                    } else {
-                        postVisit(vertex);
-
-                        if (_finishTraversal) {
-                            return;
-                        }
                     }
                 }
+
                 _fringe.poll();
             }
         }
-
     }
 
     /** Initialize the fringe to { V0 } and perform a traversal. */
@@ -160,6 +157,9 @@ public abstract class Traversal {
     /** A boolean value that is true if there is a
      * target and it is found. */
     private boolean _finishTraversal;
+
+    /** An array indicating if the vertex + 1 should be post-visited */
+    protected final int[] _toPostVisit;
 
     /** Set the finishTraversal boolean to boolean B. */
     void setFinishTraversal(boolean b) {

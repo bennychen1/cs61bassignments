@@ -70,7 +70,7 @@ class Rule {
         for (Integer v : _depends.successors(_vertex)) {
 
             if (_depends.getLabel(v).isUnfinished()) {
-                error("unbuilt dependencies");
+                error("error unbuilt dependencies");
             }
 
             _depends.getLabel(v).checkFinishedDependencies();
@@ -97,6 +97,14 @@ class Rule {
      *  (error otherwise). */
     void rebuild() {
         checkFinishedDependencies();
+
+        if (_finished) {
+            if (!_commands.isEmpty()) {
+                for (String s : _commands) {
+                    System.out.print(s + "\n");
+                }
+            }
+        }
 
         if (outOfDate()) {
             if (_commands.isEmpty()) {
