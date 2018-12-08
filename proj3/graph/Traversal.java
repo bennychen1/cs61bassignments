@@ -35,7 +35,6 @@ public abstract class Traversal {
         _marked = new boolean[G.vertexSize()];
         _finishTraversal = false;
         _toPostVisit = new int[G.vertexSize()];
-        clear();
     }
 
     /** Unmark all vertices in the graph. */
